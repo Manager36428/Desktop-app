@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/img_bg.jpg</file>
+        <file>assets/ic_close.png</file>
+        <file>assets/ic_expand.png</file>
+        <file>assets/img_logo.png</file>
+        <file>assets/ic_add.png</file>
+        <file>assets/ic_button.png</file>
+        <file>assets/ic_heading.png</file>
+        <file>assets/ic_img.png</file>
+        <file>assets/ic_menu.png</file>
+        <file>assets/ic_text.png</file>
+        <file>assets/ic_video.png</file>
+        <file>assets/ic_details.png</file>
+        <file>assets/ic_elements.png</file>
+        <file>assets/ic_navigate.png</file>
+        <file>assets/ic_new.png</file>
+        <file>assets/ic_open.png</file>
+        <file>assets/ic_page.png</file>
+        <file>assets/ic_publish.png</file>
+        <file>assets/ic_settings.png</file>
+        <file>assets/ic_desktop.png</file>
+        <file>assets/ic_phone.png</file>
+        <file>assets/ic_table.png</file>
+        <file>assets/img_dummy.png</file>
+    </qresource>
+</RCC>

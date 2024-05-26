@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qml/BaseCard.qml</file>
+        <file>qml/components/TopBar.qml</file>
+        <file>qml/cards/TitleCard.qml</file>
+        <file>qml/components/BottomBar.qml</file>
+        <file>qml/cards/NavigateCard.qml</file>
+        <file>qml/common/ButtonText.qml</file>
+        <file>qml/cards/ElementsCard.qml</file>
+        <file>qml/common/Element.qml</file>
+        <file>qml/common/IconButton.qml</file>
+        <file>qml/cards/PageCard.qml</file>
+        <file>qml/cards/DetailsCard.qml</file>
+        <file>qml/common/TextFieldTitle.qml</file>
+        <file>qml/common/TextFieldWarning.qml</file>
+        <file>qml/common/ComboBoxTitle.qml</file>
+    </qresource>
+</RCC>
