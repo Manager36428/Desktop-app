@@ -7,7 +7,7 @@ Window {
     id : windowRoot
     visible: true
     minimumHeight: 945
-    minimumWidth: 930
+    minimumWidth: 1008
     title: qsTr("FlowSta")
 
     Image{
