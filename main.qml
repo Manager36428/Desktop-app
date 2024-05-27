@@ -6,10 +6,8 @@ import "qml/cards"
 Window {
     id : windowRoot
     visible: true
-    width: 1388
-    height: 980
-    minimumHeight: 840
-    minimumWidth: 1008
+    minimumHeight: 945
+    minimumWidth: 930
     title: qsTr("FlowSta")
 
     Image{
@@ -40,11 +38,13 @@ Window {
 
     NavigateCard{
         id : navCard
-        heightDock: 323
+        heightDock: 308
         widthDock: 300
         anchors{
             top: topBar.bottom
             left: parent.left
+            topMargin: 8
+            leftMargin: 8
         }
         z:1
     }
@@ -56,6 +56,7 @@ Window {
             top: navCard.bottom
             bottom: bottomBar.top
             left: parent.left
+            margins: 8
         }
     }
 
@@ -66,6 +67,7 @@ Window {
             top: topBar.bottom
             left: navCard.right
             right: parent.right
+            margins: 8
         }
     }
 
@@ -76,6 +78,7 @@ Window {
             bottom: bottomBar.top
             left: detailsCard.right
             right: parent.right
+            margins: 8
         }
     }
 

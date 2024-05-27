@@ -16,7 +16,7 @@ TitleCard {
                 left: parent.left
                 right: parent.right
                 margins: 10
-                topMargin: 54
+                topMargin: 44
             }
 
             ButtonText{
@@ -30,31 +30,6 @@ TitleCard {
                 width: parent.width/2 - 3
             }
         }
-
-
-//        Flickable
-//        {
-//            id : flickView
-//            clip: true
-//            contentHeight: contentDetail.childrenRect.height + 20
-//            anchors{
-//                top: detailType.bottom
-//                topMargin: 19
-//                bottom: deletePageSection.top
-//                bottomMargin: 15
-//                left: parent.left
-//                right: parent.right
-//                leftMargin: 11
-//                rightMargin: 7
-//            }
-//            Column{
-//                id : contentDetail
-
-//                spacing: 15
-//                anchors.fill: parent
-
-//            }
-//        }
 
         TextFieldTitle{
             id : tfHome

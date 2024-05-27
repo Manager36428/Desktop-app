@@ -17,7 +17,6 @@ DockBase {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
-            margins: 8
         }
 
         Item{

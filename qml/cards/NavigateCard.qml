@@ -39,7 +39,7 @@ TitleCard{
                left: parent.left
                right: parent.right
                top: parent.top
-               topMargin: 54
+               topMargin: 44
            }
 
            delegate: ButtonText{
@@ -71,7 +71,7 @@ TitleCard{
             icSrc: "qrc:/assets/ic_add.png"
             btnName: "New Page"
             anchors.top: naviList.bottom
-            anchors.topMargin: 20
+            anchors.topMargin: 15
             anchors{
                 left: parent.left
                 right: parent.right
