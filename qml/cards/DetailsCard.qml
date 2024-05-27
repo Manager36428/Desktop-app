@@ -36,7 +36,7 @@ TitleCard {
             height: 61
             width: parent.width
             title: "Page Name"
-            content.text: "Home"
+            content.placeholderText: "Home"
             anchors{
                 top: detailType.bottom
                 topMargin: 15
@@ -48,9 +48,9 @@ TitleCard {
         }
 
         TextFieldTitle{
+            id : tfPageDes
             width: parent.width
             title: "Page Description"
-            content.text: "Page description that will be used for meta description"
             anchors{
                 top: tfHome.bottom
                 topMargin: 15
@@ -61,6 +61,7 @@ TitleCard {
                 leftMargin: 11
                 rightMargin: 7
             }
+            Component.onCompleted: tfPageDes.content.placeholderText = "Page description that will be used for meta description."
         }
 
         ComboBoxTitle{

@@ -75,7 +75,7 @@ Item {
             font.pixelSize: 16
             font.family: "Nunito"
             wrapMode: Text.WordWrap
-            text: "#585D6C"
+            placeholderText: "#585D6C"
         }
 
     }

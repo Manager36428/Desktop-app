@@ -23,5 +23,6 @@
         <file>assets/ic_phone.png</file>
         <file>assets/ic_table.png</file>
         <file>assets/img_dummy.png</file>
+        <file>assets/app.ico</file>
     </qresource>
 </RCC>

@@ -35,6 +35,7 @@ Item {
         font.pixelSize: 16
         font.family: "Nunito"
         wrapMode: Text.WordWrap
+        verticalAlignment: Text.AlignTop
     }
 
 }

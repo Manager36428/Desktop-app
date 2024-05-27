@@ -6,7 +6,7 @@ import "qml/cards"
 Window {
     id : windowRoot
     visible: true
-    minimumHeight: 945
+    minimumHeight: 950
     minimumWidth: 1008
     title: qsTr("FlowSta")
 
