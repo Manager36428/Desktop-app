@@ -15,5 +15,8 @@
         <file>qml/common/TextFieldTitle.qml</file>
         <file>qml/common/TextFieldWarning.qml</file>
         <file>qml/common/ComboBoxTitle.qml</file>
+        <file>qml/cards/DockBase.qml</file>
+        <file>qml/common/Icon.qml</file>
+        <file>qml/common/ScrollBar.qml</file>
     </qresource>
 </RCC>

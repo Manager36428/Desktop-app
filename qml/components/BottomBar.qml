@@ -1,7 +1,8 @@
 import QtQuick 2.0
 import "../common"
+import "../../qml"
 
-Item {
+BaseCard {
     height: 78
     width: parent.width
 

@@ -33,64 +33,53 @@ Window {
         anchors{
             bottom: parent.bottom
             left: parent.left
+            right: parent.right
             margins: 8
         }
     }
 
     NavigateCard{
         id : navCard
-        height: 323
-        width: 300
+        heightDock: 323
+        widthDock: 300
         anchors{
             top: topBar.bottom
             left: parent.left
-            topMargin: 9
-            leftMargin: 8
         }
+        z:1
     }
 
     DetailsCard{
         id : detailsCard
-        title: "Details"
         width: 300
         anchors{
             top: navCard.bottom
             bottom: bottomBar.top
             left: parent.left
-            margins: 8
         }
     }
 
     ElementsCard{
         id : elementsCard
-        title: "Elements"
-        height: 263
+        heightDock: 263
         anchors{
             top: topBar.bottom
             left: navCard.right
             right: parent.right
-            margins: 8
         }
     }
 
     PageCard{
         id : pageCard
-        title: "Page"
         anchors {
             top: elementsCard.bottom
             bottom: bottomBar.top
             left: detailsCard.right
             right: parent.right
-            margins: 8
         }
     }
 
 
-    onHeightChanged: printDebugInfo()
-    onWidthChanged: printDebugInfo()
-
-    function printDebugInfo(){
-        console.log("H ", windowRoot.height)
-        console.log("W ", windowRoot.width)
-    }
+    onHeightChanged: console.log("Window Root  H : ", height)
+    onWidthChanged: console.log("Window Root W: " , width)
 }

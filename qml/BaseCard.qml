@@ -5,15 +5,11 @@ Item {
     antialiasing: true
     property alias background: rectBg
 
-//    DropShadow {
-//        anchors.fill: rectBg
-//        horizontalOffset: 3
-//        verticalOffset: 3
-//        radius: 8
-//        samples: 18
-//        color: Qt.rgba(0,0,0,0.25)
-//        source: rectBg
-//    }
+    MouseArea{
+        anchors.fill: parent
+        drag.target: rectBg
+
+    }
 
     Rectangle{
         id : rectBg

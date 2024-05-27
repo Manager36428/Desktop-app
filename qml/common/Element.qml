@@ -1,6 +1,7 @@
 import QtQuick 2.0
 
 Rectangle {
+    id : btnRoot
     height: 80
     width: 150
     radius: 10
@@ -8,6 +9,7 @@ Rectangle {
     property string elementName: ""
     property string elementIcon: ""
     property bool isActive: false
+    signal btnClicked()
 
     Image{
         id : iconElement
@@ -37,5 +39,32 @@ Rectangle {
             top: iconElement.bottom
             margins: 4
         }
+    }
+
+    PropertyAnimation {
+        id: scaleDownAnim
+        targets: btnRoot
+        properties: "scale"
+        from: 1.0
+        to: 0.9
+        duration: 100
+    }
+
+    PropertyAnimation {
+        id: scaleUpAnim
+        targets: btnRoot
+        properties: "scale"
+        from: 0.9
+        to: 1.0
+        duration: 100
+        onStopped: btnClicked()
+    }
+
+    MouseArea{
+        id : mouseArea
+        z:10
+        anchors.fill: parent
+        onEntered: scaleDownAnim.restart()
+        onReleased: scaleUpAnim.restart()
     }
 }

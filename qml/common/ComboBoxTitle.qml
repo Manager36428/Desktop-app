@@ -58,12 +58,12 @@ Item {
             color: "#C9DBE5"
             radius: 10
             height: 36
-            width: parent.width/2
+            width: parent.width/2 - 3
         }
 
         TextField{
             id : _tfcontent
-            width: parent.width/2
+            width:  parent.width/2 - 3
             height: 36
 
             background: Rectangle{
