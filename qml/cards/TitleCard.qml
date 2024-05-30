@@ -73,37 +73,13 @@ DockBase {
 
         }
 
-        TopBar{
-            id : topBar
-            anchors {
-                top: parent.top
-                left: parent.left
-                right: parent.right
-                margins: 8
-            }
-            height: mode == 0 ? 0 : 31
-            visible: mode != 0
-        }
-
-        BottomBar{
-            id : bottomBar
-            anchors{
-                bottom: parent.bottom
-                left: parent.left
-                right: parent.right
-                margins: 8
-            }
-            height: mode == 0 ? 0 : 78
-            visible: mode != 0
-        }
-
         Rectangle{
             id : _contentHolder            
             anchors{
-                top: isDocked ? parent.top : topBar.bottom
+                top: parent.top
                 left: parent.left
                 right: parent.right
-                bottom: isDocked ? parent.bottom : bottomBar.top
+                bottom: parent.bottom
                 margins: isDocked ? 0 : 8
             }
             gradient: Gradient {
