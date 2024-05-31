@@ -7,9 +7,18 @@ DockBase {
     id : titleCard
     property alias contentDock: _contentHolder.data
     property bool isDocked: mode == 0
+    property bool isActive: mode != 2
 
     onHeightDockChanged: height = heightDock
     onWidthDockChanged: width = widthDock
+
+    function changeToClosedState(){
+       titleCard.mode = 2
+    }
+
+    function changeToDockedState(){
+        titleCard.mode = 0
+    }
 
     contents: Item{
         anchors{
@@ -55,6 +64,7 @@ DockBase {
                     rightMargin: 8
                 }
                 source: "qrc:/assets/ic_close.png"
+                onBtnClicked: mode = 2
             }
 
             Icon{

@@ -6,6 +6,9 @@ BaseCard {
     height: 78
     width: parent.width
 
+    property var cards : []
+
+
     Image{
         height: 46
         width: 200
@@ -42,22 +45,18 @@ BaseCard {
         ListElement{
             icon : "qrc:/assets/ic_navigate.png"
             text : "Navigate"
-            btn_active  : true
         }
         ListElement{
             icon : "qrc:/assets/ic_page.png"
             text : "Page"
-            btn_active  : true
         }
         ListElement{
             icon : "qrc:/assets/ic_elements.png"
             text : "Elements"
-            btn_active  : true
         }
         ListElement{
             icon : "qrc:/assets/ic_details.png"
             text : "Details"
-            btn_active  : false
         }
         id : rightButtons
     }
@@ -96,7 +95,14 @@ BaseCard {
                 width: 69
                 elementIcon: icon
                 elementName: text
-                isActive: btn_active
+                isActive: cards[index].isActive
+                onBtnClicked: {
+                    if(cards[index].isActive){
+                        cards[index].changeToClosedState()
+                    }else{
+                        cards[index].changeToDockedState()
+                    }
+                }
             }
         }
     }

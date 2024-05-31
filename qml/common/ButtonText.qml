@@ -8,6 +8,8 @@ Rectangle {
     radius: 10
     color: isActive ? "#7E69FF" : Qt.rgba(0.2235, 0.2118, 0.2196, 0.5)
     height: 36
+    border.width: mouseArea.containsMouse ? 1 : 0
+    border.color: "white"
     signal btnClicked()
 
     Item{
@@ -38,30 +40,35 @@ Rectangle {
         }
     }
 
-    PropertyAnimation {
-        id: scaleDownAnim
-        targets: btnRoot
-        properties: "scale"
-        from: 1.0
-        to: 0.9
-        duration: 100
-    }
+    SequentialAnimation {
+        loops: 1
+        PropertyAnimation {
+            id: scaleDownAnim
+            targets: btnRoot
+            properties: "scale"
+            from: 1.0
+            to: 0.9
+            duration: 100
+        }
 
-    PropertyAnimation {
-        id: scaleUpAnim
-        targets: btnRoot
-        properties: "scale"
-        from: 0.9
-        to: 1.0
-        duration: 100
+        PropertyAnimation {
+            id: scaleUpAnim
+            targets: btnRoot
+            properties: "scale"
+            from: 0.9
+            to: 1.0
+            duration: 100
+        }
+        id :zoomInOutAnim
         onStopped: btnClicked()
     }
+
 
     MouseArea{
         id : mouseArea
         z:10
         anchors.fill: parent
-        onEntered: scaleDownAnim.restart()
-        onReleased: scaleUpAnim.restart()
+        onClicked: zoomInOutAnim.restart()
+        hoverEnabled: true
     }
 }

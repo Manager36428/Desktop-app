@@ -8,7 +8,7 @@ Item {
     default property alias contents: placeholder.data
     property alias title: window.title
     property alias windowParent : window
-    property int mode: 0 // 0 = Docked , 1 = Undocked
+    property int mode: 0 // 0 = Docked , 1 = Undocked , 2 = Closed
     property int heightDock: 0
     property int widthDock: 0
 
@@ -20,8 +20,10 @@ Item {
     onModeChanged: {
         if(mode == 0)
             content.state = "docked"
-        else
+        else if (mode == 1)
             content.state = "undocked"
+        else if (mode == 2)
+            content.state = "closed"
     }
 
     Item {
@@ -39,12 +41,20 @@ Item {
                 name: "undocked"
                 PropertyChanges { target: window; visible: true }
                 ParentChange { target: content; parent: undockedContainer }
+                PropertyChanges {target: root; visible: true }
             },
             State {
                 name: "docked"
                 PropertyChanges { target: window; visible: false }
                 ParentChange { target: content; parent: root }
+            },
+            State {
+                name : "closed"
+                PropertyChanges {target: root; height: 0 }
+                PropertyChanges {target: root; visible: false }
+                PropertyChanges { target: window; visible: false }
             }
+
         ]
     }
     Window {
@@ -66,6 +76,5 @@ Item {
         }
 
         onClosing: root.mode = 0
-
     }
 }
