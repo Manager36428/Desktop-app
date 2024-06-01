@@ -22,7 +22,7 @@ This is a simple PySide2 application packaged into a standalone executable using
 1. **Clone the repository:**
 
     ```sh
-    git clone [https://github.com/yourusername/yourproject.git](https://github.com/Manager36428/Desktop-app.git)    
+    git clone https://github.com/Manager36428/Desktop-app.git
     ```
 
 2. **Create and activate a virtual environment:**
@@ -43,4 +43,4 @@ This is a simple PySide2 application packaged into a standalone executable using
 To run the application:
 
 ```sh
-python example.py
+python main.py
