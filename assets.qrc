@@ -24,5 +24,6 @@
         <file>assets/ic_table.png</file>
         <file>assets/img_dummy.png</file>
         <file>assets/app.ico</file>
+        <file>assets/ic_shrink.png</file>
     </qresource>
 </RCC>

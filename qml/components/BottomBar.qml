@@ -8,6 +8,8 @@ BaseCard {
 
     property var cards : []
 
+    signal popupClicked(var titlePopup)
+
 
     Image{
         height: 46
@@ -67,6 +69,7 @@ BaseCard {
         height: 69
         width: childrenRect.width
         anchors.centerIn: parent
+        z:2
         Repeater{
             model: bottomButtons
             delegate: IconButton{
@@ -74,6 +77,7 @@ BaseCard {
                 width: 69
                 elementIcon: icon
                 elementName: text
+                onBtnClicked: popupClicked(text)
             }
         }
     }

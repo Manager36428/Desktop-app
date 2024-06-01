@@ -92,10 +92,16 @@ DockBase {
                 bottom: parent.bottom
                 margins: isDocked ? 0 : 8
             }
-            gradient: Gradient {
+
+            Gradient {
+                id : gradientBg
                 GradientStop { position: 1.0; color: Qt.rgba(0.6549, 0.6157, 0.6509, 0.55) }
                 GradientStop { position: 0.0; color: Qt.rgba(0.8275, 0.7922, 0.8275, 0.55) }
             }
+
+            color: isDocked ? undefined : "#C9DBE5"
+            gradient: isDocked ? gradientBg : undefined
+
             radius: 10
         }
     }

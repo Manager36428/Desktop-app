@@ -4,13 +4,15 @@ import "../common"
 TitleCard {
     title: "Page"
     clip: true
-    windowParent.minimumHeight: 580
+    windowParent.minimumWidth: 720
+    windowParent.minimumHeight: 510
 
     contentDock: Item{
         anchors.fill: parent
         Rectangle{
             id : header
-            height: 40
+            height: isDocked ? 40 : 0
+            visible: isDocked
             anchors{
                 top: parent.top
                 topMargin: 40

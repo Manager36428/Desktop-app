@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Window 2.12
 import QtQml 2.12
+import "../components"
 
 Item {
     id: root
@@ -11,6 +12,8 @@ Item {
     property int mode: 0 // 0 = Docked , 1 = Undocked , 2 = Closed
     property int heightDock: 0
     property int widthDock: 0
+    property int heightInit: 0
+    property int widthInit: 0
 
 
     onStateChanged: {
@@ -52,29 +55,44 @@ Item {
                 name : "closed"
                 PropertyChanges {target: root; height: 0 }
                 PropertyChanges {target: root; visible: false }
-                PropertyChanges { target: window; visible: false }
+                PropertyChanges {target: window; visible: false }
             }
 
         ]
     }
-    Window {
+    FramelessWindow {
         id: window
         width: heightDock
         height: widthDock
-        minimumWidth: 950
+        minimumWidth: 300
         onHeightChanged: console.log("Window Dock  H : ", height)
         onWidthChanged: console.log("Window Dock W: " , width)
-
-        Image{
-            anchors.fill: parent
-            source: "qrc:/assets/img_bg.jpg"
+        onBtnCloseClicked: {
+            root.mode = 0
+            root.mode = 2
         }
 
-        Item {
+        property bool resizeAtFirst: true
+
+        onBtnShirkClicked: root.mode = 0
+
+        content : Item {
             id: undockedContainer
-            anchors.fill: parent
+            anchors{
+                top: parent.top
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
         }
 
-        onClosing: root.mode = 0
+        onVisibleChanged: {
+            if(resizeAtFirst){
+                window.setHeight(heightInit)
+                window.setWidth(widthInit)
+                resizeAtFirst=false
+            }
+        }
+
     }
 }

@@ -18,5 +18,9 @@
         <file>qml/cards/DockBase.qml</file>
         <file>qml/common/Icon.qml</file>
         <file>qml/common/ScrollBar.qml</file>
+        <file>qml/components/FramelessWindow.qml</file>
+        <file>qml/components/Header.qml</file>
+        <file>qml/components/Popup.qml</file>
+        <file>qml/components/MainWindow.qml</file>
     </qresource>
 </RCC>

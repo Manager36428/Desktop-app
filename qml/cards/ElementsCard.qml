@@ -3,7 +3,8 @@ import "../common"
 
 TitleCard {
     title: "Elements"
-    windowParent.minimumHeight: 413
+    windowParent.minimumHeight: 420
+    windowParent.minimumWidth: 720
 
     contentDock: Item{
         anchors.fill: parent
