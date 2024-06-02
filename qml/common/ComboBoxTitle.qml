@@ -59,6 +59,9 @@ Item {
             radius: 10
             height: 36
             width: parent.width/2 - 3
+            border.width: 1
+            border.color: "white"
+            antialiasing: true
         }
 
         TextField{

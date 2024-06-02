@@ -154,6 +154,28 @@ Window {
                     Icon{
                         height: 20
                         width: 20
+                        id: btnShirk
+                        source: "qrc:/assets/ic_shrink.png"
+                        onBtnClicked: {
+                            windowMargin = 10
+                            mainWindow.showNormal()
+                        }
+                    }
+
+                    Icon{
+                        height: 20
+                        width: 20
+                        id: btnExpaned
+                        source: "qrc:/assets/ic_expand.png"
+                        onBtnClicked: {
+                            windowMargin = 0
+                            mainWindow.showMaximized()
+                        }
+                    }
+
+                    Icon{
+                        height: 20
+                        width: 20
                         id: btnClose
                         source: "qrc:/assets/ic_close.png"
                         onBtnClicked: mainWindow.close()
