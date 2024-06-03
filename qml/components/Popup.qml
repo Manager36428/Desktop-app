@@ -15,9 +15,18 @@ Window {
     flags: Qt.Window | Qt.FramelessWindowHint    
 
     property alias content: contentData.data
+    property int popupId: -1
+
+    onPopupIdChanged: {
+        console.log("popupId changed : " ,popupId)
+    }
 
     property int windowStatus: 0
     property int windowMargin: 10
+
+    signal popupDestroyed(var popup_id)
+
+    onClosing :popupDestroyed(popupId)
 
     QtObject{
         id: internal

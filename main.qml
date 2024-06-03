@@ -8,26 +8,48 @@ MainWindow {
     visible: true
     minimumHeight: 1008
     minimumWidth: 1025
-    title: qsTr("FlowSta")
-    property var currentPopup: null
+    title: qsTr("Flowsta Creator App")
+    property var popupIds: []
 
-    function showPopup(title) {
-        var component = Qt.createComponent("qrc:/qml/components/Popup.qml");
-        if(currentPopup != null){
-            currentPopup.close()
-        }
+    function removePopup(popup_id){
+        var arrIds = windowRoot.popupIds
+        console.log("Array Ids: " , arrIds)
+        console.log("Remove Popup: ", popup_id)
+        let index = arrIds.indexOf(popup_id);
+        console.log("Remove Popup Idx: ", index)
+        if (index !== -1) {
+            arrIds.splice(index, 1);
+            bottomBar.updateBottomButtons(popup_id)
+            popupIds = arrIds
+        }        
+    }
 
-        if (component.status === Component.Ready) {
-            var window = component.createObject(null);
-            if (window !== null) {
-                window.title = title
-                window.show();
-                currentPopup = window
+
+    function showPopup(popup_id, title) {
+        console.log("Create Popup:", popup_id)
+        if(popupIds.indexOf(popup_id) == -1)
+        {
+            var arrIds = windowRoot.popupIds
+            arrIds.push(popup_id)
+            windowRoot.popupIds = arrIds
+            console.log("array Id : ", windowRoot.popupIds)
+            var component = Qt.createComponent("qrc:/qml/components/Popup.qml");
+
+            if (component.status === Component.Ready) {
+                var window = component.createObject(null);
+                if (window !== null) {
+                    window.popupId = popup_id
+                    window.popupDestroyed.connect(removePopup)
+                    window.title = title                    
+                    window.show();
+
+
+                } else {
+                    console.log("Error: Could not create window.");
+                }
             } else {
-                console.log("Error: Could not create window.");
-            }
-        } else {
-            console.log("Error: Component not ready.");
+                console.log("Error: Component not ready.");
+            }            
         }
     }
 
@@ -53,7 +75,7 @@ MainWindow {
                 margins: 8
             }
             cards: [navCard, pageCard, elementsCard, detailsCard]
-            onPopupClicked: showPopup(titlePopup)
+            onPopupClicked: showPopup(popupId, titlePopup)
         }
 
         NavigateCard{

@@ -8,7 +8,7 @@ BaseCard {
 
     property var cards : []
 
-    signal popupClicked(var titlePopup)
+    signal popupClicked(var popupId, var titlePopup)
 
 
     Image{
@@ -23,22 +23,30 @@ BaseCard {
         anchors.verticalCenter: parent.verticalCenter
     }
 
+    function updateBottomButtons(btnIndex){
+        bottomButtons.setProperty(btnIndex, "btn_active", false)
+    }
+
     ListModel{
         ListElement{
             icon : "qrc:/assets/ic_new.png"
             text : "New"
+            btn_active : false
         }
         ListElement{
             icon : "qrc:/assets/ic_open.png"
             text : "Open"
+            btn_active : false
         }
         ListElement{
             icon : "qrc:/assets/ic_settings.png"
             text : "Settings"
+            btn_active : false
         }
         ListElement{
             icon : "qrc:/assets/ic_publish.png"
             text : "Publish"
+            btn_active : false
         }
         id : bottomButtons
     }
@@ -77,7 +85,11 @@ BaseCard {
                 width: 69
                 elementIcon: icon
                 elementName: text
-                onBtnClicked: popupClicked(text)
+                isActive: btn_active
+                onBtnClicked: {
+                    bottomButtons.setProperty(index, "btn_active", true)
+                    popupClicked(index, text)
+                }
             }
         }
     }

@@ -97,6 +97,20 @@ Window {
                 right: parent.right
             }
 
+            Image{
+                z:2
+                id : iconApp
+                height: 20
+                width: 20
+                source: "qrc:/assets/ic_app.png"
+                anchors{
+                    top: parent.top
+                    left: parent.left
+                    leftMargin: 11
+                    topMargin: 10
+                }
+            }
+
             Text{
                 z:2
                 id : titleWindow
@@ -104,8 +118,8 @@ Window {
                 width: 205
                 anchors{
                     verticalCenter: parent
-                    left: parent.left
-                    leftMargin: 11
+                    left: iconApp.right
+                    leftMargin: 8
                     top: parent.top
                 }
                 font.family: "Nunito"
@@ -164,6 +178,18 @@ Window {
                         id: btnMaximizeRestore
                         source: "qrc:/assets/ic_shrink.png"
                         onBtnClicked: btnShirkClicked()
+                    }
+
+
+                    Icon{
+                        height: 20
+                        width: 20
+                        id: btnExpaned
+                        source: "qrc:/assets/ic_expand.png"
+                        onBtnClicked: {
+                            windowMargin = 0
+                            internal.maximizeRestore()
+                        }
                     }
 
                     Icon{
