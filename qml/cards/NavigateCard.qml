@@ -35,9 +35,10 @@ TitleCard{
            id : naviList
            height: 187
            width: 278
-           model : naviModel
+           model : controller.pages
            spacing: 14
-           interactive: false
+           snapMode: ListView.SnapToItem
+           clip: true
            anchors{
                left: parent.left
                right: parent.right
@@ -47,8 +48,8 @@ TitleCard{
 
            delegate: ButtonText{
                id : delegateContent
-               btnName: name
-               isActive: btn_active
+               btnName: modelData.page_name
+               isActive: index === controller.current_page_idx
                anchors{
                    left: parent.left
                    right: parent.right
@@ -64,8 +65,9 @@ TitleCard{
                    anchors.top: parent.bottom
                    anchors.topMargin: 0
                    z:-1
-                   visible: index != (naviModel.count - 1)
+                   visible: index !== (naviList.count - 1)
                }
+               onBtnClicked: controller.current_page_idx = index
            }
         }
 
@@ -81,6 +83,8 @@ TitleCard{
                 leftMargin: 15
                 rightMargin: 15
             }
+
+            onBtnClicked: controller.add_page()
 
         }
     }

@@ -177,7 +177,7 @@ Window {
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
-                topMargin: 80
+                topMargin: 30
             }
         }
     }

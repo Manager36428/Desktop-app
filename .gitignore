@@ -1,0 +1,13 @@
+# Ignore all .bat files
+*.bat
+
+# Other files and directories to ignore
+*.log
+*.pyc
+__pycache__/*
+node_modules/
+build/
+dist/
+main.spec
+*.user*
+.idea/

@@ -8,6 +8,7 @@ from PySide2.QtCore import QUrl
 
 import assets
 import qml
+from src.Controller import Controller
 
 
 def qt_message_handler(mode, context, message):
@@ -32,10 +33,13 @@ if __name__ == "__main__":
     app.setWindowIcon(QIcon(":/assets/app.ico"))
     app.setApplicationVersion("v1.0")
     engine = QQmlApplicationEngine()
+    controller = Controller()
+    engine.rootContext().setContextProperty("controller", controller)
+
     url = QUrl("qrc:/main.qml")
     engine.load(url)
     if not engine.rootObjects():
         sys.exit(-1)
-    print("App started...")
+
 
     sys.exit(app.exec_())

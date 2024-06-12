@@ -4,6 +4,7 @@ import "../common"
 TitleCard {
     title: "Details"
     windowParent.minimumHeight: 704
+    property var currentPage: controller.current_page
 
     contentDock: Item{
         anchors.fill: parent
@@ -36,7 +37,7 @@ TitleCard {
             height: 61
             width: parent.width
             title: "Page Name"
-            content.placeholderText: "Home"
+            content.text: currentPage.page_name
             anchors{
                 top: detailType.bottom
                 topMargin: 15
@@ -45,29 +46,34 @@ TitleCard {
                 leftMargin: 11
                 rightMargin: 7
             }
+            content.onTextChanged: {
+                currentPage.page_name = content.text
+            }
         }
 
         TextFieldTitle{
             id : tfPageDes
+            height: 61
             width: parent.width
-            title: "Page Description"
+            title: "Page ID"
             anchors{
                 top: tfHome.bottom
                 topMargin: 15
-                bottom: cbBg.top
-                bottomMargin: 15
                 left: parent.left
                 right: parent.right
                 leftMargin: 11
                 rightMargin: 7
             }
-            Component.onCompleted: tfPageDes.content.placeholderText = "Page description that will be used for meta description."
+            content.text: currentPage.page_id
+            content.onTextChanged: {
+                currentPage.page_id = content.text
+            }
         }
 
         ComboBoxTitle{
             id : cbBg
             height: 95
-            title: "Page Background"
+            title: "Page Background Color"
             anchors{
                 bottom: deletePageSection.top
                 bottomMargin: 19
@@ -76,6 +82,7 @@ TitleCard {
                 leftMargin: 11
                 rightMargin: 7
             }
+            page_color: currentPage.page_background
         }
 
         TextFieldWarning{
@@ -89,6 +96,12 @@ TitleCard {
                 bottomMargin: 17
                 leftMargin: 11
                 rightMargin: 7
+            }
+            content.onAccepted: {
+                if(content.text == "DELETE"){
+                    controller.delete_page(controller.current_page)
+                    content.text == ""
+                }
             }
         }
 

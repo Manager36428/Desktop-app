@@ -20,13 +20,25 @@ MainWindow {
         currentPopup = undefined
     }
 
+    function handleProjectCreated(project_name){
+        console.log("Project Created :" + project_name);
+        controller.create_new_project()
+    }
+
     function showPopup(popup_id, title) {
         console.log("Create Popup:", popup_id)
         if(currentPopup != undefined)
         {
             currentPopup.close();
         }
-        var component = Qt.createComponent("qrc:/qml/components/Popup.qml");
+
+        var pathPopup = "qrc:/qml/components/Popup.qml";
+        if(popup_id == 0){
+            title = "Create a New Project"
+            pathPopup = "qrc:/qml/components/PopupNewProject.qml"
+        }
+
+        var component = Qt.createComponent(pathPopup);
 
         if (component.status === Component.Ready) {
             var window = component.createObject(null);
@@ -34,6 +46,10 @@ MainWindow {
                 currentPopup = window
                 window.popupId = popup_id
                 window.popupDestroyed.connect(removePopup)
+                if(popup_id == 0){
+                    window.projectCreated.connect(handleProjectCreated)
+                }
+
                 window.title = title
                 window.show();
             } else {
