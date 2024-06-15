@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 Item {
     property string title: ""
     property alias page_color: rectPageColor.color
+    signal btnClicked()
 
     Text{
         id :header
@@ -36,6 +37,11 @@ Item {
             border.width: 1
             border.color: "white"
             antialiasing: true
+
+            MouseArea{
+                anchors.fill: parent
+                onClicked: btnClicked()
+            }
         }
     }
 

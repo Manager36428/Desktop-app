@@ -2,7 +2,8 @@ import QtQuick 2.0
 
 Rectangle{
     id : header
-    height: 40
+    height: /*40*/ 0
+    visible: false
     anchors{
         top: parent.top
         topMargin: 40

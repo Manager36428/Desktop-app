@@ -90,7 +90,7 @@ Window {
         Item{
             z:10
             id : header
-            height: 80
+            height: 30
             anchors{
                 top: parent.top
                 left: parent.left
@@ -203,15 +203,15 @@ Window {
                 }
             }
 
-            Header{
-                height: 40
-                anchors{
-                    top: parent.top
-                    left: parent.left
-                    right: parent.right
-                    topMargin: 40
-                }
-            }
+//            Header{
+//                height: 40
+//                anchors{
+//                    top: parent.top
+//                    left: parent.left
+//                    right: parent.right
+//                    topMargin: 40
+//                }
+//            }
         }
 
         Item {
@@ -239,7 +239,7 @@ Window {
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
-                topMargin: 80
+                topMargin: 30
             }
         }
     }

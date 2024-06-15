@@ -59,8 +59,10 @@ Popup{
                 rightMargin: 13
             }
             onBtnClicked: {
-                projectCreated(tfProjectName.text)
-                popupNewProject.close()
+                if(tfProjectName.text.length > 0){
+                    projectCreated(tfProjectName.text)
+                    popupNewProject.close()
+                }
             }
         }
     }

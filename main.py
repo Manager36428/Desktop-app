@@ -9,6 +9,7 @@ from PySide2.QtCore import QUrl
 import assets
 import qml
 from src.Controller import Controller
+from src.Utils import Utils
 
 
 def qt_message_handler(mode, context, message):
@@ -16,7 +17,6 @@ def qt_message_handler(mode, context, message):
         mode = 'Info'
     elif mode == QtCore.QtWarningMsg:
         mode = 'Warning'
-        return
     elif mode == QtCore.QtCriticalMsg:
         mode = 'critical'
     elif mode == QtCore.QtFatalMsg:
@@ -34,12 +34,13 @@ if __name__ == "__main__":
     app.setApplicationVersion("v1.0")
     engine = QQmlApplicationEngine()
     controller = Controller()
+    utils = Utils()
     engine.rootContext().setContextProperty("controller", controller)
+    engine.rootContext().setContextProperty("utils", utils)
 
     url = QUrl("qrc:/main.qml")
     engine.load(url)
     if not engine.rootObjects():
         sys.exit(-1)
-
 
     sys.exit(app.exec_())

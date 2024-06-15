@@ -1,9 +1,11 @@
 import QtQuick 2.0
 import "../common"
+import "../components"
 
 TitleCard {
-    title: "Details"
-    windowParent.minimumHeight: 704
+    title: currentPage != undefined ? "Details" + " : " + currentPage.page_name : "Details"
+
+    windowParent.minimumHeight: 500
     property var currentPage: controller.current_page
 
     contentDock: Item{
@@ -17,7 +19,7 @@ TitleCard {
                 left: parent.left
                 right: parent.right
                 margins: 10
-                topMargin: 44
+                topMargin: isDocked ? 54 : 24
             }
 
             ButtonText{
@@ -37,7 +39,7 @@ TitleCard {
             height: 61
             width: parent.width
             title: "Page Name"
-            content.text: currentPage.page_name
+            content.text: currentPage != undefined ? currentPage.page_name : ""
             anchors{
                 top: detailType.bottom
                 topMargin: 15
@@ -64,7 +66,7 @@ TitleCard {
                 leftMargin: 11
                 rightMargin: 7
             }
-            content.text: currentPage.page_id
+            content.text: currentPage != undefined ? currentPage.page_id : ""
             content.onTextChanged: {
                 currentPage.page_id = content.text
             }
@@ -75,14 +77,24 @@ TitleCard {
             height: 95
             title: "Page Background Color"
             anchors{
-                bottom: deletePageSection.top
-                bottomMargin: 19
+                top : tfPageDes.bottom
+                topMargin: 19
                 left: parent.left
                 right: parent.right
                 leftMargin: 11
                 rightMargin: 7
             }
             page_color: currentPage.page_background
+            onBtnClicked: {
+                popupColorPicker.currentColor = currentPage.page_background
+                popupColorPicker.show()
+            }
+        }
+
+        PopupColorPicker{
+            id : popupColorPicker
+            visible: false
+            onAccepted: currentPage.page_background = newColor
         }
 
         TextFieldWarning{
@@ -100,7 +112,7 @@ TitleCard {
             content.onAccepted: {
                 if(content.text == "DELETE"){
                     controller.delete_page(controller.current_page)
-                    content.text == ""
+                    content.text = ""
                 }
             }
         }

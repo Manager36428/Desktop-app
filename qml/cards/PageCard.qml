@@ -11,8 +11,8 @@ TitleCard {
         anchors.fill: parent
         Rectangle{
             id : header
-            height: isDocked ? 40 : 0
-            visible: isDocked
+            height: /*isDocked ? 40 : 0*/ 0
+            visible: /*isDocked*/ false
             anchors{
                 top: parent.top
                 topMargin: 40
@@ -67,9 +67,10 @@ TitleCard {
             }
         }
 
-        Rectangle{
+        RectangleOneSideRounded{
+            side: "bottom"
             id : content
-            radius: 10
+            radius: 10            
             anchors{
                 top: header.bottom
                 bottom: parent.bottom
@@ -77,60 +78,7 @@ TitleCard {
                 left: parent.left
                 margins: 1
             }
-            color: "#C9DBE5"
-
-            Rectangle{
-                height: 10
-                width: parent.width
-                color: "#C9DBE5"
-            }
-
-            Image{
-                id : img_dummy
-                height: 270
-                width: 270
-                anchors{
-                    top: parent.top
-                    topMargin: 73
-                    right: parent.right
-                }
-                source: "qrc:/assets/img_dummy.png"
-            }
-
-            Text {
-                id: txtHeading
-                font.weight: Font.DemiBold
-                font.family: "Open Sans"
-                height: 54
-
-                anchors{
-                    top: parent.top
-                    topMargin: 40
-                    left: parent.left
-                    leftMargin: 18
-                }
-                color: "black"
-                font.pixelSize: 40
-                text: qsTr("Heading")
-            }
-
-            Text{
-                height: 273
-                width: 800
-                anchors{
-                    top: parent.top
-                    left: parent.left
-                    right: img_dummy.left
-                    rightMargin: 28
-                    topMargin: 116
-                    leftMargin: 18
-                }
-                text :"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                font.pixelSize: 15
-                font.family: "Open Sans"
-                wrapMode: Text.WordWrap
-
-            }
+            color: controller.current_page.page_background
         }
     }
 }

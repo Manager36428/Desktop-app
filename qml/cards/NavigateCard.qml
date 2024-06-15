@@ -3,13 +3,14 @@ import "../common"
 
 TitleCard{
     title: "Navigate"
-    heightDock: 410
+    heightDock: 323
     widthDock: 300
-    windowParent.minimumHeight: 410
+    windowParent.minimumHeight: 323
     windowParent.minimumWidth: 300
 
     contentDock: Item{
         anchors.fill: parent
+
         ListModel{
             id : naviModel
             ListElement{
@@ -33,17 +34,18 @@ TitleCard{
 
         ListView{
            id : naviList
-           height: 187
+           clip: true
            width: 278
            model : controller.pages
            spacing: 14
            snapMode: ListView.SnapToItem
-           clip: true
            anchors{
                left: parent.left
                right: parent.right
                top: parent.top
                topMargin: 44
+               bottom: parent.bottom
+               bottomMargin: 70
            }
 
            delegate: ButtonText{
@@ -75,13 +77,13 @@ TitleCard{
             id :btnNewPage
             icSrc: "qrc:/assets/ic_add.png"
             btnName: "New Page"
-            anchors.top: naviList.bottom
-            anchors.topMargin: 15
             anchors{
                 left: parent.left
                 right: parent.right
                 leftMargin: 15
                 rightMargin: 15
+                top: naviList.bottom
+                topMargin: 25
             }
 
             onBtnClicked: controller.add_page()

@@ -16,9 +16,8 @@ class Controller(QtCore.QObject):
         return self._current_page
 
     def set_current_page(self, val):
-        if val != self._current_page:
-            self._current_page = val
-            self._current_pageChanged.emit(self._current_page)
+        self._current_page = val
+        self._current_pageChanged.emit(self._current_page)
 
     current_page = Property(QObject, get_current_page, set_current_page, notify=_current_pageChanged)
 
@@ -44,10 +43,9 @@ class Controller(QtCore.QObject):
 
     def set_current_page_idx(self, val):
         print("Current Page Idx : ", val)
-        if val != self._current_page_idx:
-            self._current_page_idx = val
-            self._current_page_idxChanged.emit(self._current_page_idx)
-            self.set_current_page(self._pages[self._current_page_idx])
+        self._current_page_idx = val
+        self._current_page_idxChanged.emit(self._current_page_idx)
+        self.set_current_page(self._pages[self._current_page_idx])
 
     current_page_idx = Property(int, get_current_page_idx, set_current_page_idx, notify=_current_page_idxChanged)
 

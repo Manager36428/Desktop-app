@@ -23,5 +23,8 @@
         <file>qml/components/Popup.qml</file>
         <file>qml/components/MainWindow.qml</file>
         <file>qml/components/PopupNewProject.qml</file>
+        <file>qml/components/PopupColorPicker.qml</file>
+        <file>qml/common/RectangleOneSideRounded.qml</file>
+        <file>qml/common/ColorDisplay.qml</file>
     </qresource>
 </RCC>

@@ -86,9 +86,12 @@ BaseCard {
                 elementIcon: icon
                 elementName: text
                 isActive: btn_active
-                onBtnClicked: {
-                    bottomButtons.setProperty(index, "btn_active", true)
+                onBtnClicked: {                    
                     popupClicked(index, text)
+                    for(var i = 0;i< bottomButtons.count; i++){
+                        updateBottomButtons(i);
+                    }
+                    bottomButtons.setProperty(index, "btn_active", true)
                 }
             }
         }

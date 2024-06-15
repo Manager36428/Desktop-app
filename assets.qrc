@@ -26,5 +26,7 @@
         <file>assets/app.ico</file>
         <file>assets/ic_shrink.png</file>
         <file>assets/ic_app.png</file>
+        <file>assets/ic_indicator.png</file>
+        <file>assets/ic_circle_indicator.png</file>
     </qresource>
 </RCC>
