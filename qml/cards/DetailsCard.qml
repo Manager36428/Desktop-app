@@ -87,6 +87,7 @@ TitleCard {
             page_color: currentPage.page_background
             onBtnClicked: {
                 popupColorPicker.currentColor = currentPage.page_background
+                popupColorPicker.syncColor(currentPage.page_background)
                 popupColorPicker.show()
             }
         }

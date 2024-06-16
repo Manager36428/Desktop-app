@@ -17,16 +17,53 @@ Popup{
     property string currentColor: ""
     property alias newColor: newColorPreview.rect.color
 
-    signal accepted();    
+    property color pickedColor: "#FFFFFF"
+    property color inputedColor: "#FFFFFF"
 
-    function reflectColorDone(){
+    signal accepted();
+
+    function syncColor(sync_color){
+        tfcolorInHex.text = sync_color
+        newColorPreview.rect.color = sync_color
+        rgbColorSpace.colorValue = sync_color;
+        hsvColorSpace.colorValue = sync_color;
+        cmykColorSpace.colorValue = sync_color;
+    }
+
+    onPickedColorChanged: {
+        syncColor(pickedColor)
+    }
+
+    onInputedColorChanged: {
+        console.log("onInputedColorChanged : ", inputedColor)
+        let hueV = utils.hsv_hue(inputedColor)
+        let satF = utils.hsl_saturationF(inputedColor)
+        let lightnessF = utils.hsl_lightnessF(inputedColor);
+        rootItem.hueLevel = (hueSlider.height - 1) * hueV / 359
+        var imageData = hueSlider.getContext("2d").getImageData(1, rootItem.hueLevel, 1, 1).data;
+        rootItem.hueColor = Qt.rgba(imageData[0] / 255, imageData[1] / 255, imageData[2] / 255, imageData[3] / 255);
+
+        console.log("Hue Value : ", hueV)
+        console.log("New Hue Color : ", rootItem.hueColor)
+        console.log("Hue : ", satF)
+        console.log("Lightness : ", lightnessF)
+
+        let newX = satF * colorArea.width;
+        let newY = (1-lightnessF) * colorArea.height;
+        rootItem.colorPos = {"x": newX,"y": newY}
+        console.log("X - Y :" , rootItem.colorPos.x +" - " +rootItem.colorPos.y)
+        colorArea.requestPaint();
+
         rgbColorSpace.emitColorChanged = false;
         hsvColorSpace.emitColorChanged = false;
         cmykColorSpace.emitColorChanged = false;
+
+        syncColor(inputedColor)
     }
 
+
     function handleColorUpdated(){
-       tfcolorInHex.text = newColor.toString().substring(1).toUpperCase();
+        tfcolorInHex.text = newColor.toString().substring(1).toUpperCase();
     }
 
     content: Item{
@@ -47,7 +84,7 @@ Popup{
             var ctx = colorArea.getContext("2d");
             var imageData = ctx.getImageData(x, y, 1, 1).data;
             var selectedColor = Qt.rgba(imageData[0] / 255, imageData[1] / 255, imageData[2] / 255, imageData[3] / 255);
-            newColorPreview.rect.color = selectedColor;
+            pickedColor = selectedColor;
             console.log("updateColor", x+ " - " + y)
         }
 
@@ -78,17 +115,7 @@ Popup{
         }
 
         function reflectColor(new_color){
-            console.log("Reflect Color : ", new_color)
-            let hueV = utils.hsv_hue(new_color)
-            console.log("Hue Value : ", hueV)
-            hueLevel = (hueSlider.height - 1) * hueV / 359
-            newColorPreview.rect.color = new_color
-            var imageData = hueSlider.getContext("2d").getImageData(1, hueLevel, 1, 1).data;
-            hueColor = Qt.rgba(imageData[0] / 255, imageData[1] / 255, imageData[2] / 255, imageData[3] / 255);
-            console.log("New Hue Color : ", hueColor)
-            colorArea.requestPaint();
 
-            reflectColorDone()
         }
 
         Canvas {
@@ -127,7 +154,11 @@ Popup{
             MouseArea {
                 id: colorAreaMouse
                 anchors.fill: parent
-                onClicked: rootItem.updateColor(mouse.x, mouse.y)
+                onClicked: {
+                    colorArea.forceActiveFocus();
+                    rootItem.updateColor(mouse.x, mouse.y)
+                }
+
                 onPositionChanged: if (mouse.buttons & Qt.LeftButton) rootItem.updateColor(mouse.x, mouse.y)
             }
 
@@ -182,7 +213,11 @@ Popup{
             MouseArea {
                 id: hueSliderMouse
                 anchors.fill: parent
-                onClicked: rootItem.updateHue(mouse.y)
+                onClicked: {
+                    hueSlider.forceActiveFocus();
+                    rootItem.updateHue(mouse.y)
+                }
+
                 onPositionChanged: if (mouse.buttons & Qt.LeftButton) rootItem.updateHue(mouse.y)
             }
         }
@@ -336,7 +371,6 @@ Popup{
 
         ColorDisplay{
             id : hsvColorSpace
-            colorValue: newColor
             width: 82
             height: 132
             anchors{
@@ -347,25 +381,24 @@ Popup{
             }
             colorSpace : "hsv"
             limitVales: [359,100,100,0]
+            onColorChanged: inputedColor = newColor
         }
 
         ColorDisplay{
             id :rgbColorSpace
             colorSpace : "rgb"
-            colorValue: newColor
             anchors{
                 bottom: parent.bottom
                 bottomMargin: 23
                 left: hueSlider.right
                 leftMargin: 41
             }
-            onColorChanged: rootItem.reflectColor(newColor)
+            onColorChanged: inputedColor = newColor
         }
 
         ColorDisplay{
             id : cmykColorSpace
             colorSpace: "cmyk"
-            colorValue: newColor
             anchors{
                 top: btnCancel.bottom
                 topMargin: 51
@@ -373,6 +406,7 @@ Popup{
                 leftMargin: 66
             }
             limitVales: [100,100,100,100]
+            onColorChanged: inputedColor = newColor
         }
 
         Item{
@@ -404,30 +438,30 @@ Popup{
                 height: 40
                 width: 124
                 anchors.right: parent.right
-                property bool isEditing: false
                 background: Rectangle{
                     antialiasing: true
                     color: "white"
                     radius: 10
                 }
+
                 onTextChanged: {
-                    text = text.toUpperCase()
-                    delayTimer.restart()
+                    if(tfcolorInHex.activeFocus){
+                        text = text.toUpperCase()
+                        delayTimer.restart()
+                    }
                 }
 
                 function edit(){
-                    isEditing = true
+                    console.log("Editing Color")
                     let color_updated = "#" + text
                     if(text.length == 6 && utils.is_valid_color(color_updated)){
-                        rootItem.reflectColor(color_updated)
+                        newColorPreview.forceActiveFocus()
+                        inputedColor = color_updated
                     }else{
                         text = newColor.toString().substring(1).toUpperCase();
                     }
                 }
                 maximumLength: 6
-
-
-
                 Timer{
                     id: delayTimer
                     interval: 500

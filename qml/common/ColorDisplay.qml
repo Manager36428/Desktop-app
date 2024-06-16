@@ -17,50 +17,50 @@ Item {
     }
 
     function rgbToHsv(r, g, b) {
-      var max = Math.max(r, g, b), min = Math.min(r, g, b);
-      var h, s, v = max;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, v = max;
 
-      var d = max - min;
-      s = max == 0 ? 0 : d / max;
+        var d = max - min;
+        s = max == 0 ? 0 : d / max;
 
-      if (max == min) {
-        h = 0; // achromatic
-      } else {
-        switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
+        if (max == min) {
+            h = 0; // achromatic
+        } else {
+            switch (max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+            }
+
+            h /= 6;
         }
 
-        h /= 6;
-      }
-
-      return [ h, s, v ];
+        return [ h, s, v ];
     }
 
     function rgb2cmyk (r,g,b) {
-     var computedC = 0;
-     var computedM = 0;
-     var computedY = 0;
-     var computedK = 0;
+        var computedC = 0;
+        var computedM = 0;
+        var computedY = 0;
+        var computedK = 0;
 
-     if (r==0 && g==0 && b==0) {
-      computedK = 1;
-      return [0,0,0,1];
-     }
+        if (r==0 && g==0 && b==0) {
+            computedK = 1;
+            return [0,0,0,1];
+        }
 
-     computedC = 1 - (r);
-     computedM = 1 - (g);
-     computedY = 1 - (b);
+        computedC = 1 - (r);
+        computedM = 1 - (g);
+        computedY = 1 - (b);
 
-     var minCMY = Math.min(computedC,
-                  Math.min(computedM,computedY));
-     computedC = (computedC - minCMY) / (1 - minCMY) ;
-     computedM = (computedM - minCMY) / (1 - minCMY) ;
-     computedY = (computedY - minCMY) / (1 - minCMY) ;
-     computedK = minCMY;
+        var minCMY = Math.min(computedC,
+                              Math.min(computedM,computedY));
+        computedC = (computedC - minCMY) / (1 - minCMY) ;
+        computedM = (computedM - minCMY) / (1 - minCMY) ;
+        computedY = (computedY - minCMY) / (1 - minCMY) ;
+        computedK = minCMY;
 
-     return [computedC,computedM,computedY,computedK];
+        return [computedC,computedM,computedY,computedK];
     }
 
     function updateColorRGB(){
@@ -91,6 +91,20 @@ Item {
         colorChanged(newColor);
     }
 
+    function getColorHSV(){
+        let newColor = utils.color_from_hsv(parseInt(tf1.text) , parseInt(tf2.text),
+                                            parseInt(tf3.text))
+        console.log("New Color HSV : ", newColor)
+        colorChanged(newColor);
+    }
+
+    function getColorCMYK(){
+        let newColor = utils.color_from_cmyk(parseInt(tf1.text) , parseInt(tf2.text),
+                                             parseInt(tf3.text) , parseInt(tf4.text))
+        console.log("New Color CMYK : ", newColor)
+        colorChanged(newColor);
+    }
+
     signal colorChanged(var newColor);
 
     function updateColor(){
@@ -103,8 +117,10 @@ Item {
             break;
         case "HSV":
             emitColorChanged = true
+            getColorHSV();
             break;
         case "CMYK":
+            getColorCMYK();
             emitColorChanged = true
             break;
         }
