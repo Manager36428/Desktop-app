@@ -48,7 +48,41 @@ class Page(QtCore.QObject):
             self._page_backgroundChanged.emit(self._page_background)
 
     page_background = Property(str, get_page_background, set_page_background, notify=_page_backgroundChanged)
+
     # End Section Member Property page_background
+
+    def generate_css_block(self):
+        css_template = """
+    /* {section_name} Section */
+    #{section_id} {{
+        flex-direction: column;
+        max-width: 100%;
+        margin: 0 auto;
+        width: 100%;
+        background-color: {bg_color};
+    }}
+    /* End {section_name} Section */
+    """
+        return css_template.format(section_name=self._page_name, section_id=self._page_id,
+                                   bg_color=self._page_background)
+
+    def gen_list_tag(self):
+        html = f'<li><a href="#{self._page_id}" data-after="{self._page_name}">{self._page_name}</a></li>'
+        return html
+
+    def gen_section_tag(self):
+        section_tag = f"""
+        <!-- Contact Section -->
+        <section id="{self._page_id}">
+          <div class="contact container">
+            <div>
+              <h1 class="{self._page_id}"><span>{self._page_name}</span></h1>
+            </div>
+          </div>
+        </section>
+        <!-- End Contact Section -->
+        """
+        return section_tag
 
     def __init__(self, page_id, page_name, page_color):
         super().__init__()

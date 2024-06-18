@@ -28,5 +28,9 @@
         <file>assets/ic_app.png</file>
         <file>assets/ic_indicator.png</file>
         <file>assets/ic_circle_indicator.png</file>
+        <file>web_temp/app.js</file>
+        <file>web_temp/index.html</file>
+        <file>web_temp/style.css</file>
+        <file>web_temp/img/hero-bg.png</file>
     </qresource>
 </RCC>

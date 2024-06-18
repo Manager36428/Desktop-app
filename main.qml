@@ -24,6 +24,7 @@ MainWindow {
     function handleProjectCreated(project_name){
         console.log("Project Created :" + project_name);
         projectName = " : " + project_name
+        controller.project_name = project_name
         controller.create_new_project()
     }
 
@@ -38,6 +39,9 @@ MainWindow {
         if(popup_id == 0){
             title = "Create a New Project"
             pathPopup = "qrc:/qml/components/PopupNewProject.qml"
+        }else if(popup_id == 3){
+            title = "Publish"
+            pathPopup = "qrc:/qml/components/PopupPublish.qml"
         }
 
         var component = Qt.createComponent(pathPopup);

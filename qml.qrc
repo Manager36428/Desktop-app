@@ -26,5 +26,6 @@
         <file>qml/components/PopupColorPicker.qml</file>
         <file>qml/common/RectangleOneSideRounded.qml</file>
         <file>qml/common/ColorDisplay.qml</file>
+        <file>qml/components/PopupPublish.qml</file>
     </qresource>
 </RCC>

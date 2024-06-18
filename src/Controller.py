@@ -1,12 +1,29 @@
 # This Python file uses the following encoding: utf-8
+
 from PySide2 import QtCore
 from PySide2.QtCore import Property, Signal, Slot, QObject
 
 from src.Page import Page
+from src.Utils import Utils
 
 
 class Controller(QtCore.QObject):
     _last_idx_page: int
+
+    # Member Property project_name
+    _project_name: str = str()
+    _project_nameChanged = Signal(str)
+
+    def get_project_name(self):
+        return self._project_name
+
+    def set_project_name(self, val):
+        if val != self._project_name:
+            self._project_name = val
+            self._project_nameChanged.emit(self._project_name)
+
+    project_name = Property(str, get_project_name, set_project_name, notify=_project_nameChanged)
+    # End Section Member Property project_name
 
     # Member Property current_page
     _current_page: QObject = QObject()
@@ -82,6 +99,37 @@ class Controller(QtCore.QObject):
         self._pagesChanged.emit()
         self.set_current_page_idx(0)
         self.set_current_page(page)
+
+    generateDone = Signal(str)
+
+    def generate_css_code(self):
+        css_content = Utils.read_file(":web_temp/style.css")
+        for page in self._pages:
+            css_content += page.generate_css_block()
+        return css_content
+
+    def generate_html_code(self):
+        html_content = Utils.read_file(":web_temp/index.html")
+        html_gen_list = ""
+        html_gen_section = ""
+        for page in self._pages:
+            html_gen_list += page.gen_list_tag()
+            html_gen_section += page.gen_section_tag()
+
+        html_content = html_content.replace("<%CODE_GEN_LIST%>", html_gen_list)
+        html_content = html_content.replace("<%CODE_GEN_SECTION%>", html_gen_section)
+        html_content = html_content.replace("<%CODE_GEN_PROJECT_NAME%>", self._project_name)
+        return html_content
+
+    @Slot()
+    def generate_html(self):
+        print("[Controller] Generate HTML")
+        Utils.save_file_to_des(Utils.read_file(":web_temp/app.js"), "app.js", "web")
+        path_idx = Utils.save_file_to_des(self.generate_html_code(), "index.html", "web")
+        Utils.copy_image_from_qrc_to_folder(":web_temp/img/hero-bg.png", "hero-bg.png", "web/img/")
+        Utils.save_file_to_des(self.generate_css_code(), "style.css", "web")
+
+        self.generateDone.emit(Utils.convert_file_path_to_url(path_idx))
 
     def __init__(self):
         super().__init__()
