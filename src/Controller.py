@@ -1,5 +1,7 @@
 # This Python file uses the following encoding: utf-8
 
+import webbrowser
+
 from PySide2 import QtCore
 from PySide2.QtCore import Property, Signal, Slot, QObject
 
@@ -72,7 +74,7 @@ class Controller(QtCore.QObject):
     def add_page(self):
         print("Add New Page ", self._last_idx_page)
         str_idx = str(self._last_idx_page)
-        page = Page("page_id_" + str_idx, "Page " + str_idx, "#FFFFFF")
+        page = Page("page_" + str_idx, "Page " + str_idx, "#FFFFFF")
         self._pages.append(page)
         self._pagesChanged.emit()
         self._last_idx_page += 1
@@ -94,7 +96,7 @@ class Controller(QtCore.QObject):
         print("[Controller] Create New Project")
         self._pages.clear()
         self._last_idx_page = 0
-        page = Page("home_id", "Home", "#FFFFFF")
+        page = Page("home", "Home", "#FFFFFF")
         self._pages.append(page)
         self._pagesChanged.emit()
         self.set_current_page_idx(0)
@@ -124,12 +126,19 @@ class Controller(QtCore.QObject):
     @Slot()
     def generate_html(self):
         print("[Controller] Generate HTML")
-        Utils.save_file_to_des(Utils.read_file(":web_temp/app.js"), "app.js", "web")
+        # Utils.save_file_to_des(Utils.read_file(":web_temp/app.js"), "app.js", "web")
         path_idx = Utils.save_file_to_des(self.generate_html_code(), "index.html", "web")
         Utils.copy_image_from_qrc_to_folder(":web_temp/img/hero-bg.png", "hero-bg.png", "web/img/")
         Utils.save_file_to_des(self.generate_css_code(), "style.css", "web")
 
-        self.generateDone.emit(Utils.convert_file_path_to_url(path_idx))
+        webbrowser.open(path_idx)
+
+    @Slot(str, result=bool)
+    def check_id_valid(self, page_id):
+        for page in self._pages:
+            if page_id == page.page_id:
+                return False
+        return True
 
     def __init__(self):
         super().__init__()

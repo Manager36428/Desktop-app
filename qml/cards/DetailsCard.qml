@@ -55,7 +55,7 @@ TitleCard {
 
         TextFieldTitle{
             id : tfPageDes
-            height: 61
+            height: 86
             width: parent.width
             title: "Page ID"
             anchors{
@@ -68,7 +68,27 @@ TitleCard {
             }
             content.text: currentPage != undefined ? currentPage.page_id : ""
             content.onTextChanged: {
-                currentPage.page_id = content.text
+                if(tfPageDes.content.activeFocus){
+                    checkIdTimer.restart()
+                }
+            }
+
+            Timer{
+                id : checkIdTimer
+                interval: 500
+                repeat: false
+                onTriggered: tfPageDes.checkId()
+            }
+
+            function checkId(){
+                console.log(controller.check_id_valid(content.text))
+                if(controller.check_id_valid(content.text)){
+                    currentPage.page_id = content.text
+                }else{
+                    content.text = currentPage.page_id
+                    tfPageDes.warning = "ID already exists !"
+                }
+                cbBg.forceActiveFocus()
             }
         }
 

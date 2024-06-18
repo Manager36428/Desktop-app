@@ -2,7 +2,7 @@ import QtQuick 2.0
 import "../common"
 
 TitleCard {
-    title: "Page"
+    title: "Page : " + controller.current_page.page_name
     clip: true
     windowParent.minimumWidth: 720
     windowParent.minimumHeight: 510

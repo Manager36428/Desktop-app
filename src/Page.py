@@ -55,7 +55,7 @@ class Page(QtCore.QObject):
         css_template = """
     /* {section_name} Section */
     #{section_id} {{
-        flex-direction: column;
+        flex-direction: column;page_name
         max-width: 100%;
         margin: 0 auto;
         width: 100%;

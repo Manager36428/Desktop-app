@@ -1,13 +1,12 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
-import QtWebEngine 1.0
 import "../components"
 import "../common"
 
 Popup{
     id : popupPublish
-    height: 1000
-    width: 1400
+    height: 500
+    width: 720
     minimumHeight: height
     minimumWidth: width
     title: "Publish"
@@ -59,19 +58,5 @@ Popup{
             controller.generateDone.connect(generated)
         }
 
-        Rectangle{
-            id : webviewContainer
-            anchors{
-                top: btnPreview.bottom
-                bottom: parent.bottom
-                left: parent.left
-                right: parent.right
-                margins: 10
-            }
-            WebEngineView {
-                id : webView
-                anchors.fill: parent
-            }
-        }
     }
 }
