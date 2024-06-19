@@ -69,7 +69,10 @@ TitleCard{
                    z:-1
                    visible: index !== (naviList.count - 1)
                }
-               onBtnClicked: controller.current_page_idx = index
+               onBtnClicked: {
+                   delegateContent.forceActiveFocus()
+                   controller.current_page_idx = index
+               }
            }
         }
 

@@ -3,13 +3,21 @@ import "../common"
 import "../components"
 
 TitleCard {
+    id : detailCard
     title: currentPage != undefined ? "Details" + " : " + currentPage.page_name : "Details"
 
     windowParent.minimumHeight: 500
-    property var currentPage: controller.current_page
+
 
     contentDock: Item{
+        id : detailContent
         anchors.fill: parent
+        property var currentPage: controller.current_page
+        onCurrentPageChanged: {
+            detailCard.title = currentPage != undefined ? "Details" + " : " + currentPage.page_name : "Details"
+            tfPageDes.content.text = currentPage.page_id
+        }
+
         Row{
             id : detailType
             height: 36
@@ -39,7 +47,7 @@ TitleCard {
             height: 61
             width: parent.width
             title: "Page Name"
-            content.text: currentPage != undefined ? currentPage.page_name : ""
+            content.text: detailContent.currentPage != undefined ? detailContent.currentPage.page_name : ""
             anchors{
                 top: detailType.bottom
                 topMargin: 15
@@ -49,9 +57,9 @@ TitleCard {
                 rightMargin: 7
             }
             content.onTextChanged: {
-                currentPage.page_name = content.text
+                detailContent.currentPage.page_name = content.text
             }
-        }
+        }       
 
         TextFieldTitle{
             id : tfPageDes
@@ -66,7 +74,7 @@ TitleCard {
                 leftMargin: 11
                 rightMargin: 7
             }
-            content.text: currentPage != undefined ? currentPage.page_id : ""
+
             content.onTextChanged: {
                 if(tfPageDes.content.activeFocus){
                     checkIdTimer.restart()
@@ -81,14 +89,22 @@ TitleCard {
             }
 
             function checkId(){
-                console.log(controller.check_id_valid(content.text))
+                console.log("Checking ID")
+                if(detailContent.currentPage.page_id == content.text) return
+
+                if(content.text.length == 0){
+                    tfPageDes.warning = "ID cannot be empty !"
+                    content.text = detailContent.currentPage.page_id
+                    return;
+                }
+
                 if(controller.check_id_valid(content.text)){
-                    currentPage.page_id = content.text
+                    console.log("Update Page Id :" + detailContent.currentPage.page_name + " - " + content.text)
+                    detailContent.currentPage.page_id = content.text
                 }else{
-                    content.text = currentPage.page_id
+                    content.text = detailContent.currentPage.page_id
                     tfPageDes.warning = "ID already exists !"
                 }
-                cbBg.forceActiveFocus()
             }
         }
 
@@ -104,10 +120,10 @@ TitleCard {
                 leftMargin: 11
                 rightMargin: 7
             }
-            page_color: currentPage.page_background
+            page_color: detailContent.currentPage.page_background
             onBtnClicked: {
-                popupColorPicker.currentColor = currentPage.page_background
-                popupColorPicker.syncColor(currentPage.page_background)
+                popupColorPicker.currentColor = detailContent.currentPage.page_background
+                popupColorPicker.syncColor(detailContent.currentPage.page_background)
                 popupColorPicker.show()
             }
         }
@@ -115,7 +131,7 @@ TitleCard {
         PopupColorPicker{
             id : popupColorPicker
             visible: false
-            onAccepted: currentPage.page_background = newColor
+            onAccepted: detailContent.currentPage.page_background = newColor
         }
 
         TextFieldWarning{

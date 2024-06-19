@@ -47,6 +47,33 @@ Item {
         font.family: "Nunito"
         wrapMode: Text.WordWrap
         verticalAlignment: Text.AlignTop
+
+        property int clickCount: 0
+        Timer {
+            id: clickTimer
+            interval: 300
+            repeat: false
+            onTriggered: {
+                _tfcontent.clickCount = 0
+            }
+        }
+        Timer{
+            id : selectAllTimer
+            interval: 10
+            repeat: false
+            onTriggered: _tfcontent.selectAll()
+        }
+
+        onPressed: {
+            clickCount += 1
+            if (clickCount == 1) {
+                clickTimer.start()
+            } else if (clickCount == 2) {
+                selectAllTimer.start()
+                clickCount = 0
+            }
+            console.log("Pressed Select ")
+        }
     }
 
     Text{

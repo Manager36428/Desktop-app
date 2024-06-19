@@ -29,16 +29,16 @@ class Controller(QtCore.QObject):
 
     # Member Property current_page
     _current_page: QObject = QObject()
-    _current_pageChanged = Signal(QObject)
+    current_pageChanged = Signal(QObject)
 
     def get_current_page(self):
         return self._current_page
 
     def set_current_page(self, val):
         self._current_page = val
-        self._current_pageChanged.emit(self._current_page)
+        self.current_pageChanged.emit(self._current_page)
 
-    current_page = Property(QObject, get_current_page, set_current_page, notify=_current_pageChanged)
+    current_page = Property(QObject, get_current_page, set_current_page, notify=current_pageChanged)
 
     # End Section Member Property current_page
 
@@ -135,7 +135,9 @@ class Controller(QtCore.QObject):
 
     @Slot(str, result=bool)
     def check_id_valid(self, page_id):
+        print("Check ID Valid : ", page_id)
         for page in self._pages:
+            print(page_id)
             if page_id == page.page_id:
                 return False
         return True

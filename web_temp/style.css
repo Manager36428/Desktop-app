@@ -82,7 +82,7 @@ p {
 }
 #header .header {
 	min-height: 8vh;
-	background-color: rgba(31, 30, 30, 0.24);
+        background-color: transparent;
 	transition: 0.3s ease background-color;
 }
 #header .nav-bar {
@@ -97,7 +97,7 @@ p {
 #header .nav-list ul {
 	list-style: none;
 	position: absolute;
-	background-color: rgb(31, 30, 30);
+        background-color: transparent;
 	width: 100vw;
 	height: 100vh;
 	left: 100%;
@@ -118,7 +118,7 @@ p {
 	font-weight: 500;
 	letter-spacing: 0.2rem;
 	text-decoration: none;
-	color: white;
+        color: black;
 	text-transform: uppercase;
 	padding: 20px;
 	display: block;

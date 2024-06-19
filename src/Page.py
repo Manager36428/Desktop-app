@@ -76,7 +76,7 @@ class Page(QtCore.QObject):
         <section id="{self._page_id}">
           <div class="contact container">
             <div>
-              <h1 class="{self._page_id}"><span>{self._page_name}</span></h1>
+              <h1 class="{self._page_id}"></h1>
             </div>
           </div>
         </section>
