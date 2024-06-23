@@ -3,20 +3,21 @@ import QtQuick 2.0
 ResizableItem {
     height: 40
     width: 120
-    property string text_data: "Button"
+    property string btn_name: "Button"
+    property string btn_source: ""
+    property color btn_color: "#7E69FF"
 
     content: Item{
         anchors.fill: parent
         Rectangle {
             id : btnRoot
             property bool isActive: true
-            property string btnName: text_data
             radius: 10
-            color: "#7E69FF"
+            color: btn_color
             anchors.fill: parent
 
             Text {
-                text: text_data
+                text: btn_name
                 color: "white"
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter

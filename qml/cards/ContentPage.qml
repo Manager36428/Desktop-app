@@ -2,13 +2,8 @@ import QtQuick 2.0
 import "../common"
 import "../components"
 
-Item{
+ContentBase{
     id : detailContent
-    property var currentPage: controller.current_page
-    onCurrentPageChanged: {
-        tfPageDes.content.text = currentPage.page_id
-    }
-
 
     TextFieldTitle{
         id : tfHome
@@ -95,6 +90,7 @@ Item{
         title: "Delete Page"
         height: 113
         width: parent.width
+        is_page: true
         anchors{
             bottom: parent.bottom
         }

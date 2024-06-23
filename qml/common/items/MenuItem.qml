@@ -4,6 +4,25 @@ ResizableItem {
     height: 68
     width: 120
     property string text_data: "Button"
+    property var list_pages: []
+
+    Component.onCompleted: {
+        list_pages = controller.get_init_menu()
+        console.log(list_pages)
+    }
+
+    function check_contains(page_name){
+        for(var i = 0;i<list_pages.length;i++){
+            if(page_name == list_pages[i]) return true
+        }
+        return false
+    }
+
+    function update_list(new_pages){
+        console.log("Update : " + new_pages)
+        list_pages = new_pages
+        lv_pages.model = list_pages
+    }
 
     content: Item{
         anchors.fill: parent
@@ -18,27 +37,8 @@ ResizableItem {
             border.color: "black"
             antialiasing: true
 
-            ListModel{
-                id : naviModel
-                ListElement{
-                    name: "Home"
-                    btn_active : true
-                }
-                ListElement{
-                    name: "Page 1"
-                    btn_active : false
-                }
-                ListElement{
-                    name: "Page 2"
-                    btn_active : false
-                }
-                ListElement{
-                    name: "Page 3"
-                    btn_active : false
-                }
-            }
-
             ListView{
+                id : lv_pages
                 anchors{
                     top: parent.top
                     bottom: parent.bottom
@@ -47,7 +47,7 @@ ResizableItem {
                     margins: 2
                 }
                 clip: true
-                model: naviModel
+                model: list_pages.length
                 spacing : 4
                 delegate: Item{
                     height: 20
@@ -56,7 +56,7 @@ ResizableItem {
                         id : txtTitle
                         height: 20
                         verticalAlignment: Text.AlignVCenter
-                        text: "\u2022 " + name
+                        text: "\u2022 " + list_pages[index]
                         width: parent.width
                         color: "#4D365D"
                         font.family: "Nunito"

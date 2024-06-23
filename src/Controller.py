@@ -148,6 +148,12 @@ class Controller(QtCore.QObject):
     def request_create_item(self, x, y, item_type):
         self.reqCreateItem.emit(x, y, item_type)
 
+    @Slot(result=list)
+    def get_init_menu(self):
+        if len(self._pages) > 0:
+            return [self._pages[0].get_page_name()]
+        return ""
+
     def __init__(self):
         super().__init__()
         self.create_new_project()

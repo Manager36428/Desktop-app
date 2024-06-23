@@ -11,6 +11,15 @@ Rectangle {
     property int rulersSize: 12
     property color active_color : activeFocus ? "steelblue" : "transparent"
     property alias content: _content.data
+    property string item_id: ""
+
+    function updateCurrentItemId(activeId){
+        controller.current_page.current_element_id = activeId
+    }
+
+    function removeItem(item_id){
+        controller.current_page.remove_child(item_id)
+    }
 
     Item{
         id : _content
@@ -28,8 +37,9 @@ Rectangle {
             smoothed: true
         }
         onClicked: {
-            console.log("Clicked")
+            console.log("Item Actived : " ,item_id)
             selComp.forceActiveFocus()
+            updateCurrentItemId(item_id)
         }
     }
 

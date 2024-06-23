@@ -4,6 +4,7 @@ import QtQuick.Controls 2.0
 Item {
     property string title: ""
     property alias content : _tfcontent
+    property bool is_page: false
 
     Text{
         id :header
@@ -27,7 +28,7 @@ Item {
         font.pixelSize: 16
         font.weight: Font.DemiBold
         width: parent.width
-        text : "To delete this page type the word DELETE below and press ENTER."
+        text : "To delete this " + (is_page ? "page" : "element" )+ " type the word DELETE below and press ENTER."
         color: "#454045"
         font.family: "Nunito"
         wrapMode: Text.WordWrap

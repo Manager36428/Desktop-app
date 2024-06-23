@@ -1,5 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import os
+from datetime import datetime
 
 from PySide2 import QtCore
 from PySide2.QtCore import Slot, QFile, QIODevice, QResource
@@ -51,6 +52,12 @@ class Utils(QtCore.QObject):
     def color_from_cmyk(self, c, m, y, k):
         return QColor.fromCmyk(self.percent_to255(c), self.percent_to255(m), self.percent_to255(y),
                                self.percent_to255(k)).name()
+
+    @Slot(result=str)
+    def get_time_string(self):
+        now = datetime.now()
+        time_string = now.strftime("%H%M%S%f")[:-3]
+        return time_string
 
     @staticmethod
     def save_file_to_des(file_data, file_name, target_folder_name):

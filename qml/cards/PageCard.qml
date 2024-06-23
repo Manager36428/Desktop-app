@@ -16,7 +16,7 @@ TitleCard {
             id : content
             radius: 10
             anchors{
-                top: header.bottom
+                top: parent.bottom
                 bottom: parent.bottom
                 right: parent.right
                 left: parent.left
@@ -43,6 +43,10 @@ TitleCard {
                     if (component.status === Component.Ready) {
                         console.log("Component is Ready !")
                         var textItem = component.createObject(content,{ x: x, y: y })
+                        textItem.objectName = item_type
+                        textItem.item_id = utils.get_time_string()
+                        controller.current_page.add_child(textItem)
+                        console.log("Object created : ", textItem.item_id)
                     } else if (component.status === Component.Error) {
                         console.log("Error loading component:", component.errorString());
                     }

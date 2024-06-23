@@ -5,7 +5,7 @@ import QtQml 2.0
 ResizableItem {
     height: 200
     width: 200
-    property string text_data: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+    property string video_source: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
 
     content: Item{
         anchors.fill: parent
@@ -13,8 +13,13 @@ ResizableItem {
             id : video
             anchors.fill: parent
             fillMode: Image.PreserveAspectCrop
-            source: text_data
+            source: video_source
             Component.onCompleted: video.play()            
+        }
+
+        MouseArea{
+            anchors.fill: parent
+            onClicked: video.stop()
         }
     }
 

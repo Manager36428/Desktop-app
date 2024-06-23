@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 from PySide2 import QtCore
-from PySide2.QtCore import Signal, Property
+from PySide2.QtCore import Signal, Property, QObject, Slot
 
 
 class Page(QtCore.QObject):
@@ -84,8 +84,90 @@ class Page(QtCore.QObject):
         """
         return section_tag
 
+    # Member Property children
+    _children: list = []
+    _childrenChanged = Signal()
+
+    def get_children(self):
+        return self._children
+
+    def set_children(self, val):
+        if val != self._children:
+            self._children = val
+            self._childrenChanged.emit()
+
+    children = Property(list, get_children, set_children, notify=_childrenChanged)
+
+    # End Section Member Property children
+
+    # Member Property current_element_id
+    _current_element_id: int = int()
+    currentElementIdChanged = Signal()
+
+    def get_current_element_id(self):
+        return self._current_element_id
+
+    def set_current_element_id(self, val):
+        if val != self._current_element_id:
+            self._current_element_id = val
+            self.set_current_element(self.get_element_by_id(val))
+            self.currentElementIdChanged.emit()
+            print("Set Current Element ID : ", val)
+
+    current_element_id = Property(int, get_current_element_id, set_current_element_id,
+                                  notify=currentElementIdChanged)
+    # End Section Member Property current_element_id
+
+    # Member Property current_element
+    _current_element: QObject = QObject()
+    _current_elementChanged = Signal()
+
+    def get_current_element(self):
+        return self._current_element
+
+    def set_current_element(self, val):
+        if val != self._current_element:
+            self._current_element = val
+            self._current_elementChanged.emit()
+
+    current_element = Property(QObject, get_current_element, set_current_element, notify=_current_elementChanged)
+
+    # End Section Member Property current_element
+
+    @Slot(QObject)
+    def add_child(self, child):
+        self._children.append(child)
+        print(child.objectName())
+        self._childrenChanged.emit()
+
+    @Slot(int)
+    def remove_child(self, item_id):
+        for item in self._children:
+            if int(item.property("item_id")) == item_id:
+                print("Found Item to Removed : ", item_id)
+                self._children.remove(item)
+                item.deleteLater()
+                self.set_current_element_id(0)
+
+    @Slot()
+    def remove_current_item(self):
+        if self._current_element is not None:
+            print("Remove Current Item")
+            self._children.remove(self._current_element)
+            self._current_element.deleteLater()
+            self.set_current_element_id(0)
+
+    @Slot(int)
+    def get_element_by_id(self, item_id):
+        for item in self._children:
+            if int(item.property("item_id")) == item_id:
+                print("Found : ", item_id)
+                return item
+        return None
+
     def __init__(self, page_id, page_name, page_color):
         super().__init__()
         self._page_id = page_id
         self.page_name = page_name
         self.page_background = page_color
+        self._current_element_id = 0

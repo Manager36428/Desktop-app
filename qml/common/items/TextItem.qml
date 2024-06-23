@@ -9,7 +9,7 @@ ResizableItem {
         anchors.fill: parent
         Text {
             id: text
-            text: "Default Text"
+            text: text_data
             height: 40
             font.pixelSize: 18
             font.weight: Font.DemiBold
