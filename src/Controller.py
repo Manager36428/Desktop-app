@@ -142,6 +142,12 @@ class Controller(QtCore.QObject):
                 return False
         return True
 
+    reqCreateItem = Signal(int, int, str)
+
+    @Slot(int, int, str)
+    def request_create_item(self, x, y, item_type):
+        self.reqCreateItem.emit(x, y, item_type)
+
     def __init__(self):
         super().__init__()
         self.create_new_project()

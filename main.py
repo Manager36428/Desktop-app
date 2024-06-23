@@ -4,7 +4,7 @@ import sys
 
 from PySide2 import QtCore
 from PySide2.QtGui import QGuiApplication, QIcon
-from PySide2.QtQml import QQmlApplicationEngine
+from PySide2.QtQml import QQmlApplicationEngine, QQmlComponent
 from PySide2.QtCore import QUrl
 
 import assets

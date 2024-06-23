@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import "qml/components"
 import "qml/cards"
+import "qml/dragdrop"
 
 MainWindow {
     id : windowRoot
@@ -11,6 +12,12 @@ MainWindow {
     title: qsTr("Flowsta Creator App") + projectName
     property var currentPopup: undefined
     property string projectName: ""
+    property alias dragCenter: dragerCenter
+
+
+    GDragerCenter{
+        id : dragerCenter
+    }
 
     onClosing:{
         currentPopup.close();

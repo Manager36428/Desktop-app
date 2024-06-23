@@ -27,5 +27,24 @@
         <file>qml/common/RectangleOneSideRounded.qml</file>
         <file>qml/common/ColorDisplay.qml</file>
         <file>qml/components/PopupPublish.qml</file>
+        <file>qml/cards/ContentPage.qml</file>
+        <file>qml/cards/ContentHeading.qml</file>
+        <file>qml/cards/ContentText.qml</file>
+        <file>qml/cards/ContentImage.qml</file>
+        <file>qml/cards/ContentVideo.qml</file>
+        <file>qml/cards/ContentButton.qml</file>
+        <file>qml/cards/ContentMenu.qml</file>
+        <file>qml/cards/ManagerContent.qml</file>
+        <file>qml/dragdrop/GDrager.qml</file>
+        <file>qml/dragdrop/GDragerCenter.qml</file>
+        <file>qml/dragdrop/GDropArea.qml</file>
+        <file>qml/dragdrop/GDragAgent.qml</file>
+        <file>qml/common/items/ButtonItem.qml</file>
+        <file>qml/common/items/HeadingItem.qml</file>
+        <file>qml/common/items/ImageItem.qml</file>
+        <file>qml/common/items/MenuItem.qml</file>
+        <file>qml/common/items/TextItem.qml</file>
+        <file>qml/common/items/VideoItem.qml</file>
+        <file>qml/common/items/ResizableItem.qml</file>
     </qresource>
 </RCC>

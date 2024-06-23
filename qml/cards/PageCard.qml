@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import "../common"
+import "../dragdrop"
 
 TitleCard {
     title: "Page : " + controller.current_page.page_name
@@ -9,76 +10,44 @@ TitleCard {
 
     contentDock: Item{
         anchors.fill: parent
-        Rectangle{
-            id : header
-            height: /*isDocked ? 40 : 0*/ 0
-            visible: /*isDocked*/ false
-            anchors{
-                top: parent.top
-                topMargin: 40
-                left: parent.left
-                right: parent.right
-            }
-
-            color: Qt.rgba(0.6118, 0.5765, 0.6, 0.5)
-            Text{
-                height: 22
-                text: "Device View"
-                color: "white"
-                font.weight: Font.DemiBold
-                font.family: "Nunito"
-                font.pixelSize: 16
-                verticalAlignment: Text.AlignVCenter
-                anchors{
-                    verticalCenter: parent.verticalCenter
-                    right: devices.left
-                    rightMargin: 16
-                }
-            }
-
-            Row{
-                id : devices
-                height: 30
-                width: childrenRect.width
-                spacing: 10
-                anchors{
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    rightMargin: 9
-                }
-
-                Image{
-                    height: 30
-                    width: 30
-                    source: "qrc:/assets/ic_desktop.png"
-                }
-
-                Image{
-                    height: 30
-                    width: 30
-                    source: "qrc:/assets/ic_table.png"
-                }
-
-                Image{
-                    height: 30
-                    width: 30
-                    source: "qrc:/assets/ic_phone.png"
-                }
-            }
-        }
 
         RectangleOneSideRounded{
             side: "bottom"
             id : content
-            radius: 10            
+            radius: 10
             anchors{
                 top: header.bottom
                 bottom: parent.bottom
                 right: parent.right
                 left: parent.left
                 margins: 1
+                topMargin: isDocked ? 40 : 0
             }
             color: controller.current_page.page_background
+
+            anchors.fill: parent
+            GDropArea{
+                anchors.fill: parent
+                GDragAgent{}
+            }
+
+            Connections{
+                target: controller
+                function onReqCreateItem(x,y,item_type){
+                    console.log(x + " - " + y + " - " + item_type)
+                    let itemPath = 'qrc:/qml/common/items/'+ item_type +'Item.qml'
+                    console.log(itemPath)
+
+                    var component = Qt.createComponent(itemPath)
+                    console.log("Create OK");
+                    if (component.status === Component.Ready) {
+                        console.log("Component is Ready !")
+                        var textItem = component.createObject(content,{ x: x, y: y })
+                    } else if (component.status === Component.Error) {
+                        console.log("Error loading component:", component.errorString());
+                    }
+                }
+            }
         }
     }
 }

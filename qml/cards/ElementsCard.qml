@@ -38,12 +38,13 @@ TitleCard {
         }
 
         GridView{
+            id : gvElements
             model: listElement
             height: 205
             width: 684
             cellHeight : 101
             cellWidth: 171
-            interactive: true
+            interactive: false
             anchors{
                 top: parent.top
                 topMargin: 55
@@ -54,6 +55,13 @@ TitleCard {
             delegate: Element{
                 elementIcon: icon
                 elementName: text
+                onDropDone: {
+                    console.log("Drop Ok", x + " - " + y)
+                    controller.request_create_item(x,y,text)
+                }
+                onDropCanceled: {
+                    console.log("onDropCanceled")
+                }
             }
         }
     }
