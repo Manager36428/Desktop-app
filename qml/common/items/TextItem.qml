@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.0
 
 ResizableItem {
     height: 40
@@ -7,7 +8,7 @@ ResizableItem {
 
     content: Item{
         anchors.fill: parent
-        Text {
+        TextField {
             id: text
             text: text_data
             height: 40
@@ -18,6 +19,7 @@ ResizableItem {
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
+            background: Item {}
         }
     }
 }

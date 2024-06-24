@@ -9,25 +9,68 @@ TitleCard {
     windowParent.minimumHeight: 510
 
     contentDock: Item{
+        id : rootContentCard
         anchors.fill: parent
+        anchors{
+            top: parent.bottom
+            bottom: parent.bottom
+            right: parent.right
+            left: parent.left
+            margins: 1
+            topMargin: isDocked ? 40 : 0
+        }
 
-        RectangleOneSideRounded{
-            side: "bottom"
+        Rectangle{
             id : content
-            radius: 10
-            anchors{
-                top: parent.bottom
-                bottom: parent.bottom
-                right: parent.right
-                left: parent.left
-                margins: 1
-                topMargin: isDocked ? 40 : 0
-            }
             color: controller.current_page.page_background
+            property real old_height : 0
+            property real old_width : 0
 
-            anchors.fill: parent
+            Component.onCompleted: {
+                old_height = height
+                old_width = width
+            }
+
+            onHeightChanged: {
+                if(old_height == 0 ) return
+                let ratio = height/old_height
+                for(var i =0 ;i < content.children.length ; i++){
+                    var child = content.children[i];
+                    if (child != null) {
+                        child.height = child.height*ratio
+                        child.y = child.y * ratio
+                    }
+                }
+                old_height = height
+            }
+
+            onWidthChanged: {
+                if(old_width == 0 ) return
+
+                let ratio = width/old_width
+                for(var i =0 ;i < content.children.length ; i++){
+                    var child = content.children[i];
+                    if (child != null) {
+                        child.width = child.width*ratio
+                        child.x = child.x * ratio
+                    }
+                }
+                old_width = width
+            }
+
+            width: {
+                if (rootContentCard.width / rootContentCard.height > 16 / 9) {
+                    return (rootContentCard.height * 16 / 9) - 4
+                } else {
+                    return rootContentCard.width - 4
+                }
+            }
+            height: (width * 9 / 16) - 4
+            anchors.centerIn: parent
             GDropArea{
                 anchors.fill: parent
+                id : dropArea
+                clip: true
                 GDragAgent{}
             }
 

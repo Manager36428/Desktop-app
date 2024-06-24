@@ -42,6 +42,7 @@ Item {
             color: "#FFFFFF"
             radius: 10
         }
+
         color: "#585D6C"
         font.pixelSize: 16
         font.family: "Nunito"

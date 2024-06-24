@@ -12,6 +12,7 @@ Rectangle {
     property color active_color : activeFocus ? "steelblue" : "transparent"
     property alias content: _content.data
     property string item_id: ""
+    signal focusChild();
 
     function updateCurrentItemId(activeId){
         controller.current_page.current_element_id = activeId
@@ -40,6 +41,11 @@ Rectangle {
             console.log("Item Actived : " ,item_id)
             selComp.forceActiveFocus()
             updateCurrentItemId(item_id)
+        }
+
+        onDoubleClicked: {
+            console.log("Focus on Child");
+            focusChild();
         }
     }
 

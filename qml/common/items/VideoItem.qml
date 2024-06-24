@@ -1,19 +1,18 @@
 import QtQuick 2.0
-import QtMultimedia 5.12
 import QtQml 2.0
 
 ResizableItem {
     height: 200
     width: 200
-    property string video_source: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+    property string video_source: ""
 
     content: Item{
         anchors.fill: parent
-        Video{
+        Image{
             id : video
             anchors.fill: parent
             fillMode: Image.PreserveAspectCrop
-            source: video_source
+            source: "qrc:/assets/img_video-placeholder.jpg"
             Component.onCompleted: video.play()            
         }
 

@@ -10,8 +10,13 @@ ContentBase{
     function update_content(item){
         console.log("Updating Content")
         detailContent.item_data = item
+        item_data.contentUpdated.connect(handleContentUpdated)
         tfTitle.content.text = item.text_data
         heading_list.setIndexByTag(item.tag_heading)
+    }
+
+    function handleContentUpdated(){
+        tfTitle.content.text = item.text_data
     }
 
     TextFieldTitle{

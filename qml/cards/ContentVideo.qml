@@ -5,17 +5,25 @@ import "../components"
 ContentBase{
     id : detailContent
 
+    property var item_data: undefined
+
+    function update_content(item){
+        console.log("Updating Content")
+        detailContent.item_data = item
+        tfYoutubeVideo.content.text = item.video_source
+    }
+
     TextFieldTitle{
         id : tfYoutubeVideo
         height: 61
         width: parent.width
         title: "Youtube URL"
-        content.text: "ForBiggerFun.mp4"
+        content.text: item.video_source
         anchors{
             top: parent.top
         }
         content.onTextChanged: {
-
+            detailContent.item_data.video_source = tfYoutubeVideo.content.text
         }
     }
 

@@ -8,13 +8,17 @@ ContentBase{
 
     property var item_data: undefined
 
+    property bool isUpdating: false
+
     function update_content(item){
         console.log("Updating Content")
         detailContent.item_data = item
+        isUpdating = true;
         for(var i =0;i<list_pages.count;i++){
             let radio_btn = list_pages.contentItem.children[i];
             radio_btn.checked = item_data.check_contains(radio_btn.text)
         }
+        isUpdating = false;
     }
 
     function update_item_data(){
@@ -58,7 +62,7 @@ ContentBase{
             text: modelData.page_name
             icon.color: "#454045"
             checked: item_data.check_contains(modelData.page_name)
-            onCheckedChanged: update_item_data()
+            onCheckedChanged: if(!isUpdating) update_item_data()
         }
     }
 

@@ -76,7 +76,19 @@ Item{
                 target: controller.current_page
                 onCurrentElementIdChanged :{
                     console.log("New Id : ", currentPage.current_element_id)
-                    contentLoader.source = contentLoader.getSource()
+                    let newSource = contentLoader.getSource()
+                    if(newSource == contentLoader.source){
+                        contentLoader.item.update_content(currentPage.current_element)
+                    }else{
+                        contentLoader.source = newSource
+                    }
+                }
+            }
+
+            Connections{
+                target: controller
+                function onCurrent_pageChanged(){
+                    contentLoader.source = "qrc:/qml/cards/ContentPage.qml"
                 }
             }
         }
