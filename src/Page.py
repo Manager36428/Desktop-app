@@ -137,8 +137,8 @@ class Page(QtCore.QObject):
     @Slot(QObject)
     def add_child(self, child):
         self._children.append(child)
-        print(child.objectName())
         self._childrenChanged.emit()
+        print(self._page_name + " - " + str(len(self._children)))
 
     @Slot(int)
     def remove_child(self, item_id):
@@ -171,3 +171,4 @@ class Page(QtCore.QObject):
         self.page_name = page_name
         self.page_background = page_color
         self._current_element_id = 0
+        self._children = []

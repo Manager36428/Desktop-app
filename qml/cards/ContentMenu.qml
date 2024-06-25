@@ -8,27 +8,23 @@ ContentBase{
 
     property var item_data: undefined
 
-    property bool isUpdating: false
 
     function update_content(item){
-        console.log("Updating Content")
         detailContent.item_data = item
-        isUpdating = true;
-        for(var i =0;i<list_pages.count;i++){
+        detailContent.item_data.sync.connect(handleSync)
+        handleSync()
+    }
+
+    function handleSync(){
+        console.log("handle Sync :", list_pages.count)
+        for(var i=0;i< list_pages.count;i++){
             let radio_btn = list_pages.contentItem.children[i];
             radio_btn.checked = item_data.check_contains(radio_btn.text)
         }
-        isUpdating = false;
     }
 
-    function update_item_data(){
-        let arr_pages = []
-        for(var i =0;i<list_pages.count;i++){
-            if(list_pages.contentItem.children[i].checked){
-                arr_pages.push(controller.pages[i].page_name)
-            }
-        }
-        item_data.update_list(arr_pages)
+    function update_item_data(index){
+        item_data.update_list(index)
     }
 
     Text{
@@ -53,16 +49,23 @@ ContentBase{
             margins: 15
             leftMargin: 0
         }
-
+        cacheBuffer: 1000
         model : controller.pages
+        onModelChanged: {
+            item_data.sync_pages()
+            handleSync()
+        }
+
         delegate: RadioButton{
             font.family: "Nunito"
             font.pixelSize: 16
             autoExclusive: false
             text: modelData.page_name
             icon.color: "#454045"
-            checked: item_data.check_contains(modelData.page_name)
-            onCheckedChanged: if(!isUpdating) update_item_data()
+            MouseArea{
+                anchors.fill: parent
+                onClicked: update_item_data(index)
+            }
         }
     }
 

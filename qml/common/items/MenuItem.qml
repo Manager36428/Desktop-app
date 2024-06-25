@@ -5,6 +5,7 @@ ResizableItem {
     width: 120
     property string text_data: "Button"
     property var list_pages: []
+    signal sync()
 
     Component.onCompleted: {
         list_pages = controller.get_init_menu()
@@ -12,16 +13,53 @@ ResizableItem {
     }
 
     function check_contains(page_name){
-        for(var i = 0;i<list_pages.length;i++){
-            if(page_name == list_pages[i]) return true
+        console.log("Checking : ", page_name)
+        for(var i = 0; i< list_pages.length; i++){
+            if(page_name == list_pages[i]) {
+                return true
+            }
         }
         return false
     }
 
-    function update_list(new_pages){
-        console.log("Update : " + new_pages)
-        list_pages = new_pages
-        lv_pages.model = list_pages
+    function sync_pages(){
+        for(var i = 0;i<list_pages.length;i++){
+            if(!check_page_is_existed(list_pages[i])){
+                list_pages.splice(i, 1);
+            }
+        }
+    }
+
+    function check_page_is_existed(page_name){
+        for(var j=0;j<controller.pages.length;j++){
+            if(page_name == controller.pages[j].page_name){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    function update_list(index){
+        console.log("Update : " + index)
+        let page_name_at_index = controller.pages[index].page_name
+        let idx_in_list = list_pages.indexOf(page_name_at_index)
+        if(idx_in_list !== -1){
+            list_pages.splice(idx_in_list, 1)
+        }else{
+            list_pages.push(page_name_at_index)
+        }
+
+        let temp = []
+        for(var i=0;i<controller.pages.length;i++){
+            let page_name = controller.pages[i].page_name
+            if(list_pages.indexOf(page_name) !== -1){
+                temp.push(page_name)
+            }
+        }
+
+        list_pages = temp;
+        sync();
     }
 
     content: Item{

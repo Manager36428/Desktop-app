@@ -78,7 +78,9 @@ Item{
                     console.log("New Id : ", currentPage.current_element_id)
                     let newSource = contentLoader.getSource()
                     if(newSource == contentLoader.source){
-                        contentLoader.item.update_content(currentPage.current_element)
+//                        contentLoader.item.update_content(currentPage.current_element)
+                        contentLoader.source = ""
+                        contentLoader.source = newSource
                     }else{
                         contentLoader.source = newSource
                     }

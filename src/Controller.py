@@ -44,12 +44,12 @@ class Controller(QtCore.QObject):
 
     # Member Property pages
     _pages = []
-    _pagesChanged = Signal()
+    pagesChanged = Signal()
 
     def get_pages(self):
         return self._pages
 
-    pages = Property(list, get_pages, notify=_pagesChanged)
+    pages = Property(list, get_pages, notify=pagesChanged)
 
     # End Section Member Property pages
 
@@ -76,7 +76,7 @@ class Controller(QtCore.QObject):
         str_idx = str(self._last_idx_page)
         page = Page("page_" + str_idx, "Page " + str_idx, "#FFFFFF")
         self._pages.append(page)
-        self._pagesChanged.emit()
+        self.pagesChanged.emit()
         self._last_idx_page += 1
 
     @Slot(QObject)
@@ -89,7 +89,7 @@ class Controller(QtCore.QObject):
                 self.set_current_page(self._pages[0])
             else:
                 self.set_current_page(None)
-        self._pagesChanged.emit()
+        self.pagesChanged.emit()
 
     @Slot()
     def create_new_project(self):
@@ -98,7 +98,7 @@ class Controller(QtCore.QObject):
         self._last_idx_page = 0
         page = Page("home", "Home", "#FFFFFF")
         self._pages.append(page)
-        self._pagesChanged.emit()
+        self.pagesChanged.emit()
         self.set_current_page_idx(0)
         self.set_current_page(page)
 
