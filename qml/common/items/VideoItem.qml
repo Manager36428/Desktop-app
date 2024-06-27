@@ -12,8 +12,7 @@ ResizableItem {
             id : video
             anchors.fill: parent
             fillMode: Image.PreserveAspectCrop
-            source: "qrc:/assets/img_video-placeholder.jpg"
-            Component.onCompleted: video.play()            
+            source: "qrc:/assets/img_video-placeholder.jpg"        
         }
 
         MouseArea{
@@ -22,5 +21,7 @@ ResizableItem {
         }
     }
 
-    Component.onDestruction: video.stop()
+    onItem_idChanged: {
+        element_tag = "video_" + item_id
+    }
 }

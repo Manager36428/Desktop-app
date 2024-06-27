@@ -12,6 +12,8 @@ Rectangle {
     property color active_color : activeFocus ? "steelblue" : "transparent"
     property alias content: _content.data
     property string item_id: ""
+    property string element_tag: ""
+
     signal focusChild();
 
     function updateCurrentItemId(activeId){

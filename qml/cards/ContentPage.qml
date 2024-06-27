@@ -29,6 +29,8 @@ ContentBase{
             topMargin: 15
         }
 
+        content.text: detailContent.currentPage.page_id
+
         content.onTextChanged: {
             if(tfPageDes.content.activeFocus){
                 checkIdTimer.restart()

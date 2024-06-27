@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQml 2.0
 
 ResizableItem {
     height: 68
@@ -10,6 +11,10 @@ ResizableItem {
     Component.onCompleted: {
         list_pages = controller.get_init_menu()
         console.log(list_pages)
+    }
+
+    onItem_idChanged : {
+        element_tag = "menu_" + item_id
     }
 
     function check_contains(page_name){

@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQml 2.0
 
 ResizableItem {
     height: 40
@@ -28,4 +29,6 @@ ResizableItem {
             }
         }
     }
+
+    onItem_idChanged: element_tag = "btn_" + item_id
 }

@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
+import QtQml 2.0
 
 ResizableItem {
     height: 40
@@ -21,5 +22,9 @@ ResizableItem {
             verticalAlignment: Text.AlignVCenter
             background: Item {}
         }
+    }
+
+    onItem_idChanged : {
+        element_tag = "text_" + item_id
     }
 }

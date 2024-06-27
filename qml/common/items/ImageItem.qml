@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQml 2.0
 
 ResizableItem {
     height: 200
@@ -12,5 +13,9 @@ ResizableItem {
             fillMode: Image.PreserveAspectCrop
             source: image_source
         }
+    }
+
+    onItem_idChanged: {
+        element_tag = "img_" + item_id
     }
 }

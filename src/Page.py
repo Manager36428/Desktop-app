@@ -1,4 +1,6 @@
 # This Python file uses the following encoding: utf-8
+import math
+
 from PySide2 import QtCore
 from PySide2.QtCore import Signal, Property, QObject, Slot
 
@@ -52,33 +54,73 @@ class Page(QtCore.QObject):
     # End Section Member Property page_background
 
     def generate_css_block(self):
+        grid_rows = ""
+        grid_columns = ""
+        for cell_row in self._grid_temp_row:
+            grid_rows += str(cell_row) + "vh "
+        for cell_col in self._grid_temp_col:
+            grid_columns += str(cell_col) + "vw "
+        print(grid_rows)
+        print(grid_columns)
+
+        css_element_template = """
+        .{element_tag}{{
+            grid-area: {tl_y}/ {tl_x} / {br_y} / {br_x};
+        }}
+        """
+
+        css_elements = ""
+        for child in self._children:
+            top_left_x = int(child.property("x"))
+            top_left_y = int(child.property("y"))
+            height_child = int(child.property("height"))
+            width_child = int(child.property("width"))
+
+            css_elements += css_element_template.format(element_tag=child.property("element_tag"),
+                                                        tl_y=self._cor_css_y[top_left_y],
+                                                        tl_x=self._cor_css_x[top_left_x],
+                                                        br_y=self._cor_css_y[top_left_y + height_child],
+                                                        br_x=self._cor_css_x[top_left_x + width_child])
+
         css_template = """
     /* {section_name} Section */
     #{section_id} {{
-        flex-direction: column;page_name
+        flex-direction: column;
         max-width: 100%;
         margin: 0 auto;
         width: 100%;
+        display : grid;
         background-color: {bg_color};
+        grid-template-columns: {grid_template_columns};
+        grid-template-rows: {grid_template_rows};
     }}
+    
+    {css_elements_section}
+    
     /* End {section_name} Section */
     """
         return css_template.format(section_name=self._page_name, section_id=self._page_id,
-                                   bg_color=self._page_background)
+                                   bg_color=self._page_background, grid_template_rows=grid_rows,
+                                   grid_template_columns=grid_columns, css_elements_section=css_elements)
 
     def gen_list_tag(self):
         html = f'<li><a href="#{self._page_id}" data-after="{self._page_name}">{self._page_name}</a></li>'
         return html
 
     def gen_section_tag(self):
+        element_tag = """
+            <div class="{element_id}">
+              <img height="100%" width="100%" src="https://placehold.jp/100x100.png"> </div>
+            </div>
+        """
+        elements = ""
+        for child in self._children:
+            elements += element_tag.format(element_id=child.property("element_tag"))
+
         section_tag = f"""
         <!-- Contact Section -->
         <section id="{self._page_id}">
-          <div class="contact container">
-            <div>
-              <h1 class="{self._page_id}"></h1>
-            </div>
-          </div>
+            {elements}
         </section>
         <!-- End Contact Section -->
         """
@@ -165,6 +207,62 @@ class Page(QtCore.QObject):
                 return item
         return None
 
+    _cor_css_x = {}
+    _cor_css_y = {}
+    _grid_temp_col = []
+    _grid_temp_row = []
+
+    def prepare_grid_css(self, parent_h, parent_w):
+        temp_xs = []
+        temp_ys = []
+
+        for child in self._children:
+            top_left_x = int(child.property("x"))
+            top_left_y = int(child.property("y"))
+            height_child = int(child.property("height"))
+            width_child = int(child.property("width"))
+            bottom_right_x = top_left_x + width_child
+            bottom_right_y = top_left_y + height_child
+
+            temp_xs.append(top_left_x)
+            temp_xs.append(bottom_right_x)
+            temp_ys.append(top_left_y)
+            temp_ys.append(bottom_right_y)
+
+        self._grid_temp_row.clear()
+        self._grid_temp_col.clear()
+        self._cor_css_x.clear()
+        self._cor_css_y.clear()
+        temp_xs = list(set(temp_xs))
+        temp_ys = list(set(temp_ys))
+        temp_xs.sort()
+        temp_ys.sort()
+
+        pre_x = 0
+        remain_space = 100
+        for x in temp_xs:
+            percent = math.ceil(float((x - pre_x) / parent_w) * 100)
+            remain_space -= percent
+            self._grid_temp_col.append(percent)
+            pre_x = x
+            self._cor_css_x[x] = temp_xs.index(x) + 2
+        if remain_space > 0:
+            self._grid_temp_col.append(remain_space)
+
+        pre_y = 0
+        remain_space = 100
+        for y in temp_ys:
+            percent = math.ceil(float((y - pre_y) / parent_h) * 100)
+            self._grid_temp_row.append(percent)
+            pre_y = y
+            remain_space -= percent
+            self._cor_css_y[y] = temp_ys.index(y) + 2
+        if remain_space > 0:
+            self._grid_temp_row.append(remain_space)
+
+        print(self._grid_temp_row)
+        print(self._grid_temp_col)
+
     def __init__(self, page_id, page_name, page_color):
         super().__init__()
         self._page_id = page_id
@@ -172,3 +270,7 @@ class Page(QtCore.QObject):
         self.page_background = page_color
         self._current_element_id = 0
         self._children = []
+        self._cor_css_x = {}
+        self._cor_css_y = {}
+        self._grid_temp_col = []
+        self._grid_temp_row = []

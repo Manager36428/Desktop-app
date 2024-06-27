@@ -14,9 +14,11 @@ ResizableItem {
     }
 
     Component.onCompleted: {
-        console.log("Connecting...")
         focusChild.connect(handleFocusChild)
-        console.log("Done")
+    }
+
+    onItem_idChanged : {
+        element_tag = "heading_" + item_id
     }
 
     content: Item{

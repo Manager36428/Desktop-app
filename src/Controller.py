@@ -3,7 +3,7 @@
 import webbrowser
 
 from PySide2 import QtCore
-from PySide2.QtCore import Property, Signal, Slot, QObject
+from PySide2.QtCore import Property, Signal, Slot, QObject, QSize
 
 from src.Page import Page
 from src.Utils import Utils
@@ -15,6 +15,7 @@ class Controller(QtCore.QObject):
     # Member Property project_name
     _project_name: str = str()
     _project_nameChanged = Signal(str)
+    _viewport_size: QSize()
 
     def get_project_name(self):
         return self._project_name
@@ -126,12 +127,15 @@ class Controller(QtCore.QObject):
     @Slot()
     def generate_html(self):
         print("[Controller] Generate HTML")
-        # Utils.save_file_to_des(Utils.read_file(":web_temp/app.js"), "app.js", "web")
+        for page in self._pages:
+            page.prepare_grid_css(self._viewport_size.height(),
+                                  self._viewport_size.width())
         path_idx = Utils.save_file_to_des(self.generate_html_code(), "index.html", "web")
-        Utils.copy_image_from_qrc_to_folder(":web_temp/img/hero-bg.png", "hero-bg.png", "web/img/")
+        # Utils.copy_image_from_qrc_to_folder(":web_temp/img/hero-bg.png", "hero-bg.png", "web/img/")
         Utils.save_file_to_des(self.generate_css_code(), "style.css", "web")
 
         webbrowser.open(path_idx)
+        print("Generate Done")
 
     @Slot(str, result=bool)
     def check_id_valid(self, page_id):
@@ -154,6 +158,12 @@ class Controller(QtCore.QObject):
             return [self._pages[0].get_page_name()]
         return ""
 
+    @Slot(int, int)
+    def set_viewport_size(self, height, width):
+        self._viewport_size.setHeight(height)
+        self._viewport_size.setWidth(width)
+
     def __init__(self):
         super().__init__()
+        self._viewport_size = QSize()
         self.create_new_project()

@@ -48,6 +48,7 @@ MainWindow {
             pathPopup = "qrc:/qml/components/PopupNewProject.qml"
         }else if(popup_id == 3){
             title = "Publish"
+            controller.set_viewport_size(pageCard.viewport.height, pageCard.viewport.width)
             pathPopup = "qrc:/qml/components/PopupPublish.qml"
         }
 

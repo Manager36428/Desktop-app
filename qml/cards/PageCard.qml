@@ -7,6 +7,7 @@ TitleCard {
     clip: true
     windowParent.minimumWidth: 720
     windowParent.minimumHeight: 510
+    property alias viewport : content
 
     contentDock: Item{
         id : rootContentCard
