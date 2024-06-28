@@ -11,8 +11,7 @@ ContentBase{
     function update_content(item){
         console.log("Updating Content")
         detailContent.item_data = item
-        tfTitle.content.text = item.text_data
-        heading_list.setIndexByTag(item.tag_heading)
+        imgPreview.source = item.image_source
     }
 
     Text{
@@ -42,13 +41,11 @@ ContentBase{
             height: imagePreview.height - 10
             anchors.top: imagePreview.top
             anchors.topMargin: 5
-            fillMode: Image.PreserveAspectCrop
+            fillMode: Image.PreserveAspectFit
             width: parent.width - 10
             anchors.left: imagePreview.left
             anchors.leftMargin: 5
             anchors.centerIn: parent
-            source: item_data.image_source
-            onSourceChanged: item_data.image_source = imgPreview.source
         }
     }
 
@@ -89,6 +86,7 @@ ContentBase{
         onAccepted: {
             console.log("Image Selected: ", fileDialog.fileUrl)
             imgPreview.source = fileDialog.fileUrl
+            detailContent.item_data.image_source = fileDialog.fileUrl
         }
     }
 

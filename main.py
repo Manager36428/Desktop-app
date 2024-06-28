@@ -24,7 +24,10 @@ def qt_message_handler(mode, context, message):
         mode = 'fatal'
     else:
         mode = 'Debug'
-    print("%s: %s (%s:%d, %s)" % (mode, message, context.file, context.line, context.file))
+    try:
+        print("%s: %s (%s:%d, %s)" % (mode, message, context.file, context.line, context.file))
+    except:
+        print("Skip Log")
 
 
 if __name__ == "__main__":

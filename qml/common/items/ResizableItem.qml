@@ -13,6 +13,8 @@ Rectangle {
     property alias content: _content.data
     property string item_id: ""
     property string element_tag: ""
+    property int max_resize_h: 10
+    property int max_resize_w: 10
 
     signal focusChild();
 
@@ -66,8 +68,8 @@ Rectangle {
                 if(drag.active){
                     selComp.width = selComp.width - mouseX
                     selComp.x = selComp.x + mouseX
-                    if(selComp.width < 30)
-                        selComp.width = 30
+                    if(selComp.width < max_resize_wx)
+                        selComp.width = max_resize_w
                 }
             }
         }
@@ -87,8 +89,8 @@ Rectangle {
             onMouseXChanged: {
                 if(drag.active){
                     selComp.width = selComp.width + mouseX
-                    if(selComp.width < 50)
-                        selComp.width = 50
+                    if(selComp.width < max_resize_w)
+                        selComp.width = max_resize_w
                 }
             }
         }
@@ -111,8 +113,8 @@ Rectangle {
                 if(drag.active){
                     selComp.height = selComp.height - mouseY
                     selComp.y = selComp.y + mouseY
-                    if(selComp.height < 50)
-                        selComp.height = 50
+                    if(selComp.height < max_resize_h)
+                        selComp.height = max_resize_h
                 }
             }
         }
@@ -134,8 +136,8 @@ Rectangle {
             onMouseYChanged: {
                 if(drag.active){
                     selComp.height = selComp.height + mouseY
-                    if(selComp.height < 50)
-                        selComp.height = 50
+                    if(selComp.height < max_resize_h)
+                        selComp.height = max_resize_h
                 }
             }
         }

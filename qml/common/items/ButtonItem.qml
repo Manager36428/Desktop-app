@@ -8,6 +8,14 @@ ResizableItem {
     property string btn_source: ""
     property color btn_color: "#7E69FF"
 
+    function get_html(){
+        let action_click = btn_source.length == 0 ? "" : `onclick="window.open('${btn_source}', '_blank')"`
+        let html = `<button ${action_click}  href="${btn_source}" style=" background-color: ${btn_color};
+        width: 100%; height: 100%; font-size: 16px;"> ${btn_name} </button>`
+        console.log(html)
+        return html
+    }
+
     content: Item{
         anchors.fill: parent
         Rectangle {

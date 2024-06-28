@@ -3,6 +3,7 @@ import QtQuick.Controls 2.0
 import "../components"
 import "../common"
 import QtGraphicalEffects 1.0
+import QtQml 2.0
 
 Popup{
     id: popupColorPicker
@@ -270,6 +271,28 @@ Popup{
                 top: colorArea.bottom
                 left: parent.left
                 margins: 24
+            }
+
+            onBtnClicked: {
+//                console.log(utils.get_mouse_color())
+//                if(getColorTimer.running)
+//                {   getColorTimer.stop()
+//                    utils.change_system_cursor()
+//                }
+//                else
+//                {
+//                    getColorTimer.start()
+//                    utils.reset_system_cursor()
+//                }
+            }
+
+            Timer{
+                id : getColorTimer
+                interval: 200
+                repeat: true
+                onTriggered: {
+                    console.log(utils.get_mouse_color())
+                }
             }
         }
 

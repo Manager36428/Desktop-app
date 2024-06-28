@@ -7,6 +7,11 @@ ResizableItem {
     width: text.width + 20
     property string text_data: "Default Text"
 
+    function get_html(){
+        let html = `<p style="width: 100%; height: 100%; font-size: 16px;"> ${text_data} </p>`
+        return html
+    }
+
     content: Item{
         anchors.fill: parent
         TextField {

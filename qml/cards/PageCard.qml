@@ -44,6 +44,7 @@ TitleCard {
                     }
                 }
                 old_height = height
+                controller.set_viewport_size(content.height, content.width)
             }
 
             onWidthChanged: {
@@ -58,6 +59,7 @@ TitleCard {
                     }
                 }
                 old_width = width
+                controller.set_viewport_size(content.height, content.width)
             }
 
             width: {

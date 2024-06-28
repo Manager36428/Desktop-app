@@ -4,11 +4,18 @@ import QtQml 2.0
 ResizableItem {
     height: 200
     width: 200
-    property string image_source: "qrc:/web_temp/img/hero-bg.png"
+    property string image_source: "qrc:/assets/img_place_holder.png"
+    onImage_sourceChanged: img_preview = image_source
+
+    function get_html(){
+        let html = `<img src="${image_source}" style="width: 100%; height: 100%;">`
+        return html
+    }
 
     content: Item{
         anchors.fill: parent
         Image{
+            id : img_preview
             anchors.fill: parent
             fillMode: Image.PreserveAspectCrop
             source: image_source

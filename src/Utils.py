@@ -5,6 +5,9 @@ from datetime import datetime
 from PySide2 import QtCore
 from PySide2.QtCore import Slot, QFile, QIODevice, QResource
 from PySide2.QtGui import QColor, QImage
+import pyautogui
+from PIL import ImageGrab
+import ctypes
 
 
 class Utils(QtCore.QObject):
@@ -58,6 +61,47 @@ class Utils(QtCore.QObject):
         now = datetime.now()
         time_string = now.strftime("%H%M%S%f")[:-3]
         return time_string
+
+    @Slot(result=str)
+    def get_mouse_color(self):
+        x, y = pyautogui.position()
+        screenshot = ImageGrab.grab()
+        color = screenshot.getpixel((x, y))
+        return self.rgb_to_hex(color)
+
+    @Slot()
+    def change_system_cursor(self):
+        # Define the cursor you want to use (IDC_CROSS)
+        cursor_id = 32515
+
+        # Load the user32.dll library
+        user32 = ctypes.WinDLL('user32', use_last_error=True)
+
+        # Load the cross cursor from user32.dll
+        cursor_handle = user32.LoadCursorW(0, cursor_id)
+        if not cursor_handle:
+            raise ctypes.WinError(ctypes.get_last_error())
+
+        # Set the cursor globally
+        for cursor_id in [32512, 32513, 32514, 32515, 32516]:  # Normal select, help select, etc.
+            success = user32.SetSystemCursor(cursor_handle, cursor_id)
+            if not success:
+                raise ctypes.WinError(ctypes.get_last_error())
+
+    @Slot()
+    def reset_system_cursor(self):
+        # Load the user32.dll library
+        user32 = ctypes.WinDLL('user32', use_last_error=True)
+
+        # Reset the system cursors using SystemParametersInfo
+        SPI_SETCURSORS = 0x0057
+        success = user32.SystemParametersInfoW(SPI_SETCURSORS, 0, None, 0)
+        if not success:
+            raise ctypes.WinError(ctypes.get_last_error())
+
+    @staticmethod
+    def rgb_to_hex(rgb):
+        return '#{:02x}{:02x}{:02x}'.format(rgb[0], rgb[1], rgb[2])
 
     @staticmethod
     def save_file_to_des(file_data, file_name, target_folder_name):

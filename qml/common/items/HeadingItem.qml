@@ -13,6 +13,12 @@ ResizableItem {
 //        text.forceActiveFocus()
     }
 
+    function get_html(){
+        let html = `<${tag_heading} style="width: 100%; height: 100%; font-size: 16px;">
+        ${text_data} </${tag_heading}>`
+        return html
+    }
+
     Component.onCompleted: {
         focusChild.connect(handleFocusChild)
     }

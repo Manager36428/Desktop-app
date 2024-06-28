@@ -13,6 +13,16 @@ ResizableItem {
         console.log(list_pages)
     }
 
+    function get_html(){
+        let html = `<menu style="width: 100%; height: 100%; font-size: 16px;">\n`;
+        list_pages.forEach(item => {
+            html += `  <li>${item}</li>\n`;
+        });
+        html += "</menu>";
+        console.log(html)
+        return html
+    }
+
     onItem_idChanged : {
         element_tag = "menu_" + item_id
     }

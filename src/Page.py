@@ -94,7 +94,7 @@ class Page(QtCore.QObject):
         grid-template-columns: {grid_template_columns};
         grid-template-rows: {grid_template_rows};
     }}
-    
+
     {css_elements_section}
     
     /* End {section_name} Section */
@@ -110,19 +110,18 @@ class Page(QtCore.QObject):
     def gen_section_tag(self):
         element_tag = """
             <div class="{element_id}">
-              <img height="100%" width="100%" src="https://placehold.jp/100x100.png"> </div>
+              {html_element}
             </div>
         """
         elements = ""
         for child in self._children:
-            elements += element_tag.format(element_id=child.property("element_tag"))
+            print(child.get_html())
+            elements += element_tag.format(html_element=child.get_html(), element_id=child.property("element_tag"))
 
         section_tag = f"""
-        <!-- Contact Section -->
         <section id="{self._page_id}">
             {elements}
         </section>
-        <!-- End Contact Section -->
         """
         return section_tag
 

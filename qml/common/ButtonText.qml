@@ -11,6 +11,7 @@ Rectangle {
     border.width: mouseArea.containsMouse ? 1 : 0
     border.color: "white"
     signal btnClicked()
+    property alias theMouseArea: mouseArea
 
     Item{
         id : content
