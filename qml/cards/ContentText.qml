@@ -11,6 +11,11 @@ ContentBase{
         console.log("Updating Content")
         detailContent.item_data = item
         tfTitle.content.text = item.text_data
+        item_data.contentUpdated.connect(handleContentUpdated)
+    }
+
+    function handleContentUpdated(){
+        tfTitle.content.text = item_data.text_data
     }
 
     TextFieldTitle{

@@ -107,8 +107,15 @@ class Controller(QtCore.QObject):
 
     def generate_css_code(self):
         css_content = Utils.read_file(":web_temp/style.css")
+        element_css_desktop = ""
+        element_css_mobile = ""
         for page in self._pages:
-            css_content += page.generate_css_block()
+            element_css_desktop += page.generate_css_block()
+            element_css_mobile += page.generate_css_for_mobile()
+
+        css_content = css_content.replace("<%CODE_GEN_DESKTOP%>", element_css_desktop)
+        css_content = css_content.replace("<%CODE_GEN_MOBILE%>", element_css_mobile)
+
         return css_content
 
     def generate_html_code(self):
@@ -119,9 +126,8 @@ class Controller(QtCore.QObject):
             html_gen_list += page.gen_list_tag()
             html_gen_section += page.gen_section_tag()
 
-        html_content = html_content.replace("<%CODE_GEN_LIST%>", html_gen_list)
+        # html_content = html_content.replace("<%CODE_GEN_LIST%>", html_gen_list)
         html_content = html_content.replace("<%CODE_GEN_SECTION%>", html_gen_section)
-        html_content = html_content.replace("<%CODE_GEN_PROJECT_NAME%>", self._project_name)
         return html_content
 
     @Slot()

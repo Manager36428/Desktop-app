@@ -274,24 +274,31 @@ Popup{
             }
 
             onBtnClicked: {
-//                console.log(utils.get_mouse_color())
-//                if(getColorTimer.running)
-//                {   getColorTimer.stop()
-//                    utils.change_system_cursor()
-//                }
-//                else
-//                {
-//                    getColorTimer.start()
-//                    utils.reset_system_cursor()
-//                }
+                console.log(utils.get_mouse_color())
+                if(getColorTimer.running)
+                {
+                    getColorTimer.stop()
+                    utils.reset_system_cursor()
+                }
+                else
+                {
+                    getColorTimer.start()
+                    utils.change_system_cursor()
+                }
             }
 
             Timer{
                 id : getColorTimer
-                interval: 200
+                interval: 10
                 repeat: true
-                onTriggered: {
-                    console.log(utils.get_mouse_color())
+                onTriggered: inputedColor = utils.get_mouse_color()
+            }
+
+            Connections{
+                target: utils
+                function onStopColorPicking(){
+                    getColorTimer.stop()
+                    utils.reset_system_cursor()
                 }
             }
         }

@@ -4,13 +4,21 @@ import QtQml 2.0
 
 ResizableItem {
     height: 40
-    width: text.width + 20
+    width: tf.width + 20
     property string text_data: "Default Heading"
     property string tag_heading: "h3"
 
+    onText_dataChanged: {
+        tf.text = text_data
+        contentUpdated()
+    }
+
+    signal contentUpdated()
+
     function handleFocusChild(){
         console.log("HandleFocusChild")
-//        text.forceActiveFocus()
+        tf.forceActiveFocus()
+        tf.text = text_data
     }
 
     function get_html(){
@@ -29,9 +37,14 @@ ResizableItem {
 
     content: Item{
         anchors.fill: parent
-        Text {
-            id: text
-            text: text_data
+        Rectangle{
+            anchors.fill: parent
+            color: "transparent"
+            border.width: tf.activeFocus ? 1 : 0
+            border.color: "steelblue"
+        }
+        TextInput {
+            id: tf
             height: 40
             font.pixelSize: 18
             font.weight: Font.DemiBold
@@ -40,7 +53,8 @@ ResizableItem {
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-
+            text: text_data
+            onTextChanged: text_data = tf.text
         }
     }
 }

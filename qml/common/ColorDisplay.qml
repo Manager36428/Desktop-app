@@ -188,6 +188,53 @@ Item {
                     updateColor()
                 }
                 validator: IntValidator {bottom: 0; top: limitVales[0];}
+
+                MouseArea{
+                    id : wheel
+                    anchors.fill: parent
+                    propagateComposedEvents: true
+                    onClicked: {
+                        parent.forceActiveFocus();
+                        parent.pressed(mouse)
+                    }
+                    onWheel: {
+                        if(!tf1.activeFocus) return
+                        let currentValue = parseInt(tf1.text)
+                        if (wheel.angleDelta.y > 0) {
+                            tf1.text = (currentValue + 1)
+                        } else if (wheel.angleDelta.y < 0) {
+                            tf1.text = (currentValue - 1)
+                        }
+                        tf1.selectAll()
+                    }
+                }
+
+                property int clickCount: 0
+                Timer {
+                    id: clickTimer1
+                    interval: 300
+                    repeat: false
+                    onTriggered: {
+                        tf1.clickCount = 0
+                    }
+                }
+                Timer{
+                    id : selectAllTimer1
+                    interval: 10
+                    repeat: false
+                    onTriggered: tf1.selectAll()
+                }
+
+                onPressed: {
+                    clickCount += 1
+                    if (clickCount == 1) {
+                        clickTimer1.start()
+                    } else if (clickCount == 2) {
+                        selectAllTimer1.start()
+                        clickCount = 0
+                    }
+                    console.log("Pressed Select ")
+                }
             }
 
             Text {
@@ -245,6 +292,53 @@ Item {
                     updateColor()
                 }
                 validator: IntValidator {bottom: 0; top: limitVales[1];}
+
+                MouseArea{
+                    id : wheel2
+                    anchors.fill: parent
+                    propagateComposedEvents: true
+                    onClicked: {
+                        parent.forceActiveFocus();
+                        parent.pressed(mouse)
+                    }
+                    onWheel: {
+                        if(!tf2.activeFocus) return
+                        let currentValue = parseInt(tf2.text)
+                        if (wheel.angleDelta.y > 0) {
+                            tf2.text = (currentValue + 1)
+                        } else if (wheel.angleDelta.y < 0) {
+                            tf2.text = (currentValue - 1)
+                        }
+                        tf2.selectAll()
+                    }
+                }
+
+                property int clickCount: 0
+                Timer {
+                    id: clickTimer2
+                    interval: 300
+                    repeat: false
+                    onTriggered: {
+                        tf2.clickCount = 0
+                    }
+                }
+                Timer{
+                    id : selectAllTimer2
+                    interval: 10
+                    repeat: false
+                    onTriggered: tf2.selectAll()
+                }
+
+                onPressed: {
+                    clickCount += 1
+                    if (clickCount == 1) {
+                        clickTimer2.start()
+                    } else if (clickCount == 2) {
+                        selectAllTimer2.start()
+                        clickCount = 0
+                    }
+                    console.log("Pressed Select ")
+                }
             }
 
             Text {
@@ -302,6 +396,53 @@ Item {
                     updateColor()
                 }
                 validator: IntValidator {bottom: 0; top: limitVales[2];}
+
+                MouseArea{
+                    id : wheel3
+                    anchors.fill: parent
+                    propagateComposedEvents: true
+                    onClicked: {
+                        parent.forceActiveFocus();
+                        parent.pressed(mouse)
+                    }
+                    onWheel: {
+                        if(!tf3.activeFocus) return
+                        let currentValue = parseInt(tf3.text)
+                        if (wheel.angleDelta.y > 0) {
+                            tf3.text = (currentValue + 1)
+                        } else if (wheel.angleDelta.y < 0) {
+                            tf3.text = (currentValue - 1)
+                        }
+                        tf3.selectAll()
+                    }
+                }
+
+                property int clickCount: 0
+                Timer {
+                    id: clickTimer3
+                    interval: 300
+                    repeat: false
+                    onTriggered: {
+                        tf3.clickCount = 0
+                    }
+                }
+                Timer{
+                    id : selectAllTimer3
+                    interval: 10
+                    repeat: false
+                    onTriggered: tf3.selectAll()
+                }
+
+                onPressed: {
+                    clickCount += 1
+                    if (clickCount == 1) {
+                        clickTimer3.start()
+                    } else if (clickCount == 2) {
+                        selectAllTimer3.start()
+                        clickCount = 0
+                    }
+                    console.log("Pressed Select ")
+                }
             }
 
             Text {
@@ -359,6 +500,55 @@ Item {
                     }
                     updateColor()
                 }
+
+                MouseArea{
+                    id : wheel4
+                    anchors.fill: parent
+                    propagateComposedEvents: true
+                    onClicked: {
+                        parent.forceActiveFocus();
+                        parent.pressed(mouse)
+                    }
+                    onWheel: {
+                        if(!tf4.activeFocus) return
+                        let currentValue = parseInt(tf4.text)
+                        if (wheel.angleDelta.y > 0) {
+                            tf4.text = (currentValue + 1)
+                        } else if (wheel.angleDelta.y < 0) {
+                            tf4.text = (currentValue - 1)
+                        }
+                        tf4.selectAll()
+                    }
+                }
+
+
+                property int clickCount: 0
+                Timer {
+                    id: clickTimer4
+                    interval: 300
+                    repeat: false
+                    onTriggered: {
+                        tf4.clickCount = 0
+                    }
+                }
+                Timer{
+                    id : selectAllTimer4
+                    interval: 10
+                    repeat: false
+                    onTriggered: tf4.selectAll()
+                }
+
+                onPressed: {
+                    clickCount += 1
+                    if (clickCount == 1) {
+                        clickTimer4.start()
+                    } else if (clickCount == 2) {
+                        selectAllTimer4.start()
+                        clickCount = 0
+                    }
+                    console.log("Pressed Select ")
+                }
+
             }
 
             Text {

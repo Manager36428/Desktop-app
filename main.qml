@@ -14,7 +14,6 @@ MainWindow {
     property string projectName: ""
     property alias dragCenter: dragerCenter
 
-
     GDragerCenter{
         id : dragerCenter
     }

@@ -16,7 +16,7 @@ ContentBase{
     }
 
     function handleContentUpdated(){
-        tfTitle.content.text = item.text_data
+        tfTitle.content.text = item_data.text_data
     }
 
     TextFieldTitle{

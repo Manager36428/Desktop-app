@@ -4,20 +4,43 @@ import QtQml 2.0
 
 ResizableItem {
     height: 40
-    width: text.width + 20
+    width: 150
     property string text_data: "Default Text"
+    onText_dataChanged: {
+        tf.text = text_data
+        contentUpdated()
+    }
+
+    signal contentUpdated()
 
     function get_html(){
         let html = `<p style="width: 100%; height: 100%; font-size: 16px;"> ${text_data} </p>`
         return html
     }
 
+    function handleFocusChild(){
+        console.log("HandleFocusChild")
+        tf.forceActiveFocus()
+        tf.text = text_data
+    }
+
+    Component.onCompleted: {
+        focusChild.connect(handleFocusChild)
+    }
+
     content: Item{
         anchors.fill: parent
-        TextField {
-            id: text
+        Rectangle{
+            anchors.fill: parent
+            color: "transparent"
+            border.width: tf.activeFocus ? 1 : 0
+            border.color: "steelblue"
+        }
+
+        TextArea {
+            id: tf
             text: text_data
-            height: 40
+            anchors.fill: parent
             font.pixelSize: 18
             font.weight: Font.DemiBold
             color: "#4D365D"
@@ -25,7 +48,8 @@ ResizableItem {
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            background: Item {}
+            onTextChanged: text_data = tf.text
+            background: Item{}
         }
     }
 

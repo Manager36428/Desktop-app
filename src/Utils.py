@@ -1,18 +1,23 @@
 # This Python file uses the following encoding: utf-8
+import ctypes
 import os
 from datetime import datetime
 
-from PySide2 import QtCore
-from PySide2.QtCore import Slot, QFile, QIODevice, QResource
-from PySide2.QtGui import QColor, QImage
 import pyautogui
 from PIL import ImageGrab
-import ctypes
+from PySide2 import QtCore
+from PySide2.QtCore import Slot, QFile, QIODevice, QResource, Signal
+from PySide2.QtGui import QColor, QImage
+
+from src.AppEvent import AppEvent
 
 
 class Utils(QtCore.QObject):
+    _app_event = AppEvent()
+
     def __init__(self):
         super().__init__()
+        self._app_event.clickedFromWindow.connect(self.handle_signal_from_app_event)
 
     @staticmethod
     def percent_to255(value):
@@ -71,26 +76,23 @@ class Utils(QtCore.QObject):
 
     @Slot()
     def change_system_cursor(self):
-        # Define the cursor you want to use (IDC_CROSS)
+        self._app_event.start_mouse_listener()
         cursor_id = 32515
 
-        # Load the user32.dll library
         user32 = ctypes.WinDLL('user32', use_last_error=True)
 
-        # Load the cross cursor from user32.dll
         cursor_handle = user32.LoadCursorW(0, cursor_id)
         if not cursor_handle:
             raise ctypes.WinError(ctypes.get_last_error())
 
-        # Set the cursor globally
-        for cursor_id in [32512, 32513, 32514, 32515, 32516]:  # Normal select, help select, etc.
+        for cursor_id in [32512, 32513, 32514, 32515, 32516]:
             success = user32.SetSystemCursor(cursor_handle, cursor_id)
             if not success:
                 raise ctypes.WinError(ctypes.get_last_error())
 
     @Slot()
     def reset_system_cursor(self):
-        # Load the user32.dll library
+        self._app_event.stop_mouse_listener()
         user32 = ctypes.WinDLL('user32', use_last_error=True)
 
         # Reset the system cursors using SystemParametersInfo
@@ -154,6 +156,12 @@ class Utils(QtCore.QObject):
 
         print(f"Image file copied from {qrc_path} to {target_folder_path}")
         return True
+
+    stopColorPicking = Signal()
+
+    def handle_signal_from_app_event(self):
+        print("Handle Signal from App Event")
+        self.stopColorPicking.emit()
 
     @staticmethod
     def convert_file_path_to_url(file_path):
