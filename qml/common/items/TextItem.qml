@@ -3,8 +3,9 @@ import QtQuick.Controls 2.0
 import QtQml 2.0
 
 ResizableItem {
-    height: 40
-    width: 150
+    id :rootItem
+    height: tf.contentHeight + 10
+    width: tf.contentWidth + 20
     property string text_data: "Default Text"
     onText_dataChanged: {
         tf.text = text_data
@@ -22,6 +23,7 @@ ResizableItem {
         console.log("HandleFocusChild")
         tf.forceActiveFocus()
         tf.text = text_data
+        tf.selectAll()
     }
 
     Component.onCompleted: {
@@ -33,7 +35,7 @@ ResizableItem {
         Rectangle{
             anchors.fill: parent
             color: "transparent"
-            border.width: tf.activeFocus ? 1 : 0
+            border.width: /*tf.activeFocus ? 1 : 0*/ 1
             border.color: "steelblue"
         }
 

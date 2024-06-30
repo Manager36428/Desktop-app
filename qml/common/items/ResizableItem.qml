@@ -33,7 +33,6 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
-        z:1000
         drag{
             target: parent
             minimumX: 0

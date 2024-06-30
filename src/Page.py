@@ -83,21 +83,21 @@ class Page(QtCore.QObject):
                                                         br_x=self._cor_css_x[top_left_x + width_child])
 
         css_template = """
-    /* {section_name} Section */
-    #{section_id} {{
-        flex-direction: column;
-        max-width: 100%;
-        margin: 0 auto;
-        width: 100%;
-        display : grid;
-        background-color: {bg_color};
-        grid-template-columns: {grid_template_columns};
-        grid-template-rows: {grid_template_rows};
-    }}
+/* {section_name} Section */
+#{section_id} {{
+    flex-direction: column;
+    max-width: 100%;
+    margin: 0 auto;
+    width: 100%;
+    display : grid;
+    background-color: {bg_color};
+    grid-template-columns: {grid_template_columns};
+    grid-template-rows: {grid_template_rows};
+}}
 
-    {css_elements_section}
+{css_elements_section}
     
-    /* End {section_name} Section */
+/* End {section_name} Section */
     """
         return css_template.format(section_name=self._page_name, section_id=self._page_id,
                                    bg_color=self._page_background, grid_template_rows=grid_rows,
@@ -111,12 +111,14 @@ class Page(QtCore.QObject):
             grid_temp_rows += str(item_width) + "vh "
 
         css_element_template = """
-        .{element_tag}{{
-            grid-area: {tl_y}/ {tl_x} / {br_y} / {br_x};
-        }}
+.{element_tag}{{
+    grid-area: {tl_y}/ {tl_x} / {br_y} / {br_x};
+    display: block;
+}}
         """
         css_elements_mobile = ""
-        for idx, child in enumerate(self._children):
+
+        for idx, child in enumerate(self._sorted_child):
             css_elements_mobile += css_element_template.format(element_tag=child.property("element_tag"),
                                                                tl_y=str(idx + 1),
                                                                tl_x=1,
@@ -125,15 +127,14 @@ class Page(QtCore.QObject):
         print(css_elements_mobile)
 
         css_template = """
-            /* {section_name} Section */
-            #{section_id} {{
-                grid-template-columns: 1fr;
-                grid-template-rows: {grid_template_rows};
-            }}
+/* {section_name} Section */
+#{section_id} {{
+    grid-template-columns: 1fr;
+    grid-template-rows: {grid_template_rows};
+}}
 
-            {css_elements_section}
-
-            /* End {section_name} Section */
+{css_elements_section}
+/* End {section_name} Section */
             """
         return css_template.format(section_name=self.page_name, section_id=self._page_id,
                                    grid_template_rows=grid_temp_rows,
@@ -145,9 +146,9 @@ class Page(QtCore.QObject):
 
     def gen_section_tag(self):
         element_tag = """
-            <div class="{element_id}">
-              {html_element}
-            </div>
+<div class="{element_id}">
+    {html_element}
+</div>
         """
         elements = ""
         for child in self._children:
@@ -247,11 +248,14 @@ class Page(QtCore.QObject):
     _grid_temp_col = []
     _grid_temp_row = []
     _grid_temp_row_mobile = []
+    _sorted_child = []
 
     def prepare_grid_css(self, parent_h, parent_w):
         temp_xs = []
         temp_ys = []
         self._grid_temp_row_mobile.clear()
+        dict_child = {}
+        self._sorted_child = {}
 
         for child in self._children:
             top_left_x = int(child.property("x"))
@@ -260,12 +264,17 @@ class Page(QtCore.QObject):
             width_child = int(child.property("width"))
             bottom_right_x = top_left_x + width_child
             bottom_right_y = top_left_y + height_child
-            self._grid_temp_row_mobile.append(math.ceil(float(width_child / parent_w) * 100))
+            dict_child[child.property("y")] = child
 
             temp_xs.append(top_left_x)
             temp_xs.append(bottom_right_x)
             temp_ys.append(top_left_y)
             temp_ys.append(bottom_right_y)
+
+        self._sorted_child = dict(sorted(dict_child.items())).values()
+        for child in self._sorted_child:
+            width_child = int(child.property("width"))
+            self._grid_temp_row_mobile.append(math.ceil(float(width_child / parent_w) * 100))
 
         self._grid_temp_row.clear()
         self._grid_temp_col.clear()

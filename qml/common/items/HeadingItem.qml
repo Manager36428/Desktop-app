@@ -19,6 +19,7 @@ ResizableItem {
         console.log("HandleFocusChild")
         tf.forceActiveFocus()
         tf.text = text_data
+        tf.selectAll()
     }
 
     function get_html(){
@@ -40,7 +41,7 @@ ResizableItem {
         Rectangle{
             anchors.fill: parent
             color: "transparent"
-            border.width: tf.activeFocus ? 1 : 0
+            border.width: /*tf.activeFocus ? 1 : 0*/ 1
             border.color: "steelblue"
         }
         TextInput {

@@ -17,7 +17,7 @@ ResizableItem {
         Image{
             id : img_preview
             anchors.fill: parent
-            fillMode: Image.PreserveAspectCrop
+            fillMode: Image.PreserveAspectFit
             source: image_source
         }
     }

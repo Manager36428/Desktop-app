@@ -13,6 +13,11 @@ ContentBase{
         tfButtonHome.content.text = item_data.btn_name
         tfButtonUrl.content.text = item_data.btn_source
         cbBg.btn_color = item_data.btn_color
+        item_data.contentUpdated.connect(handleContentUpdated)
+    }
+
+    function handleContentUpdated(){
+        tfButtonHome.content.text = item_data.btn_name
     }
 
     TextFieldTitle{
