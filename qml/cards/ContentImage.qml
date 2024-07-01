@@ -30,21 +30,23 @@ ContentBase{
         color: "#B3B3B3"
         radius: 10
         height: 142
-        width: 282
+
         anchors{
             top: titleHeader.bottom
             topMargin: 9
+            left: parent.left
+            right: parent.right
+            margins: 5
         }
 
         Image{
             id : imgPreview
             height: imagePreview.height - 10
             anchors.top: imagePreview.top
-            anchors.topMargin: 5
             fillMode: Image.PreserveAspectFit
-            width: parent.width - 10
+            anchors.right: parent.right
+            anchors.margins: 5
             anchors.left: imagePreview.left
-            anchors.leftMargin: 5
             anchors.centerIn: parent
         }
     }

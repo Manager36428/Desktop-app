@@ -56,6 +56,7 @@ ResizableItem {
             verticalAlignment: Text.AlignVCenter
             text: text_data
             onTextChanged: text_data = tf.text
+            onActiveFocusChanged: isChildFocused = tf.activeFocus
         }
     }
 }

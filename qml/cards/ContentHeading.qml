@@ -49,6 +49,8 @@ ContentBase{
         anchors{
             top: tfTitle.bottom
             topMargin: 13
+            left: parent.left
+            right: parent.right
         }
         onValueUpdated: {
             item_data.tag_heading = tag_value

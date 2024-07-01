@@ -15,6 +15,7 @@ Rectangle {
     property string element_tag: ""
     property int max_resize_h: 10
     property int max_resize_w: 10
+    property bool isChildFocused : false
 
     signal focusChild();
 
@@ -33,6 +34,7 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
+        visible: !isChildFocused
         drag{
             target: parent
             minimumX: 0
