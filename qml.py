@@ -2276,7 +2276,7 @@ nt.left\x0d\x0a       \
 nt.right\x0d\x0a      \
   }\x0d\x0a    }\x0d\x0a\x0d\x0a}\x0d\
 \x0a\
-\x00\x00\x06K\
+\x00\x00\x09D\
 i\
 mport QtQuick 2.\
 0\x0d\x0aimport QtQuic\
@@ -2309,77 +2309,125 @@ ctiveFocus()\x0d\x0a  \
       tf.text = \
 text_data\x0d\x0a     \
    tf.selectAll(\
-)\x0d\x0a    }\x0d\x0a\x0d\x0a    \
-function get_htm\
-l(){\x0d\x0a        le\
-t html = `<${tag\
-_heading} style=\
-\x22width: 100%; he\
-ight: 100%; font\
--size: 16px;\x22>\x0d\x0a\
-        ${text_d\
-ata} </${tag_hea\
-ding}>`\x0d\x0a       \
- return html\x0d\x0a  \
-  }\x0d\x0a\x0d\x0a    Compo\
-nent.onCompleted\
-: {\x0d\x0a        foc\
-usChild.connect(\
-handleFocusChild\
-)\x0d\x0a    }\x0d\x0a\x0d\x0a    \
-onItem_idChanged\
- : {\x0d\x0a        el\
-ement_tag = \x22hea\
-ding_\x22 + item_id\
-\x0d\x0a    }\x0d\x0a\x0d\x0a    c\
-ontent: Item{\x0d\x0a \
-       anchors.f\
-ill: parent\x0d\x0a   \
-     Rectangle{\x0d\
-\x0a            anc\
-hors.fill: paren\
-t\x0d\x0a            c\
-olor: \x22transpare\
-nt\x22\x0d\x0a           \
- border.width: /\
-*tf.activeFocus \
-? 1 : 0*/ 1\x0d\x0a   \
-         border.\
-color: \x22steelblu\
-e\x22\x0d\x0a        }\x0d\x0a \
-       TextInput\
- {\x0d\x0a            \
-id: tf\x0d\x0a        \
-    height: 40\x0d\x0a\
-            font\
-.pixelSize: 18\x0d\x0a\
-            font\
-.weight: Font.De\
-miBold\x0d\x0a        \
-    color: \x22#4D3\
-65D\x22\x0d\x0a          \
-  font.family: \x22\
-Nunito\x22\x0d\x0a       \
-     anchors.cen\
-terIn: parent\x0d\x0a \
-           horiz\
-ontalAlignment: \
-Text.AlignHCente\
-r\x0d\x0a            v\
-erticalAlignment\
-: Text.AlignVCen\
-ter\x0d\x0a           \
- text: text_data\
-\x0d\x0a            on\
-TextChanged: tex\
-t_data = tf.text\
-\x0d\x0a            on\
-ActiveFocusChang\
-ed: isChildFocus\
-ed = tf.activeFo\
-cus\x0d\x0a        }\x0d\x0a\
-    }\x0d\x0a}\x0d\x0a\
-\x00\x00\x02\x98\
+)\x0d\x0a    }\x0d\x0a\x0d\x0afunc\
+tion escapeHtml(\
+text) {\x0d\x0a    let\
+ map = {\x0d\x0a      \
+  '&': '&amp;',\x0d\
+\x0a        '<': '&\
+lt;',\x0d\x0a        '\
+>': '&gt;',\x0d\x0a   \
+     '\x22': '&quot\
+;',\x0d\x0a        \x22'\x22\
+: '&#039;'\x0d\x0a    \
+};\x0d\x0a    return t\
+ext.replace(/[&<\
+>\x22']/g, function\
+(m) { return map\
+[m]; });\x0d\x0a}\x0d\x0a\x0d\x0af\
+unction isValidH\
+eadingTag(tag) {\
+\x0d\x0a    return ['h\
+1', 'h2', 'h3', \
+'h4', 'h5', 'h6'\
+].includes(tag.t\
+oLowerCase());\x0d\x0a\
+}\x0d\x0a\x0d\x0afunction ge\
+t_html() {\x0d\x0a    \
+let safeTextData\
+ = escapeHtml(te\
+xt_data);\x0d\x0a    l\
+et safeTagHeadin\
+g = isValidHeadi\
+ngTag(tag_headin\
+g) ? tag_heading\
+.toLowerCase() :\
+ 'h3';  // Defau\
+lt to 'h3' if in\
+valid\x0d\x0a\x0d\x0a    let\
+ html = `\x0d\x0a     \
+   <div style=\x22d\
+isplay: grid; pl\
+ace-items: cente\
+r; width: 100%; \
+height: 100%; pa\
+dding: 10px;\x22>\x0d\x0a\
+            <${s\
+afeTagHeading} s\
+tyle=\x22margin: 0;\
+ font-size: 24px\
+; font-weight: 7\
+00; color: #4D36\
+5D; font-family:\
+ 'Nunito', sans-\
+serif; text-alig\
+n: center;\x22>\x0d\x0a  \
+              ${\
+safeTextData}\x0d\x0a \
+           </${s\
+afeTagHeading}>\x0d\
+\x0a        </div>\x0d\
+\x0a    `;\x0d\x0a    ret\
+urn html;\x0d\x0a}\x0d\x0a\x0d\x0a\
+    Component.on\
+Completed: {\x0d\x0a  \
+      focusChild\
+.connect(handleF\
+ocusChild)\x0d\x0a    \
+}\x0d\x0a\x0d\x0a    onItem_\
+idChanged : {\x0d\x0a \
+       element_t\
+ag = \x22heading_\x22 \
++ item_id\x0d\x0a    }\
+\x0d\x0a\x0d\x0a    content:\
+ Item{\x0d\x0a        \
+anchors.fill: pa\
+rent\x0d\x0a        Re\
+ctangle{\x0d\x0a      \
+      anchors.fi\
+ll: parent\x0d\x0a    \
+        color: \x22\
+transparent\x22\x0d\x0a  \
+          border\
+.width: /*tf.act\
+iveFocus ? 1 : 0\
+*/ 1\x0d\x0a          \
+  border.color: \
+\x22steelblue\x22\x0d\x0a   \
+     }\x0d\x0a        \
+TextInput {\x0d\x0a   \
+         id: tf\x0d\
+\x0a            hei\
+ght: 40\x0d\x0a       \
+     font.pixelS\
+ize: 18\x0d\x0a       \
+     font.weight\
+: Font.DemiBold\x0d\
+\x0a            col\
+or: \x22#4D365D\x22\x0d\x0a \
+           font.\
+family: \x22Nunito\x22\
+\x0d\x0a            an\
+chors.centerIn: \
+parent\x0d\x0a        \
+    horizontalAl\
+ignment: Text.Al\
+ignHCenter\x0d\x0a    \
+        vertical\
+Alignment: Text.\
+AlignVCenter\x0d\x0a  \
+          text: \
+text_data\x0d\x0a     \
+       onTextCha\
+nged: text_data \
+= tf.text\x0d\x0a     \
+       onActiveF\
+ocusChanged: isC\
+hildFocused = tf\
+.activeFocus\x0d\x0a  \
+      }\x0d\x0a    }\x0d\x0a\
+}\x0d\x0a\
+\x00\x00\x05\x98\
 i\
 mport QtQuick 2.\
 0\x0d\x0aimport QtQml \
@@ -2394,16 +2442,64 @@ e_holder.png\x22\x0d\x0a \
    onImage_sourc\
 eChanged: img_pr\
 eview = image_so\
-urce\x0d\x0a\x0d\x0a    func\
-tion get_html(){\
-\x0d\x0a        let ht\
-ml = `<img src=\x22\
-${image_source}\x22\
- style=\x22width: 1\
-00%; height: 100\
-%;\x22>`\x0d\x0a        r\
-eturn html\x0d\x0a    \
-}\x0d\x0a\x0d\x0a    content\
+urce\x0d\x0a\x0d\x0a   funct\
+ion get_html() {\
+\x0d\x0a    let html =\
+ `\x0d\x0a    <style>\x0d\
+\x0a        .grid-c\
+ontainer {\x0d\x0a    \
+        display:\
+ grid;\x0d\x0a        \
+    grid-templat\
+e-columns: 1fr;\x0d\
+\x0a            gri\
+d-template-rows:\
+ 1fr;\x0d\x0a         \
+   place-items: \
+center;\x0d\x0a       \
+     width: 100%\
+;\x0d\x0a            h\
+eight: 100%;\x0d\x0a  \
+          backgr\
+ound-color: #f0f\
+0f0;\x0d\x0a          \
+  border-radius:\
+ 10px;\x0d\x0a        \
+    overflow: hi\
+dden;\x0d\x0a         \
+   box-shadow: 0\
+px 4px 8px rgba(\
+0, 0, 0, 0.1);\x0d\x0a\
+        }\x0d\x0a     \
+   .image-elemen\
+t {\x0d\x0a           \
+ max-width: 100%\
+;\x0d\x0a            m\
+ax-height: 100%;\
+\x0d\x0a            ob\
+ject-fit: cover;\
+\x0d\x0a            bo\
+rder-radius: 5px\
+;\x0d\x0a            t\
+ransition: trans\
+form 0.3s ease-i\
+n-out;\x0d\x0a        \
+}\x0d\x0a        .grid\
+-container:hover\
+ .image-element \
+{\x0d\x0a            t\
+ransform: scale(\
+1.05);\x0d\x0a        \
+}\x0d\x0a    </style>\x0d\
+\x0a    <div class=\
+\x22grid-container\x22\
+>\x0d\x0a        <img \
+src=\x22${image_sou\
+rce}\x22 class=\x22ima\
+ge-element\x22>\x0d\x0a  \
+  </div>`;\x0d\x0a    \
+return html;\x0d\x0a}\x0d\
+\x0a\x0d\x0a\x0d\x0a    content\
 : Item{\x0d\x0a       \
  anchors.fill: p\
 arent\x0d\x0a        I\
@@ -2423,7 +2519,7 @@ onItem_idChanged\
 ment_tag = \x22img_\
 \x22 + item_id\x0d\x0a   \
  }\x0d\x0a}\x0d\x0a\
-\x00\x00\x0d\xed\
+\x00\x00\x11r\
 i\
 mport QtQuick 2.\
 0\x0d\x0aimport QtQml \
@@ -2444,211 +2540,268 @@ ller.get_init_me\
 nu()\x0d\x0a        co\
 nsole.log(list_p\
 ages)\x0d\x0a    }\x0d\x0a\x0d\x0a\
-    function get\
-_html(){\x0d\x0a      \
-  let html = `<m\
-enu style=\x22width\
-: 100%; height: \
-100%; font-size:\
- 16px;\x22>\x5cn`;\x0d\x0a  \
-      list_pages\
-.forEach(item =>\
- {\x0d\x0a            \
-html += `  <li>$\
-{item}</li>\x5cn`;\x0d\
-\x0a        });\x0d\x0a  \
-      html += \x22<\
-/menu>\x22;\x0d\x0a      \
-  console.log(ht\
-ml)\x0d\x0a        ret\
-urn html\x0d\x0a    }\x0d\
-\x0a\x0d\x0a    onItem_id\
-Changed : {\x0d\x0a   \
-     element_tag\
- = \x22menu_\x22 + ite\
-m_id\x0d\x0a    }\x0d\x0a\x0d\x0a \
-   function chec\
-k_contains(page_\
-name){\x0d\x0a        \
-console.log(\x22Che\
-cking : \x22, page_\
-name)\x0d\x0a        f\
-or(var i = 0; i<\
- list_pages.leng\
-th; i++){\x0d\x0a     \
+function escapeH\
+tml(text) {\x0d\x0a   \
+ let map = {\x0d\x0a  \
+      '&': '&amp\
+;',\x0d\x0a        '<'\
+: '&lt;',\x0d\x0a     \
+   '>': '&gt;',\x0d\
+\x0a        '\x22': '&\
+quot;',\x0d\x0a       \
+ \x22'\x22: '&#039;'\x0d\x0a\
+    };\x0d\x0a    retu\
+rn text.replace(\
+/[&<>\x22']/g, func\
+tion(m) { return\
+ map[m]; });\x0d\x0a}\x0d\
+\x0a\x0d\x0afunction get_\
+html() {\x0d\x0a    le\
+t safeListPages \
+= Array.isArray(\
+list_pages) ? li\
+st_pages : [];\x0d\x0a\
+    let html = `\
+\x0d\x0a    <style>\x0d\x0a \
+       .menu-con\
+tainer {\x0d\x0a      \
+      display: g\
+rid; grid-templa\
+te-columns: repe\
+at(auto-fill, mi\
+nmax(100px, 1fr)\
+); gap: 10px; pa\
+dding: 10px; bac\
+kground-color: #\
+f8f8f8; font-fam\
+ily: 'Nunito', s\
+ans-serif;\x0d\x0a    \
+    }\x0d\x0a        .\
+menu-item {\x0d\x0a   \
+         backgro\
+und-color: #4D36\
+5D; color: white\
+; padding: 10px;\
+ text-align: cen\
+ter; border-radi\
+us: 8px; transit\
+ion: transform 0\
+.2s, background-\
+color 0.2s; curs\
+or: pointer;\x0d\x0a  \
+      }\x0d\x0a       \
+ .menu-item:hove\
+r {\x0d\x0a           \
+ background-colo\
+r: #6A4C85;\x0d\x0a   \
+         transfo\
+rm: scale(1.05);\
+\x0d\x0a        }\x0d\x0a   \
+ </style>\x0d\x0a    <\
+div class=\x22menu-\
+container\x22>\x5cn`;\x0d\
+\x0a\x0d\x0a    safeListP\
+ages.forEach(ite\
+m => {\x0d\x0a        \
+let safeItem = e\
+scapeHtml(item);\
+\x0d\x0a        html +\
+= `  <div class=\
+\x22menu-item\x22>${sa\
+feItem}</div>\x5cn`\
+;\x0d\x0a    });\x0d\x0a\x0d\x0a  \
+  html += \x22</div\
+>\x22;\x0d\x0a    console\
+.log(html);\x0d\x0a   \
+ return html;\x0d\x0a}\
+\x0d\x0a\x0d\x0a\x0d\x0a\x0d\x0a    onIt\
+em_idChanged : {\
+\x0d\x0a        elemen\
+t_tag = \x22menu_\x22 \
++ item_id\x0d\x0a    }\
+\x0d\x0a\x0d\x0a    function\
+ check_contains(\
+page_name){\x0d\x0a   \
+     console.log\
+(\x22Checking : \x22, \
+page_name)\x0d\x0a    \
+    for(var i = \
+0; i< list_pages\
+.length; i++){\x0d\x0a\
+            if(p\
+age_name == list\
+_pages[i]) {\x0d\x0a  \
+              re\
+turn true\x0d\x0a     \
+       }\x0d\x0a      \
+  }\x0d\x0a        ret\
+urn false\x0d\x0a    }\
+\x0d\x0a\x0d\x0a    function\
+ sync_pages(){\x0d\x0a\
+        for(var \
+i = 0;i<list_pag\
+es.length;i++){\x0d\
+\x0a            if(\
+!check_page_is_e\
+xisted(list_page\
+s[i])){\x0d\x0a       \
+         list_pa\
+ges.splice(i, 1)\
+;\x0d\x0a            }\
+\x0d\x0a        }\x0d\x0a   \
+ }\x0d\x0a\x0d\x0a    functi\
+on check_page_is\
+_existed(page_na\
+me){\x0d\x0a        fo\
+r(var j=0;j<cont\
+roller.pages.len\
+gth;j++){\x0d\x0a     \
        if(page_n\
-ame == list_page\
-s[i]) {\x0d\x0a       \
-         return \
-true\x0d\x0a          \
+ame == controlle\
+r.pages[j].page_\
+name){\x0d\x0a        \
+        return t\
+rue;\x0d\x0a          \
   }\x0d\x0a        }\x0d\x0a\
         return f\
-alse\x0d\x0a    }\x0d\x0a\x0d\x0a \
-   function sync\
-_pages(){\x0d\x0a     \
-   for(var i = 0\
-;i<list_pages.le\
-ngth;i++){\x0d\x0a    \
-        if(!chec\
-k_page_is_existe\
-d(list_pages[i])\
-){\x0d\x0a            \
-    list_pages.s\
-plice(i, 1);\x0d\x0a  \
-          }\x0d\x0a   \
-     }\x0d\x0a    }\x0d\x0a\x0d\
-\x0a    function ch\
-eck_page_is_exis\
-ted(page_name){\x0d\
-\x0a        for(var\
- j=0;j<controlle\
-r.pages.length;j\
-++){\x0d\x0a          \
-  if(page_name =\
-= controller.pag\
-es[j].page_name)\
-{\x0d\x0a             \
-   return true;\x0d\
-\x0a            }\x0d\x0a\
-        }\x0d\x0a     \
-   return false;\
-\x0d\x0a    }\x0d\x0a\x0d\x0a\x0d\x0a   \
- function update\
-_list(index){\x0d\x0a \
-       console.l\
-og(\x22Update : \x22 +\
- index)\x0d\x0a       \
- let page_name_a\
-t_index = contro\
-ller.pages[index\
-].page_name\x0d\x0a   \
-     let idx_in_\
-list = list_page\
-s.indexOf(page_n\
-ame_at_index)\x0d\x0a \
-       if(idx_in\
-_list !== -1){\x0d\x0a\
-            list\
-_pages.splice(id\
-x_in_list, 1)\x0d\x0a \
-       }else{\x0d\x0a \
-           list_\
-pages.push(page_\
-name_at_index)\x0d\x0a\
-        }\x0d\x0a\x0d\x0a   \
-     let temp = \
-[]\x0d\x0a        for(\
-var i=0;i<contro\
-ller.pages.lengt\
-h;i++){\x0d\x0a       \
-     let page_na\
-me = controller.\
-pages[i].page_na\
-me\x0d\x0a            \
-if(list_pages.in\
-dexOf(page_name)\
- !== -1){\x0d\x0a     \
-           temp.\
-push(page_name)\x0d\
-\x0a            }\x0d\x0a\
-        }\x0d\x0a\x0d\x0a   \
-     list_pages \
-= temp;\x0d\x0a       \
- sync();\x0d\x0a    }\x0d\
-\x0a\x0d\x0a    content: \
-Item{\x0d\x0a        a\
-nchors.fill: par\
-ent\x0d\x0a        Rec\
-tangle {\x0d\x0a      \
-      id : btnRo\
-ot\x0d\x0a            \
-property bool is\
-Active: true\x0d\x0a  \
-          proper\
-ty string btnNam\
-e: text_data\x0d\x0a  \
-          radius\
-: 10\x0d\x0a          \
-  color: \x22transp\
-arent\x22\x0d\x0a        \
+alse;\x0d\x0a    }\x0d\x0a\x0d\x0a\
+\x0d\x0a    function u\
+pdate_list(index\
+){\x0d\x0a        cons\
+ole.log(\x22Update \
+: \x22 + index)\x0d\x0a  \
+      let page_n\
+ame_at_index = c\
+ontroller.pages[\
+index].page_name\
+\x0d\x0a        let id\
+x_in_list = list\
+_pages.indexOf(p\
+age_name_at_inde\
+x)\x0d\x0a        if(i\
+dx_in_list !== -\
+1){\x0d\x0a           \
+ list_pages.spli\
+ce(idx_in_list, \
+1)\x0d\x0a        }els\
+e{\x0d\x0a            \
+list_pages.push(\
+page_name_at_ind\
+ex)\x0d\x0a        }\x0d\x0a\
+\x0d\x0a        let te\
+mp = []\x0d\x0a       \
+ for(var i=0;i<c\
+ontroller.pages.\
+length;i++){\x0d\x0a  \
+          let pa\
+ge_name = contro\
+ller.pages[i].pa\
+ge_name\x0d\x0a       \
+     if(list_pag\
+es.indexOf(page_\
+name) !== -1){\x0d\x0a\
+                \
+temp.push(page_n\
+ame)\x0d\x0a          \
+  }\x0d\x0a        }\x0d\x0a\
+\x0d\x0a        list_p\
+ages = temp;\x0d\x0a  \
+      sync();\x0d\x0a \
+   }\x0d\x0a\x0d\x0a    cont\
+ent: Item{\x0d\x0a    \
     anchors.fill\
 : parent\x0d\x0a      \
-      border.wid\
-th: 1\x0d\x0a         \
-   border.color:\
- \x22black\x22\x0d\x0a      \
-      antialiasi\
-ng: true\x0d\x0a\x0d\x0a    \
-        ListView\
-{\x0d\x0a             \
-   id : lv_pages\
-\x0d\x0a              \
-  anchors{\x0d\x0a    \
-                \
-top: parent.top\x0d\
+  Rectangle {\x0d\x0a \
+           id : \
+btnRoot\x0d\x0a       \
+     property bo\
+ol isActive: tru\
+e\x0d\x0a            p\
+roperty string b\
+tnName: text_dat\
+a\x0d\x0a            r\
+adius: 10\x0d\x0a     \
+       color: \x22t\
+ransparent\x22\x0d\x0a   \
+         anchors\
+.fill: parent\x0d\x0a \
+           borde\
+r.width: 1\x0d\x0a    \
+        border.c\
+olor: \x22black\x22\x0d\x0a \
+           antia\
+liasing: true\x0d\x0a\x0d\
+\x0a            Lis\
+tView{\x0d\x0a        \
+        id : lv_\
+pages\x0d\x0a         \
+       anchors{\x0d\
 \x0a               \
-     bottom: par\
-ent.bottom\x0d\x0a    \
+     top: parent\
+.top\x0d\x0a          \
+          bottom\
+: parent.bottom\x0d\
+\x0a               \
+     left: paren\
+t.left\x0d\x0a        \
+            righ\
+t: parent.right\x0d\
+\x0a               \
+     margins: 2\x0d\
+\x0a               \
+ }\x0d\x0a            \
+    clip: true\x0d\x0a\
                 \
-left: parent.lef\
-t\x0d\x0a             \
-       right: pa\
-rent.right\x0d\x0a    \
+model: list_page\
+s.length\x0d\x0a      \
+          spacin\
+g : 4\x0d\x0a         \
+       delegate:\
+ Item{\x0d\x0a        \
+            heig\
+ht: 20\x0d\x0a        \
+            widt\
+h: parent.width\x0d\
+\x0a               \
+     Text{\x0d\x0a    \
                 \
-margins: 2\x0d\x0a    \
-            }\x0d\x0a \
-               c\
-lip: true\x0d\x0a     \
-           model\
-: list_pages.len\
-gth\x0d\x0a           \
-     spacing : 4\
+    id : txtTitl\
+e\x0d\x0a             \
+           heigh\
+t: 20\x0d\x0a         \
+               v\
+erticalAlignment\
+: Text.AlignVCen\
+ter\x0d\x0a           \
+             tex\
+t: \x22\x5cu2022 \x22 + l\
+ist_pages[index]\
 \x0d\x0a              \
-  delegate: Item\
-{\x0d\x0a             \
-       height: 2\
-0\x0d\x0a             \
-       width: pa\
-rent.width\x0d\x0a    \
+          width:\
+ parent.width\x0d\x0a \
                 \
-Text{\x0d\x0a         \
-               i\
-d : txtTitle\x0d\x0a  \
+       color: \x22#\
+4D365D\x22\x0d\x0a       \
                 \
-      height: 20\
-\x0d\x0a              \
-          vertic\
-alAlignment: Tex\
-t.AlignVCenter\x0d\x0a\
+ font.family: \x22N\
+unito\x22\x0d\x0a        \
                 \
-        text: \x22\x5c\
-u2022 \x22 + list_p\
-ages[index]\x0d\x0a   \
-                \
-     width: pare\
-nt.width\x0d\x0a      \
-                \
-  color: \x22#4D365\
-D\x22\x0d\x0a            \
+font.pixelSize: \
+18\x0d\x0a            \
             font\
-.family: \x22Nunito\
-\x22\x0d\x0a             \
-           font.\
-pixelSize: 18\x0d\x0a \
+.weight: Font.De\
+miBold\x0d\x0a        \
                 \
-       font.weig\
-ht: Font.DemiBol\
-d\x0d\x0a             \
-           ancho\
-rs.verticalCente\
-r: parent.vertic\
-alCenter\x0d\x0a      \
-              }\x0d\
-\x0a               \
- }\x0d\x0a\x0d\x0a\x0d\x0a        \
-    }\x0d\x0a        }\
-\x0d\x0a    }\x0d\x0a}\x0d\x0a\
-\x00\x00\x06 \
+anchors.vertical\
+Center: parent.v\
+erticalCenter\x0d\x0a \
+                \
+   }\x0d\x0a          \
+      }\x0d\x0a\x0d\x0a\x0d\x0a   \
+         }\x0d\x0a    \
+    }\x0d\x0a    }\x0d\x0a}\x0d\
+\x0a\
+\x00\x00\x09#\
 i\
 mport QtQuick 2.\
 0\x0d\x0aimport QtQuic\
@@ -2671,84 +2824,133 @@ entUpdated()\x0d\x0a  \
   }\x0d\x0a\x0d\x0a    signa\
 l contentUpdated\
 ()\x0d\x0a\x0d\x0a    functi\
-on get_html(){\x0d\x0a\
-        let html\
- = `<p style=\x22wi\
-dth: 100%; heigh\
-t: 100%; font-si\
-ze: 16px;\x22> ${te\
-xt_data} </p>`\x0d\x0a\
-        return h\
-tml\x0d\x0a    }\x0d\x0a\x0d\x0a  \
-  function handl\
-eFocusChild(){\x0d\x0a\
-        console.\
-log(\x22HandleFocus\
-Child\x22)\x0d\x0a       \
- tf.forceActiveF\
-ocus()\x0d\x0a        \
-tf.text = text_d\
-ata\x0d\x0a        tf.\
-selectAll()\x0d\x0a   \
- }\x0d\x0a\x0d\x0a    Compon\
-ent.onCompleted:\
- {\x0d\x0a        focu\
-sChild.connect(h\
-andleFocusChild)\
-\x0d\x0a    }\x0d\x0a\x0d\x0a    c\
-ontent: Item{\x0d\x0a \
-       anchors.f\
-ill: parent\x0d\x0a   \
-     Rectangle{\x0d\
-\x0a            anc\
-hors.fill: paren\
-t\x0d\x0a            c\
-olor: \x22transpare\
-nt\x22\x0d\x0a           \
- border.width: /\
-*tf.activeFocus \
-? 1 : 0*/ 1\x0d\x0a   \
-         border.\
-color: \x22steelblu\
-e\x22\x0d\x0a        }\x0d\x0a\x0d\
-\x0a        TextAre\
-a {\x0d\x0a           \
- id: tf\x0d\x0a       \
-     text: text_\
-data\x0d\x0a          \
-  font.pixelSize\
-: 18\x0d\x0a          \
-  font.weight: F\
-ont.DemiBold\x0d\x0a  \
-          color:\
- \x22#4D365D\x22\x0d\x0a    \
-        font.fam\
-ily: \x22Nunito\x22\x0d\x0a \
-           ancho\
-rs.centerIn: par\
-ent\x0d\x0a           \
- horizontalAlign\
-ment: Text.Align\
-HCenter\x0d\x0a       \
-     verticalAli\
-gnment: Text.Ali\
-gnVCenter\x0d\x0a     \
-       onTextCha\
-nged: text_data \
-= tf.text\x0d\x0a     \
-       backgroun\
-d: Item{}\x0d\x0a     \
-       onActiveF\
-ocusChanged: isC\
-hildFocused = tf\
-.activeFocus\x0d\x0a  \
-      }\x0d\x0a    }\x0d\x0a\
-\x0d\x0a    onItem_idC\
-hanged : {\x0d\x0a    \
-    element_tag \
-= \x22text_\x22 + item\
-_id\x0d\x0a    }\x0d\x0a}\x0d\x0a\
-\x00\x00\x04\xa0\
+on escapeHtml(te\
+xt) {\x0d\x0a    let m\
+ap = {\x0d\x0a        \
+'&': '&amp;',\x0d\x0a \
+       '<': '&lt\
+;',\x0d\x0a        '>'\
+: '&gt;',\x0d\x0a     \
+   '\x22': '&quot;'\
+,\x0d\x0a        \x22'\x22: \
+'&#039;'\x0d\x0a    };\
+\x0d\x0a    return tex\
+t.replace(/[&<>\x22\
+']/g, function(m\
+) { return map[m\
+]; });\x0d\x0a}\x0d\x0a\x0d\x0afun\
+ction get_html()\
+ {\x0d\x0a    let safe\
+TextData = text_\
+data ? escapeHtm\
+l(text_data) : \x22\
+Default Text\x22;\x0d\x0a\
+\x0d\x0a    let html =\
+ `\x0d\x0a    <style>\x0d\
+\x0a        .text-c\
+ontainer {\x0d\x0a    \
+        display:\
+ grid; place-ite\
+ms: center; widt\
+h: 100%; height:\
+ 100%; font-size\
+: 18px; color: #\
+4D365D; font-fam\
+ily: 'Nunito', s\
+ans-serif; font-\
+weight: 600; pad\
+ding: 10px; box-\
+sizing: border-b\
+ox; background-c\
+olor: #f9f9f9;\x0d\x0a\
+        }\x0d\x0a     \
+   .text-content\
+ {\x0d\x0a            \
+text-align: cent\
+er; line-height:\
+ 1.5; word-wrap:\
+ break-word;\x0d\x0a  \
+      }\x0d\x0a    </s\
+tyle>\x0d\x0a    <div \
+class=\x22text-cont\
+ainer\x22>\x0d\x0a       \
+ <div class=\x22tex\
+t-content\x22>${saf\
+eTextData}</div>\
+\x0d\x0a    </div>`;\x0d\x0a\
+\x0d\x0a    console.lo\
+g(html);\x0d\x0a    re\
+turn html;\x0d\x0a}\x0d\x0a\x0d\
+\x0a    function ha\
+ndleFocusChild()\
+{\x0d\x0a        conso\
+le.log(\x22HandleFo\
+cusChild\x22)\x0d\x0a    \
+    tf.forceActi\
+veFocus()\x0d\x0a     \
+   tf.text = tex\
+t_data\x0d\x0a        \
+tf.selectAll()\x0d\x0a\
+    }\x0d\x0a\x0d\x0a    Com\
+ponent.onComplet\
+ed: {\x0d\x0a        f\
+ocusChild.connec\
+t(handleFocusChi\
+ld)\x0d\x0a    }\x0d\x0a\x0d\x0a  \
+  content: Item{\
+\x0d\x0a        anchor\
+s.fill: parent\x0d\x0a\
+        Rectangl\
+e{\x0d\x0a            \
+anchors.fill: pa\
+rent\x0d\x0a          \
+  color: \x22transp\
+arent\x22\x0d\x0a        \
+    border.width\
+: /*tf.activeFoc\
+us ? 1 : 0*/ 1\x0d\x0a\
+            bord\
+er.color: \x22steel\
+blue\x22\x0d\x0a        }\
+\x0d\x0a\x0d\x0a        Text\
+Area {\x0d\x0a        \
+    id: tf\x0d\x0a    \
+        text: te\
+xt_data\x0d\x0a       \
+     font.pixelS\
+ize: 18\x0d\x0a       \
+     font.weight\
+: Font.DemiBold\x0d\
+\x0a            col\
+or: \x22#4D365D\x22\x0d\x0a \
+           font.\
+family: \x22Nunito\x22\
+\x0d\x0a            an\
+chors.centerIn: \
+parent\x0d\x0a        \
+    horizontalAl\
+ignment: Text.Al\
+ignHCenter\x0d\x0a    \
+        vertical\
+Alignment: Text.\
+AlignVCenter\x0d\x0a  \
+          onText\
+Changed: text_da\
+ta = tf.text\x0d\x0a  \
+          backgr\
+ound: Item{}\x0d\x0a  \
+          onActi\
+veFocusChanged: \
+isChildFocused =\
+ tf.activeFocus\x0d\
+\x0a        }\x0d\x0a    \
+}\x0d\x0a\x0d\x0a    onItem_\
+idChanged : {\x0d\x0a \
+       element_t\
+ag = \x22text_\x22 + i\
+tem_id\x0d\x0a    }\x0d\x0a}\
+\x0d\x0a\
+\x00\x00\x06\xac\
 i\
 mport QtQuick 2.\
 0\x0d\x0aimport QtQml \
@@ -2779,51 +2981,84 @@ rror('Invalid Yo\
 uTube URL');\x0d\x0a  \
           return\
  \x22\x22;\x0d\x0a        }\x0d\
-\x0a    }\x0d\x0a\x0d\x0a    fu\
-nction get_html(\
-){\x0d\x0a        let \
-emb_link = getYo\
-uTubeVideoId(vid\
-eo_source)\x0d\x0a    \
-    let html = `\
-<iframe style=\x22w\
-idth: 100%; heig\
-ht: 100%\x22 frameb\
-order=\x220\x22 allowf\
-ullscreen src=\x22h\
-ttps://www.youtu\
-be.com/embed/${e\
-mb_link}\x22> </ifr\
-ame>`\x0d\x0a        r\
-eturn html\x0d\x0a    \
-}\x0d\x0a\x0d\x0a    content\
-: Item{\x0d\x0a       \
- anchors.fill: p\
-arent\x0d\x0a        I\
-mage{\x0d\x0a         \
-   id : video\x0d\x0a \
-           ancho\
-rs.fill: parent\x0d\
-\x0a            fil\
-lMode: Image.Pre\
-serveAspectCrop\x0d\
-\x0a            sou\
-rce: \x22qrc:/asset\
-s/img_video-plac\
-eholder.jpg\x22    \
-    \x0d\x0a        }\x0d\
-\x0a\x0d\x0a        Mouse\
-Area{\x0d\x0a         \
-   anchors.fill:\
- parent\x0d\x0a       \
-     onClicked: \
-video.stop()\x0d\x0a  \
-      }\x0d\x0a    }\x0d\x0a\
-\x0d\x0a    onItem_idC\
-hanged: {\x0d\x0a     \
-   element_tag =\
- \x22video_\x22 + item\
-_id\x0d\x0a    }\x0d\x0a}\x0d\x0a\
+\x0a    }\x0d\x0a\x0d\x0afuncti\
+on get_html() {\x0d\
+\x0a    let emb_lin\
+k = getYouTubeVi\
+deoId(video_sour\
+ce);\x0d\x0a\x0d\x0a    let \
+html = `\x0d\x0a    <s\
+tyle>\x0d\x0a        .\
+grid-container {\
+\x0d\x0a            di\
+splay: grid; pla\
+ce-items: center\
+; width: 100%; h\
+eight: 100%; bac\
+kground-color: #\
+181818; border-r\
+adius: 10px; ove\
+rflow: hidden; b\
+ox-shadow: 0px 4\
+px 8px rgba(0, 0\
+, 0, 0.1);\x0d\x0a    \
+    }\x0d\x0a        .\
+video-frame {\x0d\x0a \
+           width\
+: 100%; height: \
+100%; border: no\
+ne; transition: \
+transform 0.3s e\
+ase-in-out; grid\
+-area: 1 / 1; ob\
+ject-fit: cover;\
+\x0d\x0a        }\x0d\x0a   \
+     .grid-conta\
+iner:hover .vide\
+o-frame {\x0d\x0a     \
+       transform\
+: scale(1.05);\x0d\x0a\
+        }\x0d\x0a    <\
+/style>\x0d\x0a    <di\
+v class=\x22grid-co\
+ntainer\x22>\x0d\x0a     \
+   <iframe class\
+=\x22video-frame\x22 s\
+rc=\x22https://www.\
+youtube.com/embe\
+d/${emb_link}\x22 a\
+llowfullscreen><\
+/iframe>\x0d\x0a    </\
+div>`;\x0d\x0a    retu\
+rn html;\x0d\x0a}\x0d\x0a\x0d\x0a\x0d\
+\x0a    content: It\
+em{\x0d\x0a        anc\
+hors.fill: paren\
+t\x0d\x0a        Image\
+{\x0d\x0a            i\
+d : video\x0d\x0a     \
+       anchors.f\
+ill: parent\x0d\x0a   \
+         fillMod\
+e: Image.Preserv\
+eAspectCrop\x0d\x0a   \
+         source:\
+ \x22qrc:/assets/im\
+g_video-placehol\
+der.jpg\x22        \
+\x0d\x0a        }\x0d\x0a\x0d\x0a \
+       MouseArea\
+{\x0d\x0a            a\
+nchors.fill: par\
+ent\x0d\x0a           \
+ onClicked: vide\
+o.stop()\x0d\x0a      \
+  }\x0d\x0a    }\x0d\x0a\x0d\x0a  \
+  onItem_idChang\
+ed: {\x0d\x0a        e\
+lement_tag = \x22vi\
+deo_\x22 + item_id\x0d\
+\x0a    }\x0d\x0a}\x0d\x0a\
 \x00\x00\x03\x22\
 \x00\
 \x00\x109x\x9c\xedVMo\xdb0\x0c\xbd\x17\xe8\x7f\
@@ -2877,7 +3112,7 @@ v;\xf8\xb9}\x1b;}\xc5\xc1D\xd5\xa2\xfcS\xec\
 \xce\x0e uwX\x17w\xec\xacn\x14\xdb\xbfN\xee\
 \x95\xd0Z\xe4\xff\x08\xbf\x8f\x8b\xab\xf8\xf8\x05N\xbey\
 \xa5\
-\x00\x00\x08\xbd\
+\x00\x00\x0d)\
 i\
 mport QtQuick 2.\
 0\x0d\x0aimport QtQml \
@@ -2899,126 +3134,197 @@ hanged: {\x0d\x0a     \
 xt = btn_name\x0d\x0a \
        tf.text =\
  btn_name\x0d\x0a    }\
-\x0d\x0a\x0d\x0a    function\
- get_html(){\x0d\x0a  \
-      let action\
-_click = btn_sou\
-rce.length == 0 \
-? \x22\x22 : `onclick=\
-\x22window.open('${\
-btn_source}', '_\
-blank')\x22`\x0d\x0a     \
-   let html = `<\
-button ${action_\
-click}  href=\x22${\
-btn_source}\x22 sty\
-le=\x22 background-\
-color: ${btn_col\
-or};\x0d\x0a        wi\
-dth: 100%; heigh\
-t: 100%; font-si\
-ze: 16px;\x22> ${bt\
-n_name} </button\
->`\x0d\x0a        cons\
-ole.log(html)\x0d\x0a \
-       return ht\
-ml\x0d\x0a    }\x0d\x0a\x0d\x0a   \
- function handle\
-FocusChild(){\x0d\x0a \
-       console.l\
-og(\x22HandleFocusC\
-hild\x22)\x0d\x0a        \
-tf.forceActiveFo\
-cus()\x0d\x0a        t\
-f.text = btn_nam\
-e\x0d\x0a        tf.se\
-lectAll()\x0d\x0a    }\
-\x0d\x0a\x0d\x0a    signal c\
-ontentUpdated()\x0d\
-\x0a\x0d\x0a    Component\
-.onCompleted: {\x0d\
-\x0a        focusCh\
-ild.connect(hand\
-leFocusChild)\x0d\x0a \
-   }\x0d\x0a\x0d\x0a    cont\
-ent: Item{\x0d\x0a    \
-    anchors.fill\
-: parent\x0d\x0a      \
-  Rectangle {\x0d\x0a \
-           id : \
-btnRoot\x0d\x0a       \
-     property bo\
-ol isActive: tru\
-e\x0d\x0a            r\
-adius: 10\x0d\x0a     \
-       color: bt\
-n_color\x0d\x0a       \
-     anchors.fil\
-l: parent\x0d\x0a\x0d\x0a   \
-         Text {\x0d\
-\x0a               \
- id : txtBtnName\
-\x0d\x0a              \
-  text: btn_name\
-\x0d\x0a              \
-  color: \x22white\x22\
-\x0d\x0a              \
-  verticalAlignm\
-ent: Text.AlignV\
-Center\x0d\x0a        \
-        horizont\
-alAlignment: Tex\
-t.AlignHCenter\x0d\x0a\
-                \
-font.family: \x22Nu\
-nito\x22\x0d\x0a         \
-       font.weig\
-ht: Font.DemiBol\
-d\x0d\x0a             \
-   font.pixelSiz\
-e: 16\x0d\x0a         \
-       visible: \
-!tf.activeFocus\x0d\
-\x0a               \
- anchors.centerI\
-n: parent\x0d\x0a     \
-       }\x0d\x0a      \
-  }\x0d\x0a        Tex\
-tInput{\x0d\x0a       \
-     id : tf\x0d\x0a  \
-          height\
-: 40\x0d\x0a          \
-  font.weight: F\
-ont.DemiBold\x0d\x0a  \
-          color:\
- \x22white\x22\x0d\x0a      \
-      font.famil\
-y: \x22Nunito\x22\x0d\x0a   \
-         horizon\
-talAlignment: Te\
-xt.AlignHCenter\x0d\
-\x0a            ver\
-ticalAlignment: \
-Text.AlignVCente\
-r\x0d\x0a            a\
-nchors.centerIn:\
- parent\x0d\x0a       \
-     onTextChang\
-ed: {\x0d\x0a         \
-       btn_name \
-= tf.text\x0d\x0a     \
-           conte\
-ntUpdated()\x0d\x0a   \
-         }\x0d\x0a\x0d\x0a  \
-          visibl\
-e: tf.activeFocu\
-s\x0d\x0a            t\
-ext: btn_name\x0d\x0a \
-       }\x0d\x0a    }\x0d\
-\x0a\x0d\x0a    onItem_id\
-Changed: element\
-_tag = \x22btn_\x22 + \
-item_id\x0d\x0a}\x0d\x0a\
+\x0d\x0a\x0d\x0afunction esc\
+apeHtml(text) {\x0d\
+\x0a    let map = {\
+\x0d\x0a        '&': '\
+&amp;',\x0d\x0a       \
+ '<': '&lt;',\x0d\x0a \
+       '>': '&gt\
+;',\x0d\x0a        '\x22'\
+: '&quot;',\x0d\x0a   \
+     \x22'\x22: '&#039\
+;'\x0d\x0a    };\x0d\x0a    \
+return text.repl\
+ace(/[&<>\x22']/g, \
+function(m) { re\
+turn map[m]; });\
+\x0d\x0a}\x0d\x0a\x0d\x0afunction \
+isValidColor(col\
+or) {\x0d\x0a    let h\
+exColorRegex = /\
+^#([0-9A-F]{3}){\
+1,2}$/i;\x0d\x0a    le\
+t namedColors = \
+['red', 'blue', \
+'green', 'yellow\
+', 'purple', 'bl\
+ack', 'white', '\
+gray', 'orange']\
+;\x0d\x0a    return he\
+xColorRegex.test\
+(color) || named\
+Colors.includes(\
+color.toLowerCas\
+e());\x0d\x0a}\x0d\x0a\x0d\x0afunc\
+tion get_html() \
+{\x0d\x0a    let safeB\
+tnName = escapeH\
+tml(btn_name);\x0d\x0a\
+    let safeBtnS\
+ource = escapeHt\
+ml(btn_source);\x0d\
+\x0a    let safeBtn\
+Color = isValidC\
+olor(btn_color) \
+? btn_color : \x22#\
+7E69FF\x22;\x0d\x0a\x0d\x0a    \
+let action_click\
+ = safeBtnSource\
+.length === 0 ? \
+\x22\x22 : `onclick=\x22w\
+indow.open('${sa\
+feBtnSource}', '\
+_blank')\x22`\x0d\x0a    \
+let html = `\x0d\x0a  \
+      <div style\
+=\x22display: grid;\
+ place-items: ce\
+nter; width: 100\
+%; height: 100%;\
+\x22>\x0d\x0a            \
+<button ${action\
+_click} style=\x22b\
+ackground-color:\
+ ${safeBtnColor}\
+; color: white; \
+border: none; bo\
+rder-radius: 10p\
+x; padding: 12px\
+ 24px; font-fami\
+ly: 'Nunito', sa\
+ns-serif; font-w\
+eight: 600; font\
+-size: 16px; cur\
+sor: pointer; tr\
+ansition: backgr\
+ound-color 0.3s,\
+ transform 0.3s;\
+\x22>\x0d\x0a            \
+    ${safeBtnNam\
+e}\x0d\x0a            \
+</button>\x0d\x0a     \
+   </div>\x0d\x0a     \
+   <style>\x0d\x0a    \
+        button:h\
+over {\x0d\x0a        \
+        backgrou\
+nd-color: #6650C\
+C;\x0d\x0a            \
+    transform: s\
+cale(1.05);\x0d\x0a   \
+         }\x0d\x0a    \
+    </style>\x0d\x0a  \
+  `;\x0d\x0a    consol\
+e.log(html);\x0d\x0a  \
+  return html;\x0d\x0a\
+}\x0d\x0a\x0d\x0a\x0d\x0a\x0d\x0a    fun\
+ction handleFocu\
+sChild(){\x0d\x0a     \
+   console.log(\x22\
+HandleFocusChild\
+\x22)\x0d\x0a        tf.f\
+orceActiveFocus(\
+)\x0d\x0a        tf.te\
+xt = btn_name\x0d\x0a \
+       tf.select\
+All()\x0d\x0a    }\x0d\x0a\x0d\x0a\
+    signal conte\
+ntUpdated()\x0d\x0a\x0d\x0a \
+   Component.onC\
+ompleted: {\x0d\x0a   \
+     focusChild.\
+connect(handleFo\
+cusChild)\x0d\x0a    }\
+\x0d\x0a\x0d\x0a    content:\
+ Item{\x0d\x0a        \
+anchors.fill: pa\
+rent\x0d\x0a        Re\
+ctangle {\x0d\x0a     \
+       id : btnR\
+oot\x0d\x0a           \
+ property bool i\
+sActive: true\x0d\x0a \
+           radiu\
+s: 10\x0d\x0a         \
+   color: btn_co\
+lor\x0d\x0a           \
+ anchors.fill: p\
+arent\x0d\x0a\x0d\x0a       \
+     Text {\x0d\x0a   \
+             id \
+: txtBtnName\x0d\x0a  \
+              te\
+xt: btn_name\x0d\x0a  \
+              co\
+lor: \x22white\x22\x0d\x0a  \
+              ve\
+rticalAlignment:\
+ Text.AlignVCent\
+er\x0d\x0a            \
+    horizontalAl\
+ignment: Text.Al\
+ignHCenter\x0d\x0a    \
+            font\
+.family: \x22Nunito\
+\x22\x0d\x0a             \
+   font.weight: \
+Font.DemiBold\x0d\x0a \
+               f\
+ont.pixelSize: 1\
+6\x0d\x0a             \
+   visible: !tf.\
+activeFocus\x0d\x0a   \
+             anc\
+hors.centerIn: p\
+arent\x0d\x0a         \
+   }\x0d\x0a        }\x0d\
+\x0a        TextInp\
+ut{\x0d\x0a           \
+ id : tf\x0d\x0a      \
+      height: 40\
+\x0d\x0a            fo\
+nt.weight: Font.\
+DemiBold\x0d\x0a      \
+      color: \x22wh\
+ite\x22\x0d\x0a          \
+  font.family: \x22\
+Nunito\x22\x0d\x0a       \
+     horizontalA\
+lignment: Text.A\
+lignHCenter\x0d\x0a   \
+         vertica\
+lAlignment: Text\
+.AlignVCenter\x0d\x0a \
+           ancho\
+rs.centerIn: par\
+ent\x0d\x0a           \
+ onTextChanged: \
+{\x0d\x0a             \
+   btn_name = tf\
+.text\x0d\x0a         \
+       contentUp\
+dated()\x0d\x0a       \
+     }\x0d\x0a\x0d\x0a      \
+      visible: t\
+f.activeFocus\x0d\x0a \
+           text:\
+ btn_name\x0d\x0a     \
+   }\x0d\x0a    }\x0d\x0a\x0d\x0a \
+   onItem_idChan\
+ged: element_tag\
+ = \x22btn_\x22 + item\
+_id\x0d\x0a}\x0d\x0a\
 \x00\x00\x07?\
 i\
 mport QtQuick 2.\
@@ -4285,11 +4591,11 @@ qt_resource_struct = b"\
 \x00\x00\x00\x16\x00\x02\x00\x00\x00\x05\x00\x00\x00\x03\
 \x00\x00\x00\x00\x00\x00\x00\x00\
 \x00\x00\x00\x00\x00\x01\x00\x00\x00\x01\x00\x00\x00\x00\
-\x00\x00\x01\x90a\xd8M\xe3\
+\x00\x00\x01\x91C\xbfS\xe7\
 \x00\x00\x00\x22\x00\x02\x00\x00\x00\x0f\x00\x00\x00(\
 \x00\x00\x00\x00\x00\x00\x00\x00\
 \x00\x00\x00^\x00\x00\x00\x00\x00\x01\x00\x00\x04\xec\
-\x00\x00\x01\x8f\xb4r\xa6\xec\
+\x00\x00\x01\x91;ymB\
 \x00\x00\x002\x00\x02\x00\x00\x00\x0c\x00\x00\x00\x15\
 \x00\x00\x00\x00\x00\x00\x00\x00\
 \x00\x00\x00D\x00\x02\x00\x00\x00\x09\x00\x00\x00\x0c\
@@ -4297,99 +4603,99 @@ qt_resource_struct = b"\
 \x00\x00\x00|\x00\x02\x00\x00\x00\x04\x00\x00\x00\x08\
 \x00\x00\x00\x00\x00\x00\x00\x00\
 \x00\x00\x00\x92\x00\x00\x00\x00\x00\x01\x00\x00\x07\x87\
-\x00\x00\x01\x90O\xaeU\x1a\
+\x00\x00\x01\x91;ymr\
 \x00\x00\x00\xda\x00\x01\x00\x00\x00\x01\x00\x00\x0dZ\
-\x00\x00\x01\x90O\xaeU\x19\
+\x00\x00\x01\x91;ymr\
 \x00\x00\x00\xf6\x00\x00\x00\x00\x00\x01\x00\x00\x10\x98\
-\x00\x00\x01\x90O\xaeU\x19\
+\x00\x00\x01\x91;ymq\
 \x00\x00\x00\xba\x00\x00\x00\x00\x00\x01\x00\x00\x09\x0d\
-\x00\x00\x01\x90O\xaeU\x1a\
+\x00\x00\x01\x91;ymt\
 \x00\x00\x01\x18\x00\x01\x00\x00\x00\x01\x00\x00\x11\xd9\
-\x00\x00\x01\x90&\xe7\x16\xb7\
+\x00\x00\x01\x91;ymg\
 \x00\x00\x01\xfa\x00\x01\x00\x00\x00\x01\x00\x008\xa0\
-\x00\x00\x01\x90&\xe7\x16\xb8\
+\x00\x00\x01\x91;ymk\
 \x00\x00\x02,\x00\x00\x00\x00\x00\x01\x00\x00C\xe2\
-\x00\x00\x01\x90+x\x0d%\
+\x00\x00\x01\x91;ymm\
 \x00\x00\x01D\x00\x00\x00\x00\x00\x01\x00\x00\x18\xa0\
-\x00\x00\x01\x8f\xab\x87W\xec\
+\x00\x00\x01\x91;ymn\
 \x00\x00\x01\xda\x00\x01\x00\x00\x00\x01\x00\x005\xac\
-\x00\x00\x01\x90&\xe7\x16\xb7\
+\x00\x00\x01\x91;ymf\
 \x00\x00\x02\x12\x00\x00\x00\x00\x00\x01\x00\x00>\xe3\
-\x00\x00\x01\x90&\xe7\x16\xb8\
+\x00\x00\x01\x91;ymh\
 \x00\x00\x01^\x00\x01\x00\x00\x00\x01\x00\x00\x1c3\
-\x00\x00\x01\x90&\xe7\x16\xb8\
+\x00\x00\x01\x91;ymj\
 \x00\x00\x01\xac\x00\x01\x00\x00\x00\x01\x00\x00)\x93\
-\x00\x00\x01\x90a\xd8#\x10\
+\x00\x00\x01\x91;yml\
 \x00\x00\x01\x80\x00\x00\x00\x00\x00\x01\x00\x00\x22\xab\
-\x00\x00\x01\x90'DuC\
+\x00\x00\x01\x91;yml\
 \x00\x00\x02\xba\x00\x02\x00\x00\x00\x07\x00\x00\x00!\
 \x00\x00\x00\x00\x00\x00\x00\x00\
 \x00\x00\x03\xd6\x00\x00\x00\x00\x00\x01\x00\x00\x81\x8e\
-\x00\x00\x01\x90O\xaeU\x16\
+\x00\x00\x01\x91;ym]\
 \x00\x00\x02\xca\x00\x00\x00\x00\x00\x01\x00\x00^\xc2\
-\x00\x00\x01\x90&\xe7\x16\xb6\
+\x00\x00\x01\x91;ym[\
 \x00\x00\x03\x06\x00\x00\x00\x00\x00\x01\x00\x00c\x03\
-\x00\x00\x01\x90_MR\xed\
+\x00\x00\x01\x91;ymS\
 \x00\x00\x03\xc0\x00\x00\x00\x00\x00\x01\x00\x00}\xd6\
-\x00\x00\x01\x90&\xe7\x16\xb6\
+\x00\x00\x01\x91;ymX\
 \x00\x00\x03\x92\x00\x00\x00\x00\x00\x01\x00\x00x\x92\
-\x00\x00\x01\x90O\xaeU\x17\
+\x00\x00\x01\x91;ym^\
 \x00\x00\x03(\x00\x00\x00\x00\x00\x01\x00\x00j\x01\
-\x00\x00\x01\x8f\xb5\xd7MB\
+\x00\x00\x01\x91;ym\x5c\
 \x00\x00\x02R\x00\x00\x00\x00\x00\x01\x00\x00I\xd0\
-\x00\x00\x01\x90O\xaeU\x16\
+\x00\x00\x01\x91;ymW\
 \x00\x00\x03H\x00\x00\x00\x00\x00\x01\x00\x00m\x95\
-\x00\x00\x01\x90&\xe7\x16\xb5\
+\x00\x00\x01\x91;ymV\
 \x00\x00\x02\x94\x00\x01\x00\x00\x00\x01\x00\x00Z\xc9\
-\x00\x00\x01\x90n\xef.w\
+\x00\x00\x01\x91;ymW\
 \x00\x00\x02n\x00\x01\x00\x00\x00\x01\x00\x00RU\
-\x00\x00\x01\x90a\xeb\xe0\xa2\
+\x00\x00\x01\x91;ymT\
 \x00\x00\x03p\x00\x00\x00\x00\x00\x01\x00\x00q\x90\
-\x00\x00\x01\x90&\xe7\x16\xb6\
-\x00\x00\x04D\x00\x00\x00\x00\x00\x01\x00\x00\x93?\
-\x00\x00\x01\x90_dS\xaa\
-\x00\x00\x04b\x00\x00\x00\x00\x00\x01\x00\x00\xa10\
-\x00\x00\x01\x90n\xfb}\xdf\
-\x00\x00\x04\x80\x00\x00\x00\x00\x00\x01\x00\x00\xa7T\
-\x00\x00\x01\x90_1v$\
-\x00\x00\x04\xc8\x00\x00\x00\x00\x00\x01\x00\x00\xaf\x1e\
-\x00\x00\x01\x90i6\x1f\xdb\
+\x00\x00\x01\x91;ymY\
+\x00\x00\x04D\x00\x00\x00\x00\x00\x01\x00\x00\x998\
+\x00\x00\x01\x91_b\x81\xa4\
+\x00\x00\x04b\x00\x00\x00\x00\x00\x01\x00\x00\xaa\xae\
+\x00\x00\x01\x91`:\xe8\x95\
+\x00\x00\x04\x80\x00\x00\x00\x00\x00\x01\x00\x00\xb3\xd5\
+\x00\x00\x01\x91`:\xe8\x9c\
+\x00\x00\x04\xc8\x00\x00\x00\x00\x00\x01\x00\x00\xbd\xab\
+\x00\x00\x01\x91_U\x14]\
 \x00\x00\x04\x00\x00\x00\x00\x00\x00\x01\x00\x00\x8aT\
-\x00\x00\x01\x90n\xf2s\x01\
-\x00\x00\x04$\x00\x00\x00\x00\x00\x01\x00\x00\x90\xa3\
-\x00\x00\x01\x90f\xf68\xf4\
-\x00\x00\x04\xa0\x00\x01\x00\x00\x00\x01\x00\x00\xab\xf8\
-\x00\x00\x01\x90n\xf1\xdcy\
-\x00\x00\x05\xec\x00\x01\x00\x00\x00\x01\x00\x00\xdb\xce\
-\x00\x00\x01\x90&\xe7\x16\xb2\
-\x00\x00\x05\xaa\x00\x01\x00\x00\x00\x01\x00\x00\xce(\
-\x00\x00\x01\x90]\x9a6A\
-\x00\x00\x05^\x00\x00\x00\x00\x00\x01\x00\x00\xc2m\
-\x00\x00\x01\x90n\x8a\x1b\xd1\
-\x00\x00\x06\xe6\x00\x01\x00\x00\x00\x01\x00\x00\xf3\x08\
-\x00\x00\x01\x90i+\xe6]\
-\x00\x00\x05\xc8\x00\x00\x00\x00\x00\x01\x00\x00\xd3T\
-\x00\x00\x01\x90P\xc0\x07\x0f\
-\x00\x00\x06x\x00\x00\x00\x00\x00\x01\x00\x00\xea\x8d\
-\x00\x00\x01\x90O\xaeU\x11\
-\x00\x00\x05\x84\x00\x01\x00\x00\x00\x01\x00\x00\xcb\x5c\
-\x00\x00\x01\x90O\xaeU\x15\
-\x00\x00\x06T\x00\x00\x00\x00\x00\x01\x00\x00\xe4\xd9\
-\x00\x00\x01\x90n\xfa\xb0\x96\
-\x00\x00\x06\x0a\x00\x01\x00\x00\x00\x01\x00\x00\xde\xa7\
-\x00\x00\x01\x90P\x85\x8ei\
-\x00\x00\x04\xea\x00\x00\x00\x00\x00\x01\x00\x00\xb7\xdf\
-\x00\x00\x01\x90n\x8f_\x8e\
-\x00\x00\x06\xc2\x00\x01\x00\x00\x00\x01\x00\x00\xef\xe3\
-\x00\x00\x01\x90Ze4\x1a\
-\x00\x00\x05:\x00\x00\x00\x00\x00\x01\x00\x00\xc1+\
-\x00\x00\x01\x90n\xfe&\xcf\
-\x00\x00\x064\x00\x01\x00\x00\x00\x01\x00\x00\xe1\xc8\
-\x00\x00\x01\x90&\xe7\x16\xb4\
-\x00\x00\x05\x14\x00\x01\x00\x00\x00\x01\x00\x00\xbf\x22\
-\x00\x00\x01\x90O\xaeU\x14\
-\x00\x00\x06\x9c\x00\x00\x00\x00\x00\x01\x00\x00\xeb\x9f\
-\x00\x00\x01\x90O\xaeU\x13\
+\x00\x00\x01\x91_I.\xb0\
+\x00\x00\x04$\x00\x00\x00\x00\x00\x01\x00\x00\x93\x9c\
+\x00\x00\x01\x91_\x5c\xbd\x9d\
+\x00\x00\x04\xa0\x00\x01\x00\x00\x00\x01\x00\x00\xba\x85\
+\x00\x00\x01\x91;ymd\
+\x00\x00\x05\xec\x00\x01\x00\x00\x00\x01\x00\x00\xee\xc7\
+\x00\x00\x01\x91;ymM\
+\x00\x00\x05\xaa\x00\x01\x00\x00\x00\x01\x00\x00\xe1!\
+\x00\x00\x01\x91;ymQ\
+\x00\x00\x05^\x00\x00\x00\x00\x00\x01\x00\x00\xd5f\
+\x00\x00\x01\x91;ymG\
+\x00\x00\x06\xe6\x00\x01\x00\x00\x00\x01\x00\x01\x06\x01\
+\x00\x00\x01\x91;ymE\
+\x00\x00\x05\xc8\x00\x00\x00\x00\x00\x01\x00\x00\xe6M\
+\x00\x00\x01\x91;ymH\
+\x00\x00\x06x\x00\x00\x00\x00\x00\x01\x00\x00\xfd\x86\
+\x00\x00\x01\x91;ymD\
+\x00\x00\x05\x84\x00\x01\x00\x00\x00\x01\x00\x00\xdeU\
+\x00\x00\x01\x91;ymP\
+\x00\x00\x06T\x00\x00\x00\x00\x00\x01\x00\x00\xf7\xd2\
+\x00\x00\x01\x91;ymJ\
+\x00\x00\x06\x0a\x00\x01\x00\x00\x00\x01\x00\x00\xf1\xa0\
+\x00\x00\x01\x91;ymO\
+\x00\x00\x04\xea\x00\x00\x00\x00\x00\x01\x00\x00\xca\xd8\
+\x00\x00\x01\x91;ymF\
+\x00\x00\x06\xc2\x00\x01\x00\x00\x00\x01\x00\x01\x02\xdc\
+\x00\x00\x01\x91;ymI\
+\x00\x00\x05:\x00\x00\x00\x00\x00\x01\x00\x00\xd4$\
+\x00\x00\x01\x91;ymL\
+\x00\x00\x064\x00\x01\x00\x00\x00\x01\x00\x00\xf4\xc1\
+\x00\x00\x01\x91;ymR\
+\x00\x00\x05\x14\x00\x01\x00\x00\x00\x01\x00\x00\xd2\x1b\
+\x00\x00\x01\x91;ymN\
+\x00\x00\x06\x9c\x00\x00\x00\x00\x00\x01\x00\x00\xfe\x98\
+\x00\x00\x01\x91;ymK\
 "
 
 def qInitResources():

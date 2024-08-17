@@ -18,11 +18,27 @@ ResizableItem {
         }
     }
 
-    function get_html(){
-        let emb_link = getYouTubeVideoId(video_source)
-        let html = `<iframe style="width: 100%; height: 100%" frameborder="0" allowfullscreen src="https://www.youtube.com/embed/${emb_link}"> </iframe>`
-        return html
-    }
+function get_html() {
+    let emb_link = getYouTubeVideoId(video_source);
+
+    let html = `
+    <style>
+        .grid-container {
+            display: grid; place-items: center; width: 100%; height: 100%; background-color: #181818; border-radius: 10px; overflow: hidden; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .video-frame {
+            width: 100%; height: 100%; border: none; transition: transform 0.3s ease-in-out; grid-area: 1 / 1; object-fit: cover;
+        }
+        .grid-container:hover .video-frame {
+            transform: scale(1.05);
+        }
+    </style>
+    <div class="grid-container">
+        <iframe class="video-frame" src="https://www.youtube.com/embed/${emb_link}" allowfullscreen></iframe>
+    </div>`;
+    return html;
+}
+
 
     content: Item{
         anchors.fill: parent

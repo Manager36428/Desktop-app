@@ -13,15 +13,45 @@ ResizableItem {
         console.log(list_pages)
     }
 
-    function get_html(){
-        let html = `<menu style="width: 100%; height: 100%; font-size: 16px;">\n`;
-        list_pages.forEach(item => {
-            html += `  <li>${item}</li>\n`;
-        });
-        html += "</menu>";
-        console.log(html)
-        return html
-    }
+function escapeHtml(text) {
+    let map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+function get_html() {
+    let safeListPages = Array.isArray(list_pages) ? list_pages : [];
+    let html = `
+    <style>
+        .menu-container {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; padding: 10px; background-color: #f8f8f8; font-family: 'Nunito', sans-serif;
+        }
+        .menu-item {
+            background-color: #4D365D; color: white; padding: 10px; text-align: center; border-radius: 8px; transition: transform 0.2s, background-color 0.2s; cursor: pointer;
+        }
+        .menu-item:hover {
+            background-color: #6A4C85;
+            transform: scale(1.05);
+        }
+    </style>
+    <div class="menu-container">\n`;
+
+    safeListPages.forEach(item => {
+        let safeItem = escapeHtml(item);
+        html += `  <div class="menu-item">${safeItem}</div>\n`;
+    });
+
+    html += "</div>";
+    console.log(html);
+    return html;
+}
+
+
 
     onItem_idChanged : {
         element_tag = "menu_" + item_id
