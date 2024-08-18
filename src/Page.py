@@ -52,14 +52,48 @@ class Page(QtCore.QObject):
     # End Section Member Property page_background
 
     def generate_css_block(self):
+        css_template = """
+        /* Resetting default margins */
+        body, html {{
+            margin: 0;
+            padding: 0;
+        }}
+
+        .container {{
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }}
+
+        .{section_id} {{
+            min-height: 100vh;
+            scroll-snap-align: start;
+            background-color: {bg_color};
+            padding: 10px; 
+            box-sizing: border-box; 
+        }}
+
+        /* Grid configuration */
+        #{section_id} {{
+            display: grid;
+            grid-template-columns: {grid_template_columns};
+            grid-template-rows: {grid_template_rows};
+            gap: 5px; 
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+        }}
+
+        /* Element styling */
+        {css_elements_section}
+        """
+
         grid_rows = ""
         grid_columns = ""
         for cell_row in self._grid_temp_row:
-            grid_rows += str(cell_row) + "fr "  # Use 'fr' units for flexibility
+            grid_rows += str(cell_row) + "fr "
         for cell_col in self._grid_temp_col:
             grid_columns += str(cell_col) + "fr "
-        print(grid_rows)
-        print(grid_columns)
 
         css_element_template = """
         .{element_tag} {{
@@ -82,25 +116,7 @@ class Page(QtCore.QObject):
                 br_x=self._cor_css_x[top_left_x + width_child]
             )
 
-        css_template = """
-    /* {section_name} Section */
-    #{section_id} {{
-        display: grid;
-        grid-template-columns: {grid_template_columns};
-        grid-template-rows: {grid_template_rows};
-        gap: 10px;  /* Optional gap between grid items */
-        background-color: {bg_color};
-        max-width: 100%;
-        width: 100%;
-        margin: 0 auto;
-    }}
-
-    {css_elements_section}
-
-    /* End {section_name} Section */
-        """
         return css_template.format(
-            section_name=self._page_name,
             section_id=self._page_id,
             bg_color=self._page_background,
             grid_template_rows=grid_rows.strip(),
@@ -184,9 +200,11 @@ class Page(QtCore.QObject):
             elements += element_tag.format(html_element=child.get_html(), element_id=child.property("element_tag"))
 
         section_tag = f"""
-        <section id="{self._page_id}">
+        <section id="{self._page_id}" class="{self._page_id}">
             {elements}
         </section>
+        
+        <div style="height: 1px;"></div>
         """
         return section_tag
 

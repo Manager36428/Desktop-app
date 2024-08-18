@@ -29,13 +29,13 @@ function get_html() {
     let html = `
     <style>
         .menu-container {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; padding: 10px; background-color: #f8f8f8; font-family: 'Nunito', sans-serif;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; padding: 10px; background-color: transparent; font-family: 'Nunito', sans-serif;
         }
         .menu-item {
-            background-color: #4D365D; color: white; padding: 10px; text-align: center; border-radius: 8px; transition: transform 0.2s, background-color 0.2s; cursor: pointer;
+            background-color: "transparent" ; color: blue; padding: 10px; text-align: center; border-radius: 15px; transition: transform 0.2s, background-color 0.2s; cursor: pointer;
         }
         .menu-item:hover {
-            background-color: #6A4C85;
+            background-color: "transparent" ;
             transform: scale(1.05);
         }
     </style>
@@ -50,7 +50,6 @@ function get_html() {
     console.log(html);
     return html;
 }
-
 
 
     onItem_idChanged : {

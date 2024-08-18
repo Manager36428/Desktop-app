@@ -31,7 +31,7 @@ function get_html() {
     let html = `
     <style>
         .text-container {
-            display: grid; place-items: center; width: 100%; height: 100%; font-size: 18px; color: #4D365D; font-family: 'Nunito', sans-serif; font-weight: 600; padding: 10px; box-sizing: border-box; background-color: #f9f9f9;
+            display: grid; place-items: center; width: 100%; height: 100%; font-size: 18px; color: #4D365D; font-family: 'Nunito', sans-serif; font-weight: 600; padding: 10px; box-sizing: border-box; background-color: transparent;  /* Set background to transparent */
         }
         .text-content {
             text-align: center; line-height: 1.5; word-wrap: break-word;
@@ -44,6 +44,7 @@ function get_html() {
     console.log(html);
     return html;
 }
+
 
     function handleFocusChild(){
         console.log("HandleFocusChild")
