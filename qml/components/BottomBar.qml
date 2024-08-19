@@ -53,22 +53,18 @@ BaseCard {
         ListElement {
             icon: "qrc:/assets/ic_navigate.png"
             text: "Navigate"
-            isActive: true
         }
         ListElement {
             icon: "qrc:/assets/ic_page.png"
             text: "Page"
-            isActive: true
         }
         ListElement {
             icon: "qrc:/assets/ic_elements.png"
             text: "Elements"
-            isActive: true
         }
         ListElement {
             icon: "qrc:/assets/ic_details.png"
             text: "Details"
-            isActive: true
         }
         id: rightButtons
     }
@@ -85,7 +81,6 @@ BaseCard {
             delegate: IconButton {
                 height: 69
                 width: 69
-<<<<<<< Updated upstream
                 elementIcon: model.icon
                 elementName: model.text
                 isActive: model.btn_active
@@ -104,55 +99,39 @@ BaseCard {
                             bottomButtons.set(i, { "btn_active": false });
                         }
                         bottomButtons.set(index, { "btn_active": true });
-=======
-                elementIcon: icon
-                elementName: text
-                isActive: btn_active
-                onBtnClicked: {
-                    if (model.btn_active) {
-                    for(var i = 0;i< bottomButtons.count; i++){
-                        updateBottomButtons(i);
-                    }
-                    } else {
-                    popupClicked(index, text)
-                    for(var i = 0;i< bottomButtons.count; i++){
-                        updateBottomButtons(i);
->>>>>>> Stashed changes
                     }
                 }
             }
         }
     }
-    }
 
-    Row {
+    Row{
         spacing: 5
         height: 69
         width: childrenRect.width
-        anchors {
+        anchors{
             verticalCenter: parent.verticalCenter
             right: parent.right
             rightMargin: 13
         }
 
-        Repeater {
+        Repeater{
             model: rightButtons
-            delegate: IconButton {
+            delegate: IconButton{
                 height: 69
                 width: 69
-                elementIcon: model.icon
-                elementName: model.text
-                isActive: model.isActive
-
+                elementIcon: icon
+                elementName: text
+                isActive: cards[index].isActive
                 onBtnClicked: {
-                    if (model.isActive) {
-                        cards[index].changeToClosedState();
-                    } else {
-                        cards[index].changeToDockedState();
+                    if(cards[index].isActive){
+                        cards[index].changeToClosedState()
+                    }else{
+                        cards[index].changeToDockedState()
                     }
-                    rightButtons.set(index, { "isActive": !model.isActive });
                 }
             }
         }
     }
+
 }
