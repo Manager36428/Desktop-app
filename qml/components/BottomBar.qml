@@ -10,120 +10,120 @@ BaseCard {
 
     signal popupClicked(var popupId, var titlePopup)
 
-
-    Image{
+    Image {
         height: 46
         width: 200
-        anchors{
+        anchors {
             left: parent.left
             leftMargin: 16
         }
-
         source: "qrc:/assets/img_logo.png"
         anchors.verticalCenter: parent.verticalCenter
     }
 
-    function updateBottomButtons(btnIndex){
-        bottomButtons.setProperty(btnIndex, "btn_active", false)
+    function updateBottomButtons(btnIndex, toggle = false) {
+        if (toggle) {
+            bottomButtons.setProperty(btnIndex, "btn_active", !bottomButtons.get(btnIndex).btn_active);
+        } else {
+            for (var i = 0; i < bottomButtons.count; i++) {
+                bottomButtons.setProperty(i, "btn_active", false);
+            }
+            bottomButtons.setProperty(btnIndex, "btn_active", true);
+        }
     }
 
-    ListModel{
-        ListElement{
+    ListModel {
+        ListElement {
             icon : "qrc:/assets/ic_new.png"
             text : "New"
             btn_active : false
         }
-        ListElement{
+        ListElement {
             icon : "qrc:/assets/ic_open.png"
             text : "Open"
             btn_active : false
         }
-        ListElement{
+        ListElement {
             icon : "qrc:/assets/ic_settings.png"
             text : "Settings"
             btn_active : false
         }
-        ListElement{
+        ListElement {
             icon : "qrc:/assets/ic_publish.png"
             text : "Publish"
             btn_active : false
         }
-        id : bottomButtons
+        id: bottomButtons
     }
 
-    ListModel{
-        ListElement{
+    ListModel {
+        ListElement {
             icon : "qrc:/assets/ic_navigate.png"
             text : "Navigate"
         }
-        ListElement{
+        ListElement {
             icon : "qrc:/assets/ic_page.png"
             text : "Page"
         }
-        ListElement{
+        ListElement {
             icon : "qrc:/assets/ic_elements.png"
             text : "Elements"
         }
-        ListElement{
+        ListElement {
             icon : "qrc:/assets/ic_details.png"
             text : "Details"
         }
-        id : rightButtons
+        id: rightButtons
     }
 
-
-    Row{
+    Row {
         spacing: 5
         height: 69
         width: childrenRect.width
         anchors.centerIn: parent
-        z:2
-        Repeater{
+        z: 2
+        Repeater {
             model: bottomButtons
-            delegate: IconButton{
+            delegate: IconButton {
                 height: 69
                 width: 69
                 elementIcon: icon
                 elementName: text
                 isActive: btn_active
-                onBtnClicked: {                    
+                onBtnClicked: {
                     popupClicked(index, text)
-                    for(var i = 0;i< bottomButtons.count; i++){
-                        updateBottomButtons(i);
-                    }
-                    bottomButtons.setProperty(index, "btn_active", true)
+                    updateBottomButtons(index, true)
                 }
             }
         }
     }
 
-    Row{
+    Row {
         spacing: 5
         height: 69
         width: childrenRect.width
-        anchors{
+        anchors {
             verticalCenter: parent.verticalCenter
             right: parent.right
             rightMargin: 13
         }
 
-        Repeater{
+        Repeater {
             model: rightButtons
-            delegate: IconButton{
+            delegate: IconButton {
                 height: 69
                 width: 69
                 elementIcon: icon
                 elementName: text
                 isActive: cards[index].isActive
                 onBtnClicked: {
-                    if(cards[index].isActive){
+                    if(cards[index].isActive) {
                         cards[index].changeToClosedState()
-                    }else{
+                    } else {
                         cards[index].changeToDockedState()
                     }
                 }
             }
         }
     }
-
 }

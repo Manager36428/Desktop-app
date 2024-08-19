@@ -2,17 +2,17 @@ import QtQuick 2.0
 import "../common"
 import "../components"
 
-Item{
-    id : detailContent
+Item {
+    id: detailContent
     anchors.fill: parent
     property var currentPage: controller.current_page
     onCurrentPageChanged: detailCard.title = currentPage != undefined ? "Details" + " : " + currentPage.page_name : "Details"
 
-    Row{
-        id : detailType
+    Row {
+        id: detailType
         height: 36
         spacing: 6
-        anchors{
+        anchors {
             top: parent.top
             left: parent.left
             right: parent.right
@@ -20,21 +20,35 @@ Item{
             topMargin: isDocked ? 54 : 24
         }
 
-        ButtonText{
+        ButtonText {
             btnName: "Page"
             isActive: contentLoader.source == "qrc:/qml/cards/ContentPage.qml"
-            width: parent.width/2 - 3
+            width: parent.width / 2 - 3
+
+            onBtnClicked: {
+                // Set contentLoader source to "Page" content
+                contentLoader.source = "qrc:/qml/cards/ContentPage.qml"
+            }
         }
 
-        ButtonText{
+        ButtonText {
             btnName: "Element"
-            width: parent.width/2 - 3
+            width: parent.width / 2 - 3
             isActive: contentLoader.source != "qrc:/qml/cards/ContentPage.qml"
+
+            onBtnClicked: {
+                // Set contentLoader source to "Element" content
+                if (currentPage.current_element_id != 0) {
+                    let compName = currentPage.current_element.objectName;
+                    let path = "qrc:/qml/cards/Content" + compName + ".qml";
+                    contentLoader.source = path;
+                }
+            }
         }
     }
 
-    Item{
-        anchors{
+    Item {
+        anchors {
             top: detailType.bottom
             bottom: parent.bottom
             bottomMargin: 17
@@ -45,8 +59,8 @@ Item{
             rightMargin: 7
         }
 
-        Loader{
-            id : contentLoader
+        Loader {
+            id: contentLoader
             anchors.fill: parent
             source: getSource()
 
@@ -56,40 +70,41 @@ Item{
 
             onLoaded: {
                 console.log("Loaded update_content")
-                contentLoader.item.update_content(currentPage.current_element)
-            }
-
-            function getSource(){
-                console.log("Get Source : " + currentPage.current_element_id )
-                if(currentPage.current_element_id == 0){
-                    console.log("[Content Page]")
-                    return "qrc:/qml/cards/ContentPage.qml"
-                }else{
-                    let compName = currentPage.current_element.objectName;
-                    let path = "qrc:/qml/cards/Content"+ compName+ ".qml"
-                    console.log("[Content Element] " + path)
-                    return path
+                if (contentLoader.item && contentLoader.item.update_content) {
+                    contentLoader.item.update_content(currentPage.current_element)
                 }
             }
 
-            Connections{
+            function getSource() {
+                console.log("Get Source : " + currentPage.current_element_id)
+                if (currentPage.current_element_id == 0) {
+                    console.log("[Content Page]")
+                    return "qrc:/qml/cards/ContentPage.qml"
+                } else {
+                    let compName = currentPage.current_element.objectName;
+                    let path = "qrc:/qml/cards/Content" + compName + ".qml";
+                    console.log("[Content Element] " + path)
+                    return path;
+                }
+            }
+
+            Connections {
                 target: controller.current_page
-                onCurrentElementIdChanged :{
+                onCurrentElementIdChanged: {
                     console.log("New Id : ", currentPage.current_element_id)
                     let newSource = contentLoader.getSource()
-                    if(newSource == contentLoader.source){
-//                        contentLoader.item.update_content(currentPage.current_element)
+                    if (newSource == contentLoader.source) {
                         contentLoader.source = ""
                         contentLoader.source = newSource
-                    }else{
+                    } else {
                         contentLoader.source = newSource
                     }
                 }
             }
 
-            Connections{
+            Connections {
                 target: controller
-                function onCurrent_pageChanged(){
+                function onCurrent_pageChanged() {
                     contentLoader.source = "qrc:/qml/cards/ContentPage.qml"
                 }
             }
