@@ -85,6 +85,7 @@ BaseCard {
             delegate: IconButton {
                 height: 69
                 width: 69
+<<<<<<< Updated upstream
                 elementIcon: model.icon
                 elementName: model.text
                 isActive: model.btn_active
@@ -103,10 +104,25 @@ BaseCard {
                             bottomButtons.set(i, { "btn_active": false });
                         }
                         bottomButtons.set(index, { "btn_active": true });
+=======
+                elementIcon: icon
+                elementName: text
+                isActive: btn_active
+                onBtnClicked: {
+                    if (model.btn_active) {
+                    for(var i = 0;i< bottomButtons.count; i++){
+                        updateBottomButtons(i);
+                    }
+                    } else {
+                    popupClicked(index, text)
+                    for(var i = 0;i< bottomButtons.count; i++){
+                        updateBottomButtons(i);
+>>>>>>> Stashed changes
                     }
                 }
             }
         }
+    }
     }
 
     Row {

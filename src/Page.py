@@ -203,7 +203,11 @@ class Page(QtCore.QObject):
         <section id="{self._page_id}" class="{self._page_id}">
             {elements}
         </section>
+<<<<<<< Updated upstream
         
+=======
+
+>>>>>>> Stashed changes
         <div style="height: 1px;"></div>
         """
         return section_tag
@@ -232,11 +236,10 @@ class Page(QtCore.QObject):
         return self._current_element_id
 
     def set_current_element_id(self, val):
-        if val != self._current_element_id:
-            self._current_element_id = val
-            self.set_current_element(self.get_element_by_id(val))
-            self.currentElementIdChanged.emit()
-            print("Set Current Element ID : ", val)
+        self._current_element_id = val
+        self.set_current_element(self.get_element_by_id(val))
+        self.currentElementIdChanged.emit()
+        print("Set Current Element ID : ", val)
 
     current_element_id = Property(int, get_current_element_id, set_current_element_id,
                                   notify=currentElementIdChanged)
