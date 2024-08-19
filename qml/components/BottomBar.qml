@@ -6,7 +6,7 @@ BaseCard {
     height: 78
     width: parent.width
 
-    property var cards : []
+    property var cards: []
 
     signal popupClicked(var popupId, var titlePopup)
 
@@ -16,62 +16,59 @@ BaseCard {
         anchors {
             left: parent.left
             leftMargin: 16
+            verticalCenter: parent.verticalCenter
         }
         source: "qrc:/assets/img_logo.png"
-        anchors.verticalCenter: parent.verticalCenter
     }
 
-    function updateBottomButtons(btnIndex, toggle = false) {
-        if (toggle) {
-            bottomButtons.setProperty(btnIndex, "btn_active", !bottomButtons.get(btnIndex).btn_active);
-        } else {
-            for (var i = 0; i < bottomButtons.count; i++) {
-                bottomButtons.setProperty(i, "btn_active", false);
-            }
-            bottomButtons.setProperty(btnIndex, "btn_active", true);
-        }
+    function updateBottomButtons(btnIndex) {
+        bottomButtons.setProperty(btnIndex, "btn_active", false)
     }
 
     ListModel {
         ListElement {
-            icon : "qrc:/assets/ic_new.png"
-            text : "New"
-            btn_active : false
+            icon: "qrc:/assets/ic_new.png"
+            text: "New"
+            btn_active: false
         }
         ListElement {
-            icon : "qrc:/assets/ic_open.png"
-            text : "Open"
-            btn_active : false
+            icon: "qrc:/assets/ic_open.png"
+            text: "Open"
+            btn_active: false
         }
         ListElement {
-            icon : "qrc:/assets/ic_settings.png"
-            text : "Settings"
-            btn_active : false
+            icon: "qrc:/assets/ic_settings.png"
+            text: "Settings"
+            btn_active: false
         }
         ListElement {
-            icon : "qrc:/assets/ic_publish.png"
-            text : "Publish"
-            btn_active : false
+            icon: "qrc:/assets/ic_publish.png"
+            text: "Publish"
+            btn_active: false
         }
         id: bottomButtons
     }
 
     ListModel {
         ListElement {
-            icon : "qrc:/assets/ic_navigate.png"
-            text : "Navigate"
+            icon: "qrc:/assets/ic_navigate.png"
+            text: "Navigate"
+            isActive: true
         }
         ListElement {
-            icon : "qrc:/assets/ic_page.png"
-            text : "Page"
+            icon: "qrc:/assets/ic_page.png"
+            text: "Page"
+            isActive: true
         }
         ListElement {
-            icon : "qrc:/assets/ic_elements.png"
-            text : "Elements"
+            icon: "qrc:/assets/ic_elements.png"
+            text: "Elements"
+            isActive: true
         }
         ListElement {
-            icon : "qrc:/assets/ic_details.png"
-            text : "Details"
+            icon: "qrc:/assets/ic_details.png"
+            text: "Details"
+            isActive: true
         }
         id: rightButtons
     }
@@ -82,17 +79,31 @@ BaseCard {
         width: childrenRect.width
         anchors.centerIn: parent
         z: 2
+
         Repeater {
             model: bottomButtons
             delegate: IconButton {
                 height: 69
                 width: 69
-                elementIcon: icon
-                elementName: text
-                isActive: btn_active
+                elementIcon: model.icon
+                elementName: model.text
+                isActive: model.btn_active
+
                 onBtnClicked: {
-                    popupClicked(index, text)
-                    updateBottomButtons(index, true)
+                    if (model.btn_active) {
+                        // If the clicked button is already active, reset all buttons
+                        popupClicked(index, text)
+                        for (var i = 0; i < bottomButtons.count; i++) {
+                            bottomButtons.set(i, { "btn_active": false });
+                        }
+                    } else {
+                        // Reset all and activate the clicked one
+                        popupClicked(index, text)
+                        for (var i = 0; i < bottomButtons.count; i++) {
+                            bottomButtons.set(i, { "btn_active": false });
+                        }
+                        bottomButtons.set(index, { "btn_active": true });
+                    }
                 }
             }
         }
@@ -113,15 +124,17 @@ BaseCard {
             delegate: IconButton {
                 height: 69
                 width: 69
-                elementIcon: icon
-                elementName: text
-                isActive: cards[index].isActive
+                elementIcon: model.icon
+                elementName: model.text
+                isActive: model.isActive
+
                 onBtnClicked: {
-                    if(cards[index].isActive) {
-                        cards[index].changeToClosedState()
+                    if (model.isActive) {
+                        cards[index].changeToClosedState();
                     } else {
-                        cards[index].changeToDockedState()
+                        cards[index].changeToDockedState();
                     }
+                    rightButtons.set(index, { "isActive": !model.isActive });
                 }
             }
         }

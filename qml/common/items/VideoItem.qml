@@ -24,7 +24,7 @@ function get_html() {
     let html = `
     <style>
         .grid-container {
-            display: grid; place-items: center; width: 100%; height: 100%; background-color: transparent; border-radius: 10px; overflow: hidden; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            display: grid; place-items: center; width: 100%; height: 100%; background-color: #181818; border-radius: 10px; overflow: hidden; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
         .video-frame {
             width: 100%; height: 100%; border: none; transition: transform 0.3s ease-in-out; grid-area: 1 / 1; object-fit: cover;
@@ -46,7 +46,7 @@ function get_html() {
             id : video
             anchors.fill: parent
             fillMode: Image.PreserveAspectCrop
-            source: "qrc:/assets/img_video-placeholder.jpg"
+            source: "qrc:/assets/img_video-placeholder.jpg"        
         }
 
         MouseArea{

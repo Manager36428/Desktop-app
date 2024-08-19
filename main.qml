@@ -34,53 +34,44 @@ MainWindow {
         controller.create_new_project()
     }
 
-function showPopup(popup_id, title) {
-    console.log("Create Popup:", popup_id)
-
-    // Check if the current popup is already open and matches the requested popup
-    if (currentPopup !== undefined && currentPopup.popupId === popup_id) {
-        // If the same popup is open, close it and reset `currentPopup`
-        currentPopup.close();
-        currentPopup = undefined;
-        return;  // Exit the function since the popup was closed
-    }
-
-    // Close any other open popup
-    if (currentPopup !== undefined) {
-        currentPopup.close();
-    }
-
-    var pathPopup = "qrc:/qml/components/Popup.qml";
-    if (popup_id === 0) {
-        title = "Create a New Project";
-        pathPopup = "qrc:/qml/components/PopupNewProject.qml";
-    } else if (popup_id === 3) {
-        title = "Publish";
-        controller.set_viewport_size(pageCard.viewport.height, pageCard.viewport.width);
-        pathPopup = "qrc:/qml/components/PopupPublish.qml";
-    }
-
-    var component = Qt.createComponent(pathPopup);
-
-    if (component.status === Component.Ready) {
-        var window = component.createObject(null);
-        if (window !== null) {
-            currentPopup = window;
-            window.popupId = popup_id;
-            window.popupDestroyed.connect(removePopup);
-            if (popup_id === 0) {
-                window.projectCreated.connect(handleProjectCreated);
-            }
-
-            window.title = title;
-            window.show();
-        } else {
-            console.log("Error: Could not create window.");
+    function showPopup(popup_id, title) {
+        console.log("Create Popup:", popup_id)
+        if(currentPopup != undefined)
+        {
+            currentPopup.close();
         }
-    } else {
-        console.log("Error: Component not ready.");
+
+        var pathPopup = "qrc:/qml/components/Popup.qml";
+        if(popup_id == 0){
+            title = "Create a New Project"
+            pathPopup = "qrc:/qml/components/PopupNewProject.qml"
+        }else if(popup_id == 3){
+            title = "Publish"
+            controller.set_viewport_size(pageCard.viewport.height, pageCard.viewport.width)
+            pathPopup = "qrc:/qml/components/PopupPublish.qml"
+        }
+
+        var component = Qt.createComponent(pathPopup);
+
+        if (component.status === Component.Ready) {
+            var window = component.createObject(null);
+            if (window !== null) {
+                currentPopup = window
+                window.popupId = popup_id
+                window.popupDestroyed.connect(removePopup)
+                if(popup_id == 0){
+                    window.projectCreated.connect(handleProjectCreated)
+                }
+
+                window.title = title
+                window.show();
+            } else {
+                console.log("Error: Could not create window.");
+            }
+        } else {
+            console.log("Error: Component not ready.");
+        }
     }
-}
 
     content: Item {
         anchors.fill: parent
