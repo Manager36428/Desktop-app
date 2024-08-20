@@ -14,10 +14,37 @@ ResizableItem {
 
     signal contentUpdated()
 
-    function get_html(){
-        let html = `<p style="width: 100%; height: 100%; font-size: 16px;"> ${text_data} </p>`
-        return html
-    }
+    function escapeHtml(text) {
+    let map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+function get_html() {
+    let safeTextData = text_data ? escapeHtml(text_data) : "Default Text";
+
+    let html = `
+    <style>
+        .text-container {
+            display: grid; place-items: center; width: 100%; height: 100%; font-size: 18px; color: #4D365D; font-family: 'Nunito', sans-serif; font-weight: 600; padding: 10px; box-sizing: border-box; background-color: transparent;  /* Set background to transparent */
+        }
+        .text-content {
+            text-align: center; line-height: 1.5; word-wrap: break-word;
+        }
+    </style>
+    <div class="text-container">
+        <div class="text-content">${safeTextData}</div>
+    </div>`;
+
+    console.log(html);
+    return html;
+}
+
 
     function handleFocusChild(){
         console.log("HandleFocusChild")

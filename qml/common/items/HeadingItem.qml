@@ -22,11 +22,34 @@ ResizableItem {
         tf.selectAll()
     }
 
-    function get_html(){
-        let html = `<${tag_heading} style="width: 100%; height: 100%; font-size: 16px;">
-        ${text_data} </${tag_heading}>`
-        return html
-    }
+function escapeHtml(text) {
+    let map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
+function isValidHeadingTag(tag) {
+    return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag.toLowerCase());
+}
+
+function get_html() {
+    let safeTextData = escapeHtml(text_data);
+    let safeTagHeading = isValidHeadingTag(tag_heading) ? tag_heading.toLowerCase() : 'h3';  // Default to 'h3' if invalid
+
+    let html = `
+        <div style="display: grid; place-items: center; width: 100%; height: 100%; padding: 10px;">
+            <${safeTagHeading} style="margin: 0; font-size: 24px; font-weight: 700; color: #4D365D; font-family: 'Nunito', sans-serif; text-align: center;">
+                ${safeTextData}
+            </${safeTagHeading}>
+        </div>
+    `;
+    return html;
+}
 
     Component.onCompleted: {
         focusChild.connect(handleFocusChild)

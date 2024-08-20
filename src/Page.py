@@ -35,8 +35,6 @@ class Page(QtCore.QObject):
 
     page_id = Property(str, get_page_id, set_page_id, notify=_page_idChanged)
 
-    # End Section Member Property page_id
-
     # Member Property page_background
     _page_background: str = str()
     _page_backgroundChanged = Signal(str)
@@ -54,18 +52,52 @@ class Page(QtCore.QObject):
     # End Section Member Property page_background
 
     def generate_css_block(self):
+        css_template = """
+        /* Resetting default margins */
+        body, html {{
+            margin: 0;
+            padding: 0;
+        }}
+
+        .container {{
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+        }}
+
+        .{section_id} {{
+            min-height: 100vh;
+            scroll-snap-align: start;
+            background-color: {bg_color};
+            padding: 10px; 
+            box-sizing: border-box; 
+        }}
+
+        /* Grid configuration */
+        #{section_id} {{
+            display: grid;
+            grid-template-columns: {grid_template_columns};
+            grid-template-rows: {grid_template_rows};
+            gap: 5px; 
+            max-width: 100%;
+            width: 100%;
+            margin: 0 auto;
+        }}
+
+        /* Element styling */
+        {css_elements_section}
+        """
+
         grid_rows = ""
         grid_columns = ""
         for cell_row in self._grid_temp_row:
-            grid_rows += str(cell_row) + "vh "
+            grid_rows += str(cell_row) + "fr "
         for cell_col in self._grid_temp_col:
-            grid_columns += str(cell_col) + "vw "
-        print(grid_rows)
-        print(grid_columns)
+            grid_columns += str(cell_col) + "fr "
 
         css_element_template = """
-        .{element_tag}{{
-            grid-area: {tl_y}/ {tl_x} / {br_y} / {br_x};
+        .{element_tag} {{
+            grid-area: {tl_y} / {tl_x} / {br_y} / {br_x};
         }}
         """
 
@@ -76,69 +108,81 @@ class Page(QtCore.QObject):
             height_child = int(child.property("height"))
             width_child = int(child.property("width"))
 
-            css_elements += css_element_template.format(element_tag=child.property("element_tag"),
-                                                        tl_y=self._cor_css_y[top_left_y],
-                                                        tl_x=self._cor_css_x[top_left_x],
-                                                        br_y=self._cor_css_y[top_left_y + height_child],
-                                                        br_x=self._cor_css_x[top_left_x + width_child])
+            css_elements += css_element_template.format(
+                element_tag=child.property("element_tag"),
+                tl_y=self._cor_css_y[top_left_y],
+                tl_x=self._cor_css_x[top_left_x],
+                br_y=self._cor_css_y[top_left_y + height_child],
+                br_x=self._cor_css_x[top_left_x + width_child]
+            )
 
-        css_template = """
-/* {section_name} Section */
-#{section_id} {{
-    flex-direction: column;
-    max-width: 100%;
-    margin: 0 auto;
-    width: 100%;
-    display : grid;
-    background-color: {bg_color};
-    grid-template-columns: {grid_template_columns};
-    grid-template-rows: {grid_template_rows};
-}}
-
-{css_elements_section}
-    
-/* End {section_name} Section */
-    """
-        return css_template.format(section_name=self._page_name, section_id=self._page_id,
-                                   bg_color=self._page_background, grid_template_rows=grid_rows,
-                                   grid_template_columns=grid_columns, css_elements_section=css_elements)
+        return css_template.format(
+            section_id=self._page_id,
+            bg_color=self._page_background,
+            grid_template_rows=grid_rows.strip(),
+            grid_template_columns=grid_columns.strip(),
+            css_elements_section=css_elements
+        )
 
     def generate_css_for_mobile(self):
-        grid_temp_rows = ""
-        total = 0
-        for item_width in self._grid_temp_row_mobile:
-            total += item_width
-            grid_temp_rows += str(item_width) + "vh "
-
+        # CSS template for individual grid elements
         css_element_template = """
-.{element_tag}{{
-    grid-area: {tl_y}/ {tl_x} / {br_y} / {br_x};
-    display: block;
-}}
+        .{element_tag} {{
+            grid-area: {tl_y} / {tl_x} / {br_y} / {br_x};
+            justify-self: stretch;
+            align-self: stretch;
+            overflow: hidden;
+            padding: 10px;
+            box-sizing: border-box;
+        }}
         """
+
         css_elements_mobile = ""
+        num_children = len(self._sorted_child)
 
+        # Loop through sorted children and create CSS blocks for each
         for idx, child in enumerate(self._sorted_child):
-            css_elements_mobile += css_element_template.format(element_tag=child.property("element_tag"),
-                                                               tl_y=str(idx + 1),
-                                                               tl_x=1,
-                                                               br_y=str(idx + 2),
-                                                               br_x=2)
-        print(css_elements_mobile)
+            css_elements_mobile += css_element_template.format(
+                element_tag=child.property("element_tag"),
+                tl_y=idx + 1,
+                tl_x=1,
+                br_y=idx + 2,
+                br_x=2
+            )
 
+        # Determine grid template rows for a responsive design
+        if num_children > 0:
+            grid_template_rows = f"repeat({num_children}, minmax(100px, auto))"
+        else:
+            grid_template_rows = "100vh"
+
+        # Mobile CSS template with additional styles for better responsiveness
         css_template = """
-/* {section_name} Section */
-#{section_id} {{
-    grid-template-columns: 1fr;
-    grid-template-rows: {grid_template_rows};
-}}
+        /* {section_name} Section - Mobile */
+        #{section_id} {{
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: {grid_template_rows};
+            gap: 10px;
+            padding: 10px;
+            width: 100%;
+            max-width: 100vw;
+            height: auto;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }}
 
-{css_elements_section}
-/* End {section_name} Section */
-            """
-        return css_template.format(section_name=self.page_name, section_id=self._page_id,
-                                   grid_template_rows=grid_temp_rows,
-                                   css_elements_section=css_elements_mobile)
+        {css_elements_section}
+
+        /* End {section_name} Section */
+        """
+
+        return css_template.format(
+            section_name=self.page_name,
+            section_id=self._page_id,
+            grid_template_rows=grid_template_rows,
+            css_elements_section=css_elements_mobile
+        )
 
     def gen_list_tag(self):
         html = f'<li><a href="#{self._page_id}" data-after="{self._page_name}">{self._page_name}</a></li>'
@@ -156,9 +200,15 @@ class Page(QtCore.QObject):
             elements += element_tag.format(html_element=child.get_html(), element_id=child.property("element_tag"))
 
         section_tag = f"""
-        <section id="{self._page_id}">
+        <section id="{self._page_id}" class="{self._page_id}">
             {elements}
         </section>
+<<<<<<< Updated upstream
+        
+=======
+
+>>>>>>> Stashed changes
+        <div style="height: 1px;"></div>
         """
         return section_tag
 
@@ -186,11 +236,10 @@ class Page(QtCore.QObject):
         return self._current_element_id
 
     def set_current_element_id(self, val):
-        if val != self._current_element_id:
-            self._current_element_id = val
-            self.set_current_element(self.get_element_by_id(val))
-            self.currentElementIdChanged.emit()
-            print("Set Current Element ID : ", val)
+        self._current_element_id = val
+        self.set_current_element(self.get_element_by_id(val))
+        self.currentElementIdChanged.emit()
+        print("Set Current Element ID : ", val)
 
     current_element_id = Property(int, get_current_element_id, set_current_element_id,
                                   notify=currentElementIdChanged)
