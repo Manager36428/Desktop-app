@@ -1,11 +1,13 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
-Image{
-    id : btnRoot
+Image {
+    id: btnRoot
     signal btnClicked()
+
     SequentialAnimation {
         loops: 1
+
         PropertyAnimation {
             id: scaleDownAnim
             targets: btnRoot
@@ -23,24 +25,33 @@ Image{
             to: 1.0
             duration: 100
         }
-        id :zoomInOutAnim
+
+        id: zoomInOutAnim
         onStopped: btnClicked()
     }
 
-
-    MouseArea{
-        id : mouseArea
-        z:10
+    MouseArea {
+        id: mouseArea
+        z: 10
         anchors.fill: parent
         onClicked: zoomInOutAnim.restart()
         hoverEnabled: true
+
+        // Scale effect on hover
+        onEntered: {
+            btnRoot.scale = 1.1
+            colorOverlay.color = "#00FFFFFF" // Fully transparent
+        }
+        onExited: {
+            btnRoot.scale = 1.0
+            colorOverlay.color = "#66FFFFFF" // 40% transparency
+        }
     }
 
-    ColorOverlay{
+    ColorOverlay {
+        id: colorOverlay
         anchors.fill: btnRoot
         source: btnRoot
-        color: mouseArea.containsMouse ? "#58545f" : "#7e7888"
+        color: "#66FFFFFF" // 40% transparency (hex value 66)
     }
-
-
 }

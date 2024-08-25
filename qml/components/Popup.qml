@@ -144,7 +144,7 @@ Window {
                         height: 20
                         width: 20
                         id: btnClose
-                        source: "qrc:/assets/ic_close.png"
+                        source: "qrc:/assets/ic_new_close.png"
                         onBtnClicked: mainWindow.close()
                     }
 

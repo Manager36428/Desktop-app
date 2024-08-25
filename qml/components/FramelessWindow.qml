@@ -21,47 +21,42 @@ Window {
     // PROPERTIES
     property int windowStatus: 0
     property int windowMargin: 10
+    property string maximizeRestoreIcon: "qrc:/assets/ic_new_expand.png" // New property
 
     // INTERNAL FUNCTIONS
     QtObject{
         id: internal
 
-        // Close Left Top Menu Popup
-        function closeLeftPopup(){
-            topTitleMenusExited.running = true
-            console.log("Closed Popup")
-            leftPopupMenu.activeMenu = true
-            leftPopupMenu.rotateNormal()
-            topTitleMenus.visible = false
-        }
-
         // Maximize Restore
         function maximizeRestore(){
             if(windowStatus == 0){
-                mainWindow.showMaximized()
-                windowStatus = 1
-                windowMargin = 0
+                mainWindow.showMaximized();
+                windowStatus = 1;
+                windowMargin = 0;
+                maximizeRestoreIcon = "qrc:/assets/ic_new_window.png"; // Change to window icon
             }
             else{
-                mainWindow.showNormal()
-                windowStatus = 0
-                windowMargin = 10
+                mainWindow.showNormal();
+                windowStatus = 0;
+                windowMargin = 10;
+                maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png"; // Change to expand icon
             }
         }
 
         // If Maximized Restore
         function ifMaximizedRestore(){
             if(windowStatus == 1){
-                mainWindow.showNormal()
-                windowStatus = 0
-                windowMargin = 10
+                mainWindow.showNormal();
+                windowStatus = 0;
+                windowMargin = 10;
+                maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png"; // Ensure icon is updated
             }
         }
 
         // Restore Margins
         function restoreMargins(){
-            windowStatus = 0
-            windowMargin = 10
+            windowStatus = 0;
+            windowMargin = 10;
         }
     }
 
@@ -155,53 +150,51 @@ Window {
                 height: 30
             }
 
-            Item {
-                id: btnTopContent
-                width: 90
-                height: 40
-                z:2
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.rightMargin: 14
-                anchors.topMargin: 0
+ Item {
+        id: btnTopContent
+        width: 90
+        height: 40
+        z: 2
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.rightMargin: 14
+        anchors.topMargin: 0
 
-                Row{
-                    height: 20
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    z: 100
-                    spacing: 8
+        Row{
+            height: 20
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            z: 100
+            spacing: 8
 
-                    Icon{
-                        height: 20
-                        width: 20
-                        id: btnMaximizeRestore
-                        source: "qrc:/assets/ic_shrink.png"
-                        onBtnClicked: btnShirkClicked()
-                    }
+            Icon{
+                height: 20
+                width: 20
+                id: btnMaximizeRestore
+                source: "qrc:/assets/ic_new_shink.png"
+                onBtnClicked: btnShirkClicked()
+            }
 
-
-                    Icon{
-                        height: 20
-                        width: 20
-                        id: btnExpaned
-                        source: "qrc:/assets/ic_expand.png"
-                        onBtnClicked: {
-                            windowMargin = 0
-                            internal.maximizeRestore()
-                        }
-                    }
-
-                    Icon{
-                        height: 20
-                        width: 20
-                        id: btnClose
-                        source: "qrc:/assets/ic_close.png"
-                        onBtnClicked: btnCloseClicked()
-                    }
-
+            Icon{
+                height: 20
+                width: 20
+                id: btnExpaned
+                source: maximizeRestoreIcon // Bind to the property
+                onBtnClicked: {
+                    windowMargin = 0;
+                    internal.maximizeRestore();
                 }
             }
+
+            Icon{
+                height: 20
+                width: 20
+                id: btnClose
+                source: "qrc:/assets/ic_new_close.png"
+                onBtnClicked: btnCloseClicked()
+            }
+        }
+    }
 
 //            Header{
 //                height: 40

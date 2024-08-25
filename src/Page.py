@@ -203,11 +203,7 @@ class Page(QtCore.QObject):
         <section id="{self._page_id}" class="{self._page_id}">
             {elements}
         </section>
-<<<<<<< Updated upstream
-        
-=======
 
->>>>>>> Stashed changes
         <div style="height: 1px;"></div>
         """
         return section_tag

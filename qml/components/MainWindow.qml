@@ -17,6 +17,9 @@ Window {
     property int windowStatus: 0
     property int windowMargin: 10
 
+    // Define a property to manage the icon source
+    property string maximizeRestoreIcon: "qrc:/assets/ic_new_expand.png"
+
     QtObject{
         id: internal
 
@@ -35,11 +38,13 @@ Window {
                 mainWindow.showMaximized()
                 windowStatus = 1
                 windowMargin = 0
+                maximizeRestoreIcon = "qrc:/assets/ic_new_window.png" // Change icon
             }
             else{
                 mainWindow.showNormal()
                 windowStatus = 0
                 windowMargin = 10
+                maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png" // Change icon
             }
         }
 
@@ -49,6 +54,7 @@ Window {
                 mainWindow.showNormal()
                 windowStatus = 0
                 windowMargin = 10
+                maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png" // Change icon
             }
         }
 
@@ -56,6 +62,7 @@ Window {
         function restoreMargins(){
             windowStatus = 0
             windowMargin = 10
+            maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png" // Reset icon
         }
     }
 
@@ -148,55 +155,54 @@ Window {
                 height: 30
             }
 
-            Item {
-                id: btnTopContent
-                width: 90
-                height: 40
-                z:2
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.rightMargin: 14
-                anchors.topMargin: 0
+                Item {
+        id: btnTopContent
+        width: 90
+        height: 40
+        z:2
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.rightMargin: 14
+        anchors.topMargin: 0
 
-                Row{
-                    height: 20
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.right: parent.right
-                    z: 100
-                    spacing: 8
+        Row{
+            height: 20
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            z: 100
+            spacing: 8
 
-                    Icon{
-                        height: 20
-                        width: 20
-                        id: btnShirk
-                        source: "qrc:/assets/ic_shrink.png"
-                        onBtnClicked: {
-                            windowMargin = 10
-                            windowStatus = 0
-                            mainWindow.showMinimized()
-                        }
-                    }
-
-                    Icon{
-                        height: 20
-                        width: 20
-                        id: btnExpaned
-                        source: "qrc:/assets/ic_expand.png"
-                        onBtnClicked: {
-                            internal.maximizeRestore()
-                        }
-                    }
-
-                    Icon{
-                        height: 20
-                        width: 20
-                        id: btnClose
-                        source: "qrc:/assets/ic_close.png"
-                        onBtnClicked: mainWindow.close()
-                    }
-
+            Icon{
+                height: 20
+                width: 20
+                id: btnShirk
+                source: "qrc:/assets/ic_new_shink.png"
+                onBtnClicked: {
+                    windowMargin = 10
+                    windowStatus = 0
+                    mainWindow.showMinimized()
                 }
             }
+
+            Icon{
+                height: 20
+                width: 20
+                id: btnExpaned
+                source: mainWindow.maximizeRestoreIcon // Use the property
+                onBtnClicked: {
+                    internal.maximizeRestore()
+                }
+            }
+
+            Icon{
+                height: 20
+                width: 20
+                id: btnClose
+                source: "qrc:/assets/ic_new_close.png"
+                onBtnClicked: mainWindow.close()
+            }
+        }
+    }
         }
 
         Item {

@@ -73,12 +73,13 @@ class Controller(QtCore.QObject):
 
     @Slot()
     def add_page(self):
+        self._last_idx_page += 1
         print("Add New Page ", self._last_idx_page)
         str_idx = str(self._last_idx_page)
         page = Page("page_" + str_idx, "Page " + str_idx, "#FFFFFF")
         self._pages.append(page)
         self.pagesChanged.emit()
-        self._last_idx_page += 1
+
 
     @Slot(QObject)
     def delete_page(self, page):
@@ -96,7 +97,7 @@ class Controller(QtCore.QObject):
     def create_new_project(self):
         print("[Controller] Create New Project")
         self._pages.clear()
-        self._last_idx_page = 0
+        self._last_idx_page = 1
         page = Page("home", "Home", "#FFFFFF")
         self._pages.append(page)
         self.pagesChanged.emit()

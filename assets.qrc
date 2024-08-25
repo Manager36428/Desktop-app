@@ -2,7 +2,9 @@
     <qresource prefix="/">
         <file>assets/img_bg.jpg</file>
         <file>assets/ic_close.png</file>
+        <file>assets/ic_new_close.png</file>
         <file>assets/ic_expand.png</file>
+        <file>assets/ic_new_expand.png</file>
         <file>assets/img_logo.png</file>
         <file>assets/ic_add.png</file>
         <file>assets/ic_button.png</file>
@@ -25,6 +27,8 @@
         <file>assets/img_dummy.png</file>
         <file>assets/app.ico</file>
         <file>assets/ic_shrink.png</file>
+        <file>assets/ic_new_shink.png</file>
+        <file>assets/ic_new_window.png</file>
         <file>assets/ic_app.png</file>
         <file>assets/ic_indicator.png</file>
         <file>assets/ic_circle_indicator.png</file>

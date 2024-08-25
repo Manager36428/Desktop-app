@@ -9,7 +9,7 @@ MainWindow {
     visible: true
     minimumHeight: 1008
     minimumWidth: 1025
-    title: qsTr("Flowsta Creator App") + projectName
+    title: qsTr("Flowsta Page Builder") + projectName
     property var currentPopup: undefined
     property string projectName: ""
     property alias dragCenter: dragerCenter
