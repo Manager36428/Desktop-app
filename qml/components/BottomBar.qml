@@ -105,28 +105,28 @@ BaseCard {
         }
     }
 
-    Row{
+    Row {
         spacing: 5
         height: 69
         width: childrenRect.width
-        anchors{
+        anchors {
             verticalCenter: parent.verticalCenter
             right: parent.right
             rightMargin: 13
         }
 
-        Repeater{
+        Repeater {
             model: rightButtons
-            delegate: IconButton{
+            delegate: IconButton {
                 height: 69
                 width: 69
                 elementIcon: icon
                 elementName: text
                 isActive: cards[index].isActive
                 onBtnClicked: {
-                    if(cards[index].isActive){
+                    if (cards[index].isActive) {
                         cards[index].changeToClosedState()
-                    }else{
+                    } else {
                         cards[index].changeToDockedState()
                     }
                 }
@@ -134,4 +134,69 @@ BaseCard {
         }
     }
 
+    // Ensure the keyboard input is captured
+    FocusScope {
+        focus: true   // Ensure that this FocusScope can receive focus
+
+        Keys.onPressed: {
+            switch (event.key) {
+            case Qt.Key_F1:
+                triggerButton(0);  // Trigger 'New' button
+                break;
+            case Qt.Key_F2:
+                triggerButton(1);  // Trigger 'Open' button
+                break;
+            case Qt.Key_F3:
+                triggerButton(2);  // Trigger 'Settings' button
+                break;
+            case Qt.Key_F4:
+                triggerButton(3);  // Trigger 'Publish' button
+                break;
+            case Qt.Key_F9:
+                triggerRightButton(0);  // Trigger 'Navigate' button
+                break;
+            case Qt.Key_F10:
+                triggerRightButton(1);  // Trigger 'Page' button
+                break;
+            case Qt.Key_F11:
+                triggerRightButton(2);  // Trigger 'Elements' button
+                break;
+            case Qt.Key_F12:
+                triggerRightButton(3);  // Trigger 'Details' button
+                break;
+            }
+            event.accept();  // Accept the event to prevent further propagation
+        }
+
+        // Function to trigger bottom button based on index
+        function triggerButton(index) {
+            if (index >= 0 && index < bottomButtons.count) {
+                var btn = bottomButtons.get(index);
+                if (btn.btn_active) {
+                    popupClicked(index, btn.text);
+                    for (var i = 0; i < bottomButtons.count; i++) {
+                        bottomButtons.set(i, { "btn_active": false });
+                    }
+                } else {
+                    popupClicked(index, btn.text);
+                    for (var i = 0; i < bottomButtons.count; i++) {
+                        bottomButtons.set(i, { "btn_active": false });
+                    }
+                    bottomButtons.set(index, { "btn_active": true });
+                }
+            }
+        }
+
+        // Function to trigger right button based on index
+        function triggerRightButton(index) {
+            if (index >= 0 && index < rightButtons.count) {
+                var btn = cards[index];
+                if (btn.isActive) {
+                    btn.changeToClosedState();
+                } else {
+                    btn.changeToDockedState();
+                }
+            }
+        }
+    }
 }

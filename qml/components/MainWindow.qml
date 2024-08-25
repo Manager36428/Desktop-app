@@ -9,7 +9,6 @@ Window {
     id: mainWindow
     visible: true
     color: "#00000000"
-
     flags: Qt.Window | Qt.FramelessWindowHint
 
     property alias content: contentData.data
@@ -17,14 +16,20 @@ Window {
     property int windowStatus: 0
     property int windowMargin: 10
 
+    // Properties to save the last size and position
+    property int lastWidth: width
+    property int lastHeight: height
+    property int lastX: x
+    property int lastY: y
+
     // Define a property to manage the icon source
     property string maximizeRestoreIcon: "qrc:/assets/ic_new_expand.png"
 
-    QtObject{
+    QtObject {
         id: internal
 
         // Close Left Top Menu Popup
-        function closeLeftPopup(){
+        function closeLeftPopup() {
             topTitleMenusExited.running = true
             console.log("Closed Popup")
             leftPopupMenu.activeMenu = true
@@ -33,36 +38,53 @@ Window {
         }
 
         // Maximize Restore
-        function maximizeRestore(){
-            if(windowStatus == 0){
-                mainWindow.showMaximized()
-                windowStatus = 1
-                windowMargin = 0
-                maximizeRestoreIcon = "qrc:/assets/ic_new_window.png" // Change icon
-            }
-            else{
-                mainWindow.showNormal()
-                windowStatus = 0
-                windowMargin = 10
-                maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png" // Change icon
+        function maximizeRestore() {
+            if (windowStatus === 0) {
+                // Save current size and position
+                mainWindow.lastWidth = mainWindow.width;
+                mainWindow.lastHeight = mainWindow.height;
+                mainWindow.lastX = mainWindow.x;
+                mainWindow.lastY = mainWindow.y;
+
+                mainWindow.showMaximized();
+                windowStatus = 1;
+                windowMargin = 0;
+                maximizeRestoreIcon = "qrc:/assets/ic_new_window.png"; // Change icon
+            } else {
+                // Restore saved size and position
+                mainWindow.showNormal();
+                mainWindow.width = mainWindow.lastWidth;
+                mainWindow.height = mainWindow.lastHeight;
+                mainWindow.x = mainWindow.lastX;
+                mainWindow.y = mainWindow.lastY;
+
+                windowStatus = 0;
+                windowMargin = 10;
+                maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png"; // Change icon
             }
         }
 
         // If Maximized Restore
-        function ifMaximizedRestore(){
-            if(windowStatus == 1){
-                mainWindow.showNormal()
-                windowStatus = 0
-                windowMargin = 10
-                maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png" // Change icon
+        function ifMaximizedRestore() {
+            if (windowStatus === 1) {
+                // Restore saved size and position
+                mainWindow.showNormal();
+                mainWindow.width = mainWindow.lastWidth;
+                mainWindow.height = mainWindow.lastHeight;
+                mainWindow.x = mainWindow.lastX;
+                mainWindow.y = mainWindow.lastY;
+
+                windowStatus = 0;
+                windowMargin = 10;
+                maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png"; // Change icon
             }
         }
 
         // Restore Margins
-        function restoreMargins(){
-            windowStatus = 0
-            windowMargin = 10
-            maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png" // Reset icon
+        function restoreMargins() {
+            windowStatus = 0;
+            windowMargin = 10;
+            maximizeRestoreIcon = "qrc:/assets/ic_new_expand.png"; // Reset icon
         }
     }
 
@@ -77,33 +99,33 @@ Window {
         source: bgApp
     }
 
-    Item{
+    Item {
         id: bgApp
         anchors.fill: parent
         anchors.rightMargin: windowMargin
         anchors.leftMargin: windowMargin
         anchors.bottomMargin: windowMargin
         anchors.topMargin: windowMargin
-        z:1
+        z: 1
         clip: true
 
-        Item{
-            z:10
-            id : header
+        Item {
+            z: 10
+            id: header
             height: 40
-            anchors{
+            anchors {
                 top: parent.top
                 left: parent.left
                 right: parent.right
             }
 
-            Image{
-                z:2
-                id : iconApp
+            Image {
+                z: 2
+                id: iconApp
                 height: 20
                 width: 20
                 source: "qrc:/assets/ic_app.png"
-                anchors{
+                anchors {
                     top: parent.top
                     left: parent.left
                     leftMargin: 11
@@ -111,12 +133,12 @@ Window {
                 }
             }
 
-            Text{
-                z:2
-                id : titleWindow
+            Text {
+                z: 2
+                id: titleWindow
                 height: 40
                 width: 205
-                anchors{
+                anchors {
                     verticalCenter: parent
                     left: iconApp.right
                     leftMargin: 8
@@ -130,9 +152,9 @@ Window {
                 text: mainWindow.title
             }
 
-            Rectangle{
-                z:1
-                anchors{
+            Rectangle {
+                z: 1
+                anchors {
                     top: parent.top
                     left: parent.left
                     right: parent.right
@@ -140,12 +162,12 @@ Window {
                 color: "#e1dce1"
                 height: 15
                 radius: 15
-                id : radiusRect
+                id: radiusRect
             }
 
-            Rectangle{
-                z:1
-                anchors{
+            Rectangle {
+                z: 1
+                anchors {
                     top: parent.top
                     left: parent.left
                     right: parent.right
@@ -155,54 +177,54 @@ Window {
                 height: 30
             }
 
-                Item {
-        id: btnTopContent
-        width: 90
-        height: 40
-        z:2
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.rightMargin: 14
-        anchors.topMargin: 0
+            Item {
+                id: btnTopContent
+                width: 90
+                height: 40
+                z: 2
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.rightMargin: 14
+                anchors.topMargin: 0
 
-        Row{
-            height: 20
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            z: 100
-            spacing: 8
+                Row {
+                    height: 20
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    z: 100
+                    spacing: 8
 
-            Icon{
-                height: 20
-                width: 20
-                id: btnShirk
-                source: "qrc:/assets/ic_new_shink.png"
-                onBtnClicked: {
-                    windowMargin = 10
-                    windowStatus = 0
-                    mainWindow.showMinimized()
+                    Icon {
+                        height: 20
+                        width: 20
+                        id: btnShirk
+                        source: "qrc:/assets/ic_new_shink.png"
+                        onBtnClicked: {
+                            windowMargin = 10
+                            windowStatus = 0
+                            mainWindow.showMinimized()
+                        }
+                    }
+
+                    Icon {
+                        height: 20
+                        width: 20
+                        id: btnExpaned
+                        source: mainWindow.maximizeRestoreIcon // Use the property
+                        onBtnClicked: {
+                            internal.maximizeRestore()
+                        }
+                    }
+
+                    Icon {
+                        height: 20
+                        width: 20
+                        id: btnClose
+                        source: "qrc:/assets/ic_new_close.png"
+                        onBtnClicked: mainWindow.close()
+                    }
                 }
             }
-
-            Icon{
-                height: 20
-                width: 20
-                id: btnExpaned
-                source: mainWindow.maximizeRestoreIcon // Use the property
-                onBtnClicked: {
-                    internal.maximizeRestore()
-                }
-            }
-
-            Icon{
-                height: 20
-                width: 20
-                id: btnClose
-                source: "qrc:/assets/ic_new_close.png"
-                onBtnClicked: mainWindow.close()
-            }
-        }
-    }
         }
 
         Item {
@@ -215,17 +237,35 @@ Window {
             anchors.leftMargin: 0
             anchors.topMargin: 0
 
-            DragHandler{
-                onActiveChanged: if(active){
-                                     mainWindow.startSystemMove()
-                                     internal.ifMaximizedRestore()
-                                 }
+            MouseArea {
+                id: titleBarMouseArea
+                anchors.fill: parent
+                onDoubleClicked: {
+                    internal.maximizeRestore();
+                }
+                onClicked: {
+                    if (windowStatus === 0) {
+                        mainWindow.startSystemMove();
+                    }
+                }
+            }
+
+            DragHandler {
+                onActiveChanged: {
+                    if (active) {
+                        if (windowStatus === 1) {
+                            // Switch from maximized to normal on drag
+                            internal.ifMaximizedRestore();
+                        }
+                        mainWindow.startSystemMove();
+                    }
+                }
             }
         }
 
         Item {
-            id : contentData
-            anchors{
+            id: contentData
+            anchors {
                 top: parent.top
                 left: parent.left
                 right: parent.right
@@ -233,13 +273,13 @@ Window {
                 topMargin: 40
             }
 
-            Rectangle{
-                id : bgImg
+            Rectangle {
+                id: bgImg
                 anchors.fill: parent
                 radius: 15
                 clip: true
                 color: "#00000000"
-                Image{
+                Image {
                     anchors.fill: parent
                     source: "qrc:/assets/img_bg.jpg"
                 }
@@ -257,7 +297,7 @@ Window {
         anchors.topMargin: 10
         anchors.bottomMargin: 10
         cursorShape: Qt.SizeHorCursor
-        DragHandler{
+        DragHandler {
             target: null
             onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.LeftEdge) }
         }
@@ -273,7 +313,7 @@ Window {
         anchors.topMargin: 10
         anchors.bottomMargin: 10
         cursorShape: Qt.SizeHorCursor
-        DragHandler{
+        DragHandler {
             target: null
             onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.RightEdge) }
         }
@@ -289,7 +329,7 @@ Window {
         anchors.rightMargin: 10
         anchors.topMargin: -5
         cursorShape: Qt.SizeVerCursor
-        DragHandler{
+        DragHandler {
             target: null
             onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.TopEdge) }
         }
@@ -305,7 +345,7 @@ Window {
         anchors.leftMargin: 10
         anchors.rightMargin: 10
         cursorShape: Qt.SizeVerCursor
-        DragHandler{
+        DragHandler {
             target: null
             onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.BottomEdge) }
         }
@@ -320,9 +360,9 @@ Window {
         anchors.leftMargin: -10
         anchors.topMargin: -10
         cursorShape: Qt.SizeFDiagCursor
-        DragHandler{
+        DragHandler {
             target: null
-            onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.LeftEdge | Qt.TopEdge) }
+            onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.TopEdge | Qt.LeftEdge) }
         }
     }
 
@@ -335,9 +375,9 @@ Window {
         anchors.rightMargin: -10
         anchors.topMargin: -10
         cursorShape: Qt.SizeBDiagCursor
-        DragHandler{
+        DragHandler {
             target: null
-            onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.RightEdge | Qt.TopEdge) }
+            onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.TopEdge | Qt.RightEdge) }
         }
     }
 
@@ -350,9 +390,9 @@ Window {
         anchors.leftMargin: -10
         anchors.bottomMargin: -10
         cursorShape: Qt.SizeBDiagCursor
-        DragHandler{
+        DragHandler {
             target: null
-            onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.LeftEdge | Qt.BottomEdge) }
+            onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.BottomEdge | Qt.LeftEdge) }
         }
     }
 
@@ -362,13 +402,12 @@ Window {
         height: 10
         anchors.right: bgApp.right
         anchors.bottom: bgApp.bottom
-        anchors.bottomMargin: -10
         anchors.rightMargin: -10
+        anchors.bottomMargin: -10
         cursorShape: Qt.SizeFDiagCursor
-        DragHandler{
+        DragHandler {
             target: null
-            onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.RightEdge | Qt.BottomEdge) }
+            onActiveChanged: if (active) { mainWindow.startSystemResize(Qt.BottomEdge | Qt.RightEdge) }
         }
     }
-
 }
