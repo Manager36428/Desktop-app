@@ -1,32 +1,35 @@
 import QtQuick 2.0
 
 Rectangle {
-    id : btnRoot
+    id: btnRoot
     height: 69
     width: 69
     radius: 10
     border.width: mouseArea.containsMouse ? 1 : 0
     border.color: "white"
-    color: isActive ? "#7E69FF" : Qt.rgba(0.2235, 0.2118, 0.2196, 0.5)
+
+    // Change color based on hover and active state
+    color: mouseArea.containsMouse ? "#454045" : (isActive ? "#7E69FF" : Qt.rgba(0.2235, 0.2118, 0.2196, 0.5))
+
     signal btnClicked()
 
     property bool isActive: false
     property string elementName: ""
     property string elementIcon: ""
 
-    Image{
-        id : iconElement
+    Image {
+        id: iconElement
         height: 33
         width: 33
         source: elementIcon
-        anchors{
+        anchors {
             top: parent.top
             topMargin: 9
             horizontalCenter: parent.horizontalCenter
         }
     }
 
-    Text{
+    Text {
         height: 18
         font.pixelSize: 13
         font.weight: Font.DemiBold
@@ -36,7 +39,7 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         color: "white"
         text: elementName
-        anchors{
+        anchors {
             left: parent.left
             right: parent.right
             top: iconElement.bottom
@@ -63,13 +66,13 @@ Rectangle {
             to: 1.0
             duration: 100
         }
-        id :zoomInOutAnim
+        id: zoomInOutAnim
         onStopped: btnClicked()
     }
 
-    MouseArea{
-        id : mouseArea
-        z:10
+    MouseArea {
+        id: mouseArea
+        z: 10
         anchors.fill: parent
         onClicked: zoomInOutAnim.restart()
         hoverEnabled: true

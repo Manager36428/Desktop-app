@@ -1,39 +1,48 @@
 import QtQuick 2.0
 import "../dragdrop"
 
-GDrager{
+GDrager {
     height: 80
     width: 150
     property string elementName: ""
     property string elementIcon: ""
-    hotSpotX:0
-    hotSpotY:0
+    hotSpotX: 0
+    hotSpotY: 0
 
     Rectangle {
-        id : btnRoot
+        id: btnRoot
         anchors.fill: parent
         radius: 10
-        border.width: mouseArea.containsMouse ? 1 : 0
+        border.width: mouseArea.containsMouse && !mouseArea.drag.active && !mouseArea.pressed ? 1 : 0
         border.color: "white"
-        color: isActive ? "#7E69FF" : Qt.rgba(0.2235, 0.2118, 0.2196, 0.5)
+
+        // Change color based on hover, active, drag, and press-and-hold states
+        color: (mouseArea.pressed && mouseArea.containsMouse) || mouseArea.drag.active
+                ? Qt.rgba(0.2235, 0.2118, 0.2196, 0.5)  // Default color when pressed or dragged
+                : (mouseArea.containsMouse
+                    ? "#454045"  // Hover color when mouse is over and not pressed
+                    : (isActive
+                        ? "#7E69FF"  // Active color when not pressed but active
+                        : Qt.rgba(0.2235, 0.2118, 0.2196, 0.5)))  // Default color
+
         property bool isActive: false
         signal btnClicked()
 
-        GDragAgent{}
+        GDragAgent {}
 
-        Image{
-            id : iconElement
+        Image {
+            id: iconElement
             height: 36
             width: 36
             source: elementIcon
-            anchors{
+            anchors {
                 top: parent.top
                 topMargin: 10
                 horizontalCenter: parent.horizontalCenter
             }
         }
 
-        Text{
+        Text {
             height: 22
             font.pixelSize: 16
             font.weight: Font.DemiBold
@@ -43,7 +52,7 @@ GDrager{
             horizontalAlignment: Text.AlignHCenter
             color: "white"
             text: elementName
-            anchors{
+            anchors {
                 left: parent.left
                 right: parent.right
                 top: iconElement.bottom
@@ -70,18 +79,21 @@ GDrager{
                 to: 1.0
                 duration: 100
             }
-            id :zoomInOutAnim
+            id: zoomInOutAnim
             onStopped: btnClicked()
         }
 
-        MouseArea{
-            id : mouseArea
-            z:10
+        MouseArea {
+            id: mouseArea
+            z: 10
             anchors.fill: parent
             onClicked: zoomInOutAnim.restart()
             hoverEnabled: true
+
+            // Handle press and hold
+            onPressAndHold: {
+                btnRoot.color = Qt.rgba(0.2235, 0.2118, 0.2196, 0.5);  // Change to default color
+            }
         }
     }
-
 }
-

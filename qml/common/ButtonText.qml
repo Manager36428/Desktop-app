@@ -6,7 +6,13 @@ Rectangle {
     property string btnName: ""
     property string icSrc: ""
     radius: 10
-    color: isActive ? "#7E69FF" : Qt.rgba(0.2235, 0.2118, 0.2196, 0.5)
+    color: mouseArea.pressed
+                ? "#7E69FF"  // Active color when pressed
+                : (mouseArea.containsMouse
+                    ? "#454045"  // Hover color when mouse is over and not pressed
+                    : (isActive
+                        ? "#7E69FF"  // Active color when not pressed but active
+                        : Qt.rgba(0.2235, 0.2118, 0.2196, 0.5)))  // Default color
     height: 36
     border.width: mouseArea.containsMouse ? 1 : 0
     border.color: "white"
