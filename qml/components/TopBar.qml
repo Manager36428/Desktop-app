@@ -18,7 +18,10 @@ Rectangle {
         id: topBar
         width: parent.width
         height: 40
-        color: "#C9AFCB"
+        gradient: Gradient {
+            GradientStop { position: 1.0; color: Qt.rgba(0.6549, 0.6157, 0.6509, 0.55) }
+            GradientStop { position: 0.0; color: Qt.rgba(0.8275, 0.7922, 0.8275, 0.55) }
+        }
         radius: 10
 
         Text {

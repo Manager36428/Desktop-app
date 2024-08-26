@@ -6,7 +6,7 @@ TitleCard {
     id : detailCard
     title: currentPage != undefined ? "Details" + " : " + currentPage.page_name : "Details"
 
-    windowParent.minimumHeight: 515
+    windowParent.minimumHeight: 550
     windowParent.minimumWidth: 330
 
     contentDock: ManagerContent{

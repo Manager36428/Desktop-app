@@ -117,7 +117,7 @@ Window {
                     topMargin: 9
                 }
                 font.family: "Nunito"
-                font.weight: Font.DemiBold
+                font.weight: Font.ExtraBold
                 font.pixelSize: 18
                 verticalAlignment: Text.AlignVCenter
                 color: "#4D365D"

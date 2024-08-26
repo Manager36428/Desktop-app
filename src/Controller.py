@@ -85,6 +85,7 @@ class Controller(QtCore.QObject):
     def delete_page(self, page):
         print("Delete Page", page)
         self._pages.remove(page)
+        self._last_idx_page -= 1
         if page not in self._pages:
             if len(self._pages) > 0:
                 self.set_current_page_idx(0)

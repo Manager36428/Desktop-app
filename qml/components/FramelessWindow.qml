@@ -79,7 +79,7 @@ Window {
         anchors.bottomMargin: windowMargin
         anchors.topMargin: windowMargin
         radius: 15
-        color: "#C9DBE5"
+        color: "#E0D7E3"
         z: 1
 
         Item{

@@ -14,7 +14,7 @@ Popup{
     minimumWidth: width
     maximumWidth: width
 
-    title : "Color Picker"
+    title : "Colour Picker"
     property string currentColor: ""
     property alias newColor: newColorPreview.rect.color
 
@@ -36,7 +36,7 @@ Popup{
     }
 
     onInputedColorChanged: {
-        console.log("onInputedColorChanged : ", inputedColor)
+        console.log("onInputedColourChanged : ", inputedColor)
         let hueV = utils.hsv_hue(inputedColor)
         let satF = utils.hsl_saturationF(inputedColor)
         let lightnessF = utils.hsl_lightnessF(inputedColor);
@@ -45,7 +45,7 @@ Popup{
         rootItem.hueColor = Qt.rgba(imageData[0] / 255, imageData[1] / 255, imageData[2] / 255, imageData[3] / 255);
 
         console.log("Hue Value : ", hueV)
-        console.log("New Hue Color : ", rootItem.hueColor)
+        console.log("New Hue Colour : ", rootItem.hueColor)
         console.log("Hue : ", satF)
         console.log("Lightness : ", lightnessF)
 
@@ -264,7 +264,7 @@ Popup{
         }
 
         ButtonText{
-            btnName: "Pick Screen Color"
+            btnName: "Pick Screen Colour"
             width: 330
             height: 36
             anchors{
