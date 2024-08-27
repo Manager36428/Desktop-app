@@ -7,6 +7,7 @@ ResizableItem {
     height: tf.height + 10
     width: tf.width + 20
     property string text_data: "Default Text"
+    property color td_color: "#4D365D"
     onText_dataChanged: {
         tf.text = text_data
         contentUpdated()
@@ -24,14 +25,20 @@ ResizableItem {
     };
     return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }
+    function isValidColor(color) {
+        let hexColorRegex = /^#([0-9A-F]{3}){1,2}$/i;
+        let namedColors = ['red', 'blue', 'green', 'yellow', 'purple', 'black', 'white', 'gray', 'orange'];
+        return hexColorRegex.test(color) || namedColors.includes(color.toLowerCase());
+    }
 
 function get_html() {
     let safeTextData = text_data ? escapeHtml(text_data) : "Default Text";
+    let safetdColor = isValidColor(td_color) ? td_color : "#4D365D";
 
     let html = `
     <style>
         .text-container {
-            display: grid; place-items: center; width: 100%; height: 100%; font-size: 18px; color: #4D365D; font-family: 'Nunito', sans-serif; font-weight: 600; padding: 10px; box-sizing: border-box; background-color: transparent;  /* Set background to transparent */
+            display: grid; place-items: center; width: 100%; height: 100%; font-size: 18px; color: ${safetdColor}; font-family: 'Nunito', sans-serif; font-weight: 600; padding: 10px; box-sizing: border-box; background-color: transparent;  /* Set background to transparent */
         }
         .text-content {
             text-align: center; line-height: 1.5; word-wrap: break-word;
@@ -71,7 +78,7 @@ function get_html() {
             text: text_data
             font.pixelSize: 18
             font.weight: Font.DemiBold
-            color: "#4D365D"
+            color: td_color
             font.family: "Nunito"
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignHCenter

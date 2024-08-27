@@ -49,6 +49,12 @@ ContentBase {
             anchors.left: imagePreview.left
             anchors.centerIn: parent
         }
+
+        MouseArea {
+            id: imageClickArea
+            anchors.fill: imgPreview
+            onClicked: fileDialog.open()
+        }
     }
 
     ButtonText {

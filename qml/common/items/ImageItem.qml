@@ -17,7 +17,6 @@ ResizableItem {
             place-items: center;
             width: 100%;
             height: 100%;
-            background-color: #f0f0f0;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -28,9 +27,6 @@ ResizableItem {
             object-fit: cover;
             border-radius: 5px;
             transition: transform 0.3s ease-in-out;
-        }
-        .grid-container:hover .image-element {
-            transform: scale(1.05);
         }
     </style>
     <div class="grid-container">

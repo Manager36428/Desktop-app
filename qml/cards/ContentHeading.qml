@@ -10,6 +10,7 @@ ContentBase{
     function update_content(item){
         console.log("Updating Content")
         detailContent.item_data = item
+        hbBg.hd_color = item_data.hd_color
         item_data.contentUpdated.connect(handleContentUpdated)
         tfTitle.content.text = item.text_data
         heading_list.setIndexByTag(item.tag_heading)
@@ -41,6 +42,35 @@ ContentBase{
         }
 
         content.height: 72
+    }
+
+        ComboBoxTitle{
+        id : hbBg
+        height: 95
+        title: "Heading Colour"
+        width: parent.width
+        property color hd_color: "black"
+
+        anchors{
+            top : heading_list.bottom
+            topMargin: 20
+        }
+        page_color: hd_color
+        onBtnClicked: {
+            popupColorPicker.currentColor = hd_color
+            popupColorPicker.syncColor(hd_color)
+            popupColorPicker.show()
+        }
+    }
+
+    PopupColorPicker{
+        id : popupColorPicker
+        visible: false
+        onAccepted: {
+            hbBg.hd_color = newColor
+            item_data.hd_color = newColor
+            console.log("Update Colour : ",newColor)
+        }
     }
 
     DropdownList{

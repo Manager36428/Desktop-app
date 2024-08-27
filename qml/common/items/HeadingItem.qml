@@ -7,6 +7,7 @@ ResizableItem {
     width: tf.width + 20
     property string text_data: "Default Heading"
     property string tag_heading: "h3"
+    property color hd_color: "#4D365D"
 
     onText_dataChanged: {
         tf.text = text_data
@@ -36,14 +37,20 @@ function escapeHtml(text) {
 function isValidHeadingTag(tag) {
     return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag.toLowerCase());
 }
+    function isValidColor(color) {
+        let hexColorRegex = /^#([0-9A-F]{3}){1,2}$/i;
+        let namedColors = ['red', 'blue', 'green', 'yellow', 'purple', 'black', 'white', 'gray', 'orange'];
+        return hexColorRegex.test(color) || namedColors.includes(color.toLowerCase());
+    }
 
 function get_html() {
     let safeTextData = escapeHtml(text_data);
     let safeTagHeading = isValidHeadingTag(tag_heading) ? tag_heading.toLowerCase() : 'h3';  // Default to 'h3' if invalid
+    let safehdColor = isValidColor(hd_color) ? hd_color : "#4D365D";
 
     let html = `
         <div style="display: grid; place-items: center; width: 100%; height: 100%; padding: 10px;">
-            <${safeTagHeading} style="margin: 0; font-size: 24px; font-weight: 700; color: #4D365D; font-family: 'Nunito', sans-serif; text-align: center;">
+            <${safeTagHeading} style="margin: 0; font-size: 24px; font-weight: 700; color: ${safehdColor}; font-family: 'Nunito', sans-serif; text-align: center;">
                 ${safeTextData}
             </${safeTagHeading}>
         </div>
@@ -72,7 +79,7 @@ function get_html() {
             height: 40
             font.pixelSize: 18
             font.weight: Font.DemiBold
-            color: "#4D365D"
+            color: hd_color
             font.family: "Nunito"
             anchors.centerIn: parent
             horizontalAlignment: Text.AlignHCenter

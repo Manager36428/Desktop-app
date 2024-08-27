@@ -11,6 +11,7 @@ ContentBase{
         console.log("Updating Content")
         detailContent.item_data = item
         tfTitle.content.text = item.text_data
+        tbBg.td_color = item_data.td_color
         item_data.contentUpdated.connect(handleContentUpdated)
     }
 
@@ -39,6 +40,35 @@ ContentBase{
             }
         }
         content.height: 185
+    }
+
+    ComboBoxTitle{
+        id : tbBg
+        height: 95
+        title: "Text Colour"
+        width: parent.width
+        property color td_color: "black"
+
+        anchors{
+            top : tfTitle.bottom
+            topMargin: 120
+        }
+        page_color: td_color
+        onBtnClicked: {
+            popupColorPicker.currentColor = td_color
+            popupColorPicker.syncColor(td_color)
+            popupColorPicker.show()
+        }
+    }
+
+    PopupColorPicker{
+        id : popupColorPicker
+        visible: false
+        onAccepted: {
+            tbBg.td_color = newColor
+            item_data.td_color = newColor
+            console.log("Update Colour : ",newColor)
+        }
     }
 
 

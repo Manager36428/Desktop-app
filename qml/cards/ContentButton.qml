@@ -13,6 +13,7 @@ ContentBase{
         tfButtonHome.content.text = item_data.btn_name
         tfButtonUrl.content.text = item_data.btn_source
         cbBg.btn_color = item_data.btn_color
+        cbBg2.btn_color2 = item_data.btn_color2
         item_data.contentUpdated.connect(handleContentUpdated)
     }
 
@@ -93,6 +94,46 @@ ContentBase{
             cbBg.btn_color = newColor
             item_data.btn_color = newColor
             console.log("Update Colour : ",newColor)
+        }
+    }
+
+    ComboBoxTitle{
+        id : cbBg2
+        height: 95
+        title: "Hover Colour"
+        width: parent.width
+        property color btn_color2: "#262FD8"
+
+        anchors{
+            left : parent.left
+            top : tfButtonUrl.bottom
+            topMargin: 20
+            leftMargin: parent.width/2
+        }
+        page_color: btn_color2
+        onBtnClicked: {
+            popupColorPicker2.currentColor = btn_color2
+            popupColorPicker2.syncColor(btn_color2)
+            popupColorPicker2.show()
+        }
+    }
+
+    PopupColorPicker{
+        id : popupColorPicker2
+        visible: false
+        onAccepted: {
+            cbBg2.btn_color2 = newColor
+            item_data.btn_color2 = newColor
+            console.log("Update Colour : ",newColor)
+        }
+    }
+
+    TextView{
+        id : text_list
+        width: parent.width/4
+        z:10
+        anchors{
+            top: cbBg.bottom
         }
     }
 

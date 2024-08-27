@@ -6,7 +6,8 @@ ResizableItem {
     width: txtBtnName.width + 40
     property string btn_name: "Button"
     property string btn_source: ""
-    property color btn_color: "#7E69FF"
+    property color btn_color: "#26D842"
+    property color btn_color2: "#262FD8"
 
     // Responsive padding and font size based on width
     property real padding_horizontal: Math.max(width * 0.5, 12)
@@ -35,26 +36,56 @@ ResizableItem {
         return hexColorRegex.test(color) || namedColors.includes(color.toLowerCase());
     }
 
-    function get_html() {
-        let safeBtnName = escapeHtml(btn_name);
-        let safeBtnSource = escapeHtml(btn_source);
-        let safeBtnColor = isValidColor(btn_color) ? btn_color : "#7E69FF";
+function get_html() {
+    let safeBtnName = escapeHtml(btn_name);
+    let safeBtnSource = escapeHtml(btn_source);
+    let safeBtnColor = isValidColor(btn_color) ? btn_color : "#26D842";
+    let safeBtnColor2 = isValidColor(btn_color2) ? btn_color2 : "#262FD8";
 
-        // Calculate padding and font size based on button size
-        let padding = `${Math.round(padding_vertical)}px ${Math.round(padding_horizontal)}px`;
-        let fontSize = `${Math.round(font_size)}px`;
+    // Calculate padding and font size based on button size
+    let padding = `${Math.round(padding_vertical)}px ${Math.round(padding_horizontal)}px`;
+    let fontSize = `${Math.round(font_size)}px`;
 
-        let action_click = safeBtnSource.length === 0 ? "" : `onclick="window.open('${safeBtnSource}', '_blank')"`
-        let html = `
-            <div style="display: grid; place-items: center; width: 100%; height: 100%;">
-                <button ${action_click} style="background-color: ${safeBtnColor}; color: white; border: none; border-radius: 10px; padding: ${padding}; font-family: 'Nunito', sans-serif; font-weight: 600; font-size: ${fontSize}; cursor: pointer; transition: background-color 0.3s, transform 0.3s;">
-                    ${safeBtnName}
-                </button>
-            </div>
+    let action_click = safeBtnSource.length === 0 ? "" : `onclick="window.open('${safeBtnSource}', '_blank')"`;
+
+    let html = `
+        <div style="display: grid; place-items: center; width: 100%; height: 100%;">
+            <button ${action_click} style="
+                background-color: ${safeBtnColor};
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: ${padding};
+                font-family: 'Nunito', sans-serif;
+                font-weight: 600;
+                font-size: ${fontSize};
+                cursor: pointer;
+                transition: background-color 0.3s, transform 0.3s;
+            "
+            onmouseover="this.style.backgroundColor='${safeBtnColor2}';"
+            onmouseout="this.style.backgroundColor='${safeBtnColor}';">
+                ${safeBtnName}
+            </button>
+        </div>
             <style>
-                button:hover {
-                    background-color: #6650CC;
-                    transform: scale(1.05);
+                @media (max-width: 768px) {
+                    .container {
+                        grid-template-columns: 1fr;
+                        grid-template-rows: auto;
+                        gap: 10px;
+                        padding: 10px;
+                        width: 100%;
+                        max-width: 100vw;
+                        height: auto;
+                    }
+
+                    .responsive-button {
+                        padding: 12px 20px;
+                        font-size: 14px;
+                        width: auto;
+                        max-width: 100%;
+                        border-radius: 8px;
+                    }
                 }
             </style>
         `;
@@ -62,17 +93,17 @@ ResizableItem {
         return html;
     }
 
-    function handleFocusChild(){
-        console.log("HandleFocusChild")
-        tf.forceActiveFocus()
-        tf.text = btn_name
-        tf.selectAll()
+    function handleFocusChild() {
+        console.log("HandleFocusChild");
+        tf.forceActiveFocus();
+        tf.text = btn_name;
+        tf.selectAll();
     }
 
     signal contentUpdated()
 
     Component.onCompleted: {
-        focusChild.connect(handleFocusChild)
+        focusChild.connect(handleFocusChild);
     }
 
     content: Item {
@@ -109,7 +140,7 @@ ResizableItem {
             font.pixelSize: font_size // Adjust font size dynamically
             onTextChanged: {
                 btn_name = tf.text
-                contentUpdated()
+                contentUpdated();
             }
 
             visible: tf.activeFocus
@@ -117,5 +148,5 @@ ResizableItem {
         }
     }
 
-    onItem_idChanged: element_tag = "btn_" + item_id
+    onItem_idChanged: element_tag = "btn_" + item_id;
 }
