@@ -72,15 +72,21 @@ Window {
     }
 
     Rectangle{
-        id: bgApp        
+        id: bgApp
         anchors.fill: parent
         anchors.rightMargin: windowMargin
         anchors.leftMargin: windowMargin
         anchors.bottomMargin: windowMargin
         anchors.topMargin: windowMargin
         radius: 15
-        color: "#E0D7E3"
         z: 1
+        gradient: undockedGradient
+
+        Gradient{
+            id : undockedGradient
+            GradientStop { position: 1.0; color: "#A79DA6" }
+            GradientStop { position: 0.0; color: "#D3CAD3" }
+        }
 
         Item{
             z:10
@@ -132,7 +138,7 @@ Window {
                     left: parent.left
                     right: parent.right
                 }
-                color: "#e1dce1"
+                color: "transparent"
                 height: 15
                 radius: 15
                 id : radiusRect
@@ -146,65 +152,71 @@ Window {
                     right: parent.right
                     topMargin: 10
                 }
-                color: "#e1dce1"
+                color: "transparent"
                 height: 30
             }
 
- Item {
-        id: btnTopContent
-        width: 90
-        height: 40
-        z: 2
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.rightMargin: 14
-        anchors.topMargin: 0
+            Item {
+                id: btnTopContent
+                width: 90
+                height: 40
+                z: 2
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.rightMargin: 14
+                anchors.topMargin: 0
 
-        Row{
-            height: 20
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            z: 100
-            spacing: 8
+                Row{
+                    height: 20
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.right
+                    z: 100
+                    spacing: 8
 
-            Icon{
-                height: 20
-                width: 20
-                id: btnMaximizeRestore
-                source: "qrc:/assets/ic_new_shink.png"
-                onBtnClicked: btnShirkClicked()
-            }
+                    Icon{
+                        height: 20
+                        width: 20
+                        id: btnMaximizeRestore
+                        source: "qrc:/assets/ic_new_shink.png"
+                        onBtnClicked: btnShirkClicked()
+                    }
 
-            Icon{
-                height: 20
-                width: 20
-                id: btnExpaned
-                source: maximizeRestoreIcon // Bind to the property
-                onBtnClicked: {
-                    windowMargin = 0;
-                    internal.maximizeRestore();
+                    Icon{
+                        height: 20
+                        width: 20
+                        id: btnExpaned
+                        source: maximizeRestoreIcon // Bind to the property
+                        onBtnClicked: {
+                            windowMargin = 0;
+                            internal.maximizeRestore();
+                        }
+                    }
+
+                    Icon{
+                        height: 20
+                        width: 20
+                        id: btnClose
+                        source: "qrc:/assets/ic_new_close.png"
+                        onBtnClicked: btnCloseClicked()
+                    }
                 }
             }
 
-            Icon{
-                height: 20
-                width: 20
-                id: btnClose
-                source: "qrc:/assets/ic_new_close.png"
-                onBtnClicked: btnCloseClicked()
+            MouseArea{
+                height: 40
+                width: parent.width
+                onDoubleClicked: internal.maximizeRestore()
             }
-        }
-    }
 
-//            Header{
-//                height: 40
-//                anchors{
-//                    top: parent.top
-//                    left: parent.left
-//                    right: parent.right
-//                    topMargin: 40
-//                }
-//            }
+            //            Header{
+            //                height: 40
+            //                anchors{
+            //                    top: parent.top
+            //                    left: parent.left
+            //                    right: parent.right
+            //                    topMargin: 40
+            //                }
+            //            }
         }
 
         Item {

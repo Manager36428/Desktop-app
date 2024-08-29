@@ -71,7 +71,7 @@ ContentBase{
     ComboBoxTitle{
         id : cbBg
         height: 95
-        title: "Button Colour"
+        title: "Button Color"
         width: parent.width
         property color btn_color: "#26D842"
 
@@ -93,14 +93,14 @@ ContentBase{
         onAccepted: {
             cbBg.btn_color = newColor
             item_data.btn_color = newColor
-            console.log("Update Colour : ",newColor)
+            console.log("Update Color : ",newColor)
         }
     }
 
     ComboBoxTitle{
         id : cbBg2
         height: 95
-        title: "Hover Colour"
+        title: "Hover Color"
         width: parent.width
         property color btn_color2: "#262FD8"
 
@@ -124,7 +124,7 @@ ContentBase{
         onAccepted: {
             cbBg2.btn_color2 = newColor
             item_data.btn_color2 = newColor
-            console.log("Update Colour : ",newColor)
+            console.log("Update Color : ",newColor)
         }
     }
 

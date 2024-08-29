@@ -12,6 +12,7 @@ ContentBase{
         detailContent.item_data = item
         tfTitle.content.text = item.text_data
         tbBg.td_color = item_data.td_color
+        numberSelector.updateValue(item_data.td_size);
         item_data.contentUpdated.connect(handleContentUpdated)
     }
 
@@ -39,19 +40,19 @@ ContentBase{
                 console.log(item_data.text_data)
             }
         }
-        content.height: 185
+        content.height: 150
     }
 
     ComboBoxTitle{
         id : tbBg
         height: 95
-        title: "Text Colour"
+        title: "Text Color"
         width: parent.width
         property color td_color: "black"
 
         anchors{
             top : tfTitle.bottom
-            topMargin: 120
+            topMargin: tfTitle.content.height - 50
         }
         page_color: td_color
         onBtnClicked: {
@@ -61,22 +62,36 @@ ContentBase{
         }
     }
 
+    NumberSelector{
+        id : numberSelector
+        height: 62
+        width: 62
+        z:2
+        anchors{
+            top : tfTitle.bottom
+            topMargin: tfTitle.content.height - 50
+            right: parent.right
+            rightMargin: 70
+        }
+        onValueUpdated: item_data.td_size = getValue()
+    }
+
     PopupColorPicker{
         id : popupColorPicker
         visible: false
         onAccepted: {
             tbBg.td_color = newColor
             item_data.td_color = newColor
-            console.log("Update Colour : ",newColor)
+            console.log("Update Color : ",newColor)
         }
     }
-
 
     TextFieldWarning{
         id : deletePageSection
         title: "Delete Page"
         height: 113
         width: parent.width
+        z:-1
         anchors{
             bottom: parent.bottom
         }

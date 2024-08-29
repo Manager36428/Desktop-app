@@ -17,31 +17,19 @@ Item {
         font.family: "Nunito"
     }
 
-    Row{
+    Rectangle{
+        id : rectPageColor
+        anchors.top: header.bottom
+        anchors.topMargin: 9
+        color: "#C9DBE5"
+        radius: 10
         height: 36
-        spacing: 6
+        width: parent.width/2 - 3
+        antialiasing: true
 
-        anchors{
-            top: header.bottom
-            topMargin: 18
-            left: parent.left
-            right: parent.right
-        }
-
-        Rectangle{
-            id : rectPageColor
-            color: "#C9DBE5"
-            radius: 10
-            height: 36
-            width: parent.width/2 - 3
-            //border.width: 1
-            //border.color: "white"
-            antialiasing: true
-
-            MouseArea{
-                anchors.fill: parent
-                onClicked: btnClicked()
-            }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: btnClicked()
         }
     }
 

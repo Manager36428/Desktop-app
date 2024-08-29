@@ -11,7 +11,7 @@ Rectangle{
         right: parent.right
     }
 
-    color: Qt.rgba(0.6118, 0.5765, 0.6, 0.5)
+    color: "transparent"
     Text{
         height: 22
         text: "Device View"

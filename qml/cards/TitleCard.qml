@@ -102,7 +102,7 @@ Rectangle {
     }
 
 
-    color: isDocked ? "#E0D7E3" : "#E0D7E3"
+    color: isDocked ? "#E0D7E3" : "transparent"
     gradient: isDocked ? gradientBg : undefined
 
     radius: 10
