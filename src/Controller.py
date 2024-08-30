@@ -3,6 +3,7 @@
 import webbrowser
 
 from PySide2 import QtCore
+from PySide2.QtCore import QObject, QEvent, Qt
 from PySide2.QtCore import Property, Signal, Slot, QObject, QSize
 
 from src.Page import Page
@@ -170,6 +171,14 @@ class Controller(QtCore.QObject):
     def set_viewport_size(self, height, width):
         self._viewport_size.setHeight(height)
         self._viewport_size.setWidth(width)
+
+    keyPressed = Signal(int)
+
+    def eventFilter(self, watched, event):
+        if event.type() == QtCore.QEvent.KeyPress:
+            self.keyPressed.emit(event.key())
+            return True
+        return False
 
     def __init__(self):
         super().__init__()

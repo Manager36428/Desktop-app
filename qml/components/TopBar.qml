@@ -6,13 +6,15 @@ import "../../qml"
 Rectangle {
     width: 400
     height: 300
-    color: "#E0D7E3"
+    color: "transparent"
     radius: 10
 
     property bool fileBold: false
     property bool fileMenuOpen: false
     property bool viewBold: false
     property bool viewMenuOpen: false
+
+    signal menuItemClicked(var event_key);
 
     Rectangle {
         id: topBar
@@ -44,10 +46,10 @@ Rectangle {
                 }
                 onEntered: { fileBold = true; viewBold = false; fileMenuOpen = true; viewMenuOpen = false; }
                 onExited: {
-                if (!fileMenuOpen) {
-                    fileBold = false;
-                    fileMenuOpen = true;
-                }
+                    if (!fileMenuOpen) {
+                        fileBold = false;
+                        fileMenuOpen = true;
+                    }
                 }
             }
         }
@@ -102,6 +104,7 @@ Rectangle {
                 viewBold = false;
                 fileMenuOpen = false;
                 console.log(newItem.text);
+                menuItemClicked("New");
             }
             background: Rectangle {
                 color: Qt.rgba(1, 1, 1, 0)
@@ -136,6 +139,7 @@ Rectangle {
                 viewBold = false;
                 fileMenuOpen = false;
                 console.log(openItem.text);
+                menuItemClicked("Open");
             }
             background: Rectangle {
                 color: Qt.rgba(1, 1, 1, 0)
@@ -170,6 +174,7 @@ Rectangle {
                 viewBold = false;
                 fileMenuOpen = false;
                 console.log(settingsItem.text);
+                menuItemClicked("Settings");
             }
             background: Rectangle {
                 color: Qt.rgba(1, 1, 1, 0)
@@ -204,6 +209,7 @@ Rectangle {
                 viewBold = false;
                 fileMenuOpen = false;
                 console.log(publishItem.text);
+                menuItemClicked("Publish");
             }
             background: Rectangle {
                 color: Qt.rgba(1, 1, 1, 0)
@@ -252,6 +258,7 @@ Rectangle {
                 viewBold = false;
                 viewMenuOpen = false;
                 console.log(navigateItem.text);
+                menuItemClicked("Navigate");
             }
             background: Rectangle {
                 color: Qt.rgba(1, 1, 1, 0)
@@ -286,6 +293,7 @@ Rectangle {
                 viewBold = false;
                 viewMenuOpen = false;
                 console.log(pageItem.text);
+                menuItemClicked("Page");
             }
             background: Rectangle {
                 color: Qt.rgba(1, 1, 1, 0)
@@ -320,6 +328,7 @@ Rectangle {
                 viewBold = false;
                 viewMenuOpen = false;
                 console.log(elementsItem.text);
+                menuItemClicked("Elements");
             }
             background: Rectangle {
                 color: Qt.rgba(1, 1, 1, 0)
@@ -354,6 +363,7 @@ Rectangle {
                 viewBold = false;
                 viewMenuOpen = false;
                 console.log(detailsItem.text);
+                menuItemClicked("Details");
             }
             background: Rectangle {
                 color: Qt.rgba(1, 1, 1, 0)

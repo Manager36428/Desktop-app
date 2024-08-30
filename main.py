@@ -38,6 +38,7 @@ if __name__ == "__main__":
     app.setApplicationVersion("v1.0")
     engine = QQmlApplicationEngine()
     controller = Controller()
+    app.installEventFilter(controller)
     utils = Utils()
     engine.rootContext().setContextProperty("controller", controller)
     engine.rootContext().setContextProperty("utils", utils)
