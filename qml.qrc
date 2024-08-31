@@ -50,5 +50,6 @@
         <file>qml/common/DropdownList.qml</file>
         <file>qml/cards/ContentBase.qml</file>
         <file>qml/common/NumberSelector.qml</file>
+        <file>qml/common/menu/MenuItemText.qml</file>
     </qresource>
 </RCC>

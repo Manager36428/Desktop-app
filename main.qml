@@ -131,8 +131,9 @@ MainWindow {
     }
 
     content: Item {
-        anchors.fill: parent
+        anchors.fill: parent        
         TopBar{
+            z:100
             id : topBar
             anchors {
                 top: parent.top

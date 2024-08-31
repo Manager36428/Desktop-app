@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.15
 import QtGraphicalEffects 1.15
 import "../../qml"
+import "../common/menu"
 
 Rectangle {
     width: 400
@@ -15,6 +16,11 @@ Rectangle {
     property bool viewMenuOpen: false
 
     signal menuItemClicked(var event_key);
+
+    MouseArea{
+        anchors.fill: parent
+        hoverEnabled: true
+    }
 
     Rectangle {
         id: topBar
@@ -78,311 +84,157 @@ Rectangle {
         }
     }
 
-    Menu {
+    Rectangle {
         id: fileMenu
         visible: fileMenuOpen
-        width: 220
         x: fileText.x - 2
         y: topBar.height + 5
-        background: Rectangle {
-            color: Qt.rgba(0.9, 0.8, 0.9, 1)
-            border.color: Qt.rgba(1, 1, 1, 0)
-            border.width: 1
-            radius: 10
-        }
+        color: Qt.rgba(0.9, 0.8, 0.9, 1)
+        border.color: Qt.rgba(1, 1, 1, 0)
+        border.width: 1
+        radius: 10
+        height: 117
+        width: 220
 
-        MenuItem {
-            id: newItem
-            text: "New"
-            font.pixelSize: 16
-            font.family: "Nunito"
-            font.weight: hovered ? Font.Bold : Font.Medium
-            onTriggered: {
-                console.log("New triggered");
-                // Reset boldness when a menu item is triggered
-                fileBold = false;
-                viewBold = false;
-                fileMenuOpen = false;
-                console.log(newItem.text);
-                menuItemClicked("New");
-            }
-            background: Rectangle {
-                color: Qt.rgba(1, 1, 1, 0)
-                radius: 5
-                border.color: Qt.rgba(1, 1, 1, 0)
-                border.width: 1
-            }
-            Item {
-                anchors.right: parent.right
-                width: 30
-                Text {
-                    text: "F1 "
-                    anchors.right: parent.right
-                    color: "#4D365D"
-                    font.pixelSize: 16
-                    font.family: "Nunito"
-                    font.weight: Font.Medium
+        Column{
+            height: parent.height - 12
+            width: parent.width
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 2
+
+            MenuItemText{
+                menu_item_name: "New"
+                menu_item_shortcut: "F1"
+
+                onClicked: {
+                    console.log("New triggered");
+                    // Reset boldness when a menu item is triggered
+                    fileBold = false;
+                    viewBold = false;
+                    fileMenuOpen = false;
+                    menuItemClicked("New");
                 }
             }
-        }
 
-        MenuItem {
-            id: openItem
-            text: "Open"
-            font.pixelSize: 16
-            font.family: "Nunito"
-            font.weight: hovered ? Font.Bold : Font.Medium
-            onTriggered: {
-                console.log("Open triggered");
-                // Reset boldness when a menu item is triggered
-                fileBold = false;
-                viewBold = false;
-                fileMenuOpen = false;
-                console.log(openItem.text);
-                menuItemClicked("Open");
-            }
-            background: Rectangle {
-                color: Qt.rgba(1, 1, 1, 0)
-                radius: 5
-                border.color: Qt.rgba(1, 1, 1, 0)
-                border.width: 1
-            }
-            Item {
-                anchors.right: parent.right
-                width: 30
-                Text {
-                    text: "F2 "
-                    anchors.right: parent.right
-                    color: "#4D365D"
-                    font.pixelSize: 16
-                    font.family: "Nunito"
-                    font.weight: Font.Medium
+            MenuItemText {
+                id: openItem
+                menu_item_name: "Open"
+                menu_item_shortcut: "F2"
+                onClicked: {
+                    console.log("Open triggered");
+                    // Reset boldness when a menu item is triggered
+                    fileBold = false;
+                    viewBold = false;
+                    fileMenuOpen = false;
+                    menuItemClicked("Open");
                 }
             }
-        }
 
-        MenuItem {
-            id: settingsItem
-            text: "Settings"
-            font.pixelSize: 16
-            font.family: "Nunito"
-            font.weight: hovered ? Font.Bold : Font.Medium
-            onTriggered: {
-                console.log("Settings triggered");
-                // Reset boldness when a menu item is triggered
-                fileBold = false;
-                viewBold = false;
-                fileMenuOpen = false;
-                console.log(settingsItem.text);
-                menuItemClicked("Settings");
-            }
-            background: Rectangle {
-                color: Qt.rgba(1, 1, 1, 0)
-                radius: 5
-                border.color: Qt.rgba(1, 1, 1, 0)
-                border.width: 1
-            }
-            Item {
-                anchors.right: parent.right
-                width: 30
-                Text {
-                    text: "F3 "
-                    anchors.right: parent.right
-                    color: "#4D365D"
-                    font.pixelSize: 16
-                    font.family: "Nunito"
-                    font.weight: Font.Medium
+            MenuItemText {
+                id: settingsItem
+                menu_item_name: "Settings"
+                menu_item_shortcut: "F3"
+                onClicked: {
+                    console.log("Settings triggered");
+                    // Reset boldness when a menu item is triggered
+                    fileBold = false;
+                    viewBold = false;
+                    fileMenuOpen = false;
+                    menuItemClicked("Settings");
                 }
             }
-        }
 
-        MenuItem {
-            id: publishItem
-            text: "Publish"
-            font.pixelSize: 16
-            font.family: "Nunito"
-            font.weight: hovered ? Font.Bold : Font.Medium
-            onTriggered: {
-                console.log("Publish triggered");
-                // Reset boldness when a menu item is triggered
-                fileBold = false;
-                viewBold = false;
-                fileMenuOpen = false;
-                console.log(publishItem.text);
-                menuItemClicked("Publish");
-            }
-            background: Rectangle {
-                color: Qt.rgba(1, 1, 1, 0)
-                radius: 5
-                border.color: Qt.rgba(1, 1, 1, 0)
-                border.width: 1
-            }
-            Item {
-                anchors.right: parent.right
-                width: 30
-                Text {
-                    text: "F4 "
-                    anchors.right: parent.right
-                    color: "#4D365D"
-                    font.pixelSize: 16
-                    font.family: "Nunito"
-                    font.weight: Font.Medium
+            MenuItemText {
+                id: publishItem
+                menu_item_name: "Publish"
+                menu_item_shortcut: "F4"
+                onClicked: {
+                    console.log("Publish triggered");
+                    // Reset boldness when a menu item is triggered
+                    fileBold = false;
+                    viewBold = false;
+                    fileMenuOpen = false;
+                    menuItemClicked("Publish");
                 }
             }
         }
     }
 
-    Menu {
+    Rectangle {
         id: viewMenu
         visible: viewMenuOpen
-        width: 220
         x: viewText.x - 2
         y: topBar.height + 5
-        background: Rectangle {
-            color: Qt.rgba(0.9, 0.8, 0.9, 1)
-            border.color: Qt.rgba(1, 1, 1, 0)
-            border.width: 1
-            radius: 10
-        }
+        color: Qt.rgba(0.9, 0.8, 0.9, 1)
+        border.color: Qt.rgba(1, 1, 1, 0)
+        border.width: 1
+        radius: 10
+        height: 117
+        width: 220
 
-        MenuItem {
-            id: navigateItem
-            text: "Navigate"
-            font.pixelSize: 16
-            font.family: "Nunito"
-            font.weight: hovered ? Font.Bold : Font.Medium
-            onTriggered: {
-                console.log("Navigate triggered");
-                // Reset boldness when a menu item is triggered
-                fileBold = false;
-                viewBold = false;
-                viewMenuOpen = false;
-                console.log(navigateItem.text);
-                menuItemClicked("Navigate");
-            }
-            background: Rectangle {
-                color: Qt.rgba(1, 1, 1, 0)
-                radius: 5
-                border.color: Qt.rgba(1, 1, 1, 0)
-                border.width: 1
-            }
-            Item {
-                anchors.right: parent.right
-                width: 30
-                Text {
-                    text: "F9 "
-                    anchors.right: parent.right
-                    color: "#4D365D"
-                    font.pixelSize: 16
-                    font.family: "Nunito"
-                    font.weight: Font.Medium
+        Column{
+            height: parent.height - 12
+            width: parent.width
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 2
+
+            MenuItemText{
+                menu_item_name: "Navigate"
+                menu_item_shortcut: "F9"
+
+                onClicked: {
+                    console.log("Navigate triggered");
+                    // Reset boldness when a menu item is triggered
+                    fileBold = false;
+                    viewBold = false;
+                    viewMenuOpen = false;
+                    menuItemClicked("Navigate");
                 }
             }
-        }
 
-        MenuItem {
-            id: pageItem
-            text: "Page"
-            font.pixelSize: 16
-            font.family: "Nunito"
-            font.weight: hovered ? Font.Bold : Font.Medium
-            onTriggered: {
-                console.log("Page triggered");
-                // Reset boldness when a menu item is triggered
-                fileBold = false;
-                viewBold = false;
-                viewMenuOpen = false;
-                console.log(pageItem.text);
-                menuItemClicked("Page");
-            }
-            background: Rectangle {
-                color: Qt.rgba(1, 1, 1, 0)
-                radius: 5
-                border.color: Qt.rgba(1, 1, 1, 0)
-                border.width: 1
-            }
-            Item {
-                anchors.right: parent.right
-                width: 30
-                Text {
-                    text: "F10 "
-                    anchors.right: parent.right
-                    color: "#4D365D"
-                    font.pixelSize: 16
-                    font.family: "Nunito"
-                    font.weight: Font.Medium
+            MenuItemText{
+                menu_item_name: "Page"
+                menu_item_shortcut: "F10"
+
+                onClicked: {
+                    console.log("Page triggered");
+                    // Reset boldness when a menu item is triggered
+                    fileBold = false;
+                    viewBold = false;
+                    viewMenuOpen = false;
+                    menuItemClicked("Page");
                 }
             }
-        }
 
-        MenuItem {
-            id: elementsItem
-            text: "Elements"
-            font.pixelSize: 16
-            font.family: "Nunito"
-            font.weight: hovered ? Font.Bold : Font.Medium
-            onTriggered: {
-                console.log("Elements triggered");
-                // Reset boldness when a menu item is triggered
-                fileBold = false;
-                viewBold = false;
-                viewMenuOpen = false;
-                console.log(elementsItem.text);
-                menuItemClicked("Elements");
-            }
-            background: Rectangle {
-                color: Qt.rgba(1, 1, 1, 0)
-                radius: 5
-                border.color: Qt.rgba(1, 1, 1, 0)
-                border.width: 1
-            }
-            Item {
-                anchors.right: parent.right
-                width: 30
-                Text {
-                    text: "F11 "
-                    anchors.right: parent.right
-                    color: "#4D365D"
-                    font.pixelSize: 16
-                    font.family: "Nunito"
-                    font.weight: Font.Medium
+            MenuItemText{
+                menu_item_name: "Elements"
+                menu_item_shortcut: "F11"
+
+                onClicked: {
+                    console.log("Elements triggered");
+                    // Reset boldness when a menu item is triggered
+                    fileBold = false;
+                    viewBold = false;
+                    viewMenuOpen = false;
+                    menuItemClicked("Elements");
                 }
             }
-        }
 
-        MenuItem {
-            id: detailsItem
-            text: "Details"
-            font.pixelSize: 16
-            font.family: "Nunito"
-            font.weight: hovered ? Font.Bold : Font.Medium
-            onTriggered: {
-                console.log("Details triggered");
-                // Reset boldness when a menu item is triggered
-                fileBold = false;
-                viewBold = false;
-                viewMenuOpen = false;
-                console.log(detailsItem.text);
-                menuItemClicked("Details");
-            }
-            background: Rectangle {
-                color: Qt.rgba(1, 1, 1, 0)
-                radius: 5
-                border.color: Qt.rgba(1, 1, 1, 0)
-                border.width: 1
-            }
-            Item {
-                anchors.right: parent.right
-                width: 30
-                Text {
-                    text: "F12 "
-                    anchors.right: parent.right
-                    color: "#4D365D"
-                    font.pixelSize: 16
-                    font.family: "Nunito"
-                    font.weight: Font.Medium
+            MenuItemText{
+                menu_item_name: "Details"
+                menu_item_shortcut: "F12"
+
+                onClicked: {
+                    console.log("Details triggered");
+                    // Reset boldness when a menu item is triggered
+                    fileBold = false;
+                    viewBold = false;
+                    viewMenuOpen = false;
+                    menuItemClicked("Details");
                 }
             }
+
         }
+
     }
 }
