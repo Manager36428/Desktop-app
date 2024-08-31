@@ -81,7 +81,6 @@ class Controller(QtCore.QObject):
         self._pages.append(page)
         self.pagesChanged.emit()
 
-
     @Slot(QObject)
     def delete_page(self, page):
         print("Delete Page", page)

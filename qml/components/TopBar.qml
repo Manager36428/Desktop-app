@@ -84,14 +84,27 @@ Rectangle {
         }
     }
 
+    DropShadow {
+        anchors.fill: fileMenu
+        horizontalOffset: 4
+        verticalOffset: 4
+        radius: 8.0
+        samples: 17
+        color: "#800000"
+        opacity: 0.25
+        source: fileMenu
+        visible: fileMenuOpen
+    }
+
     Rectangle {
         id: fileMenu
         visible: fileMenuOpen
         x: fileText.x - 2
         y: topBar.height + 5
-        color: Qt.rgba(0.9, 0.8, 0.9, 1)
-        border.color: Qt.rgba(1, 1, 1, 0)
-        border.width: 1
+        gradient: Gradient{
+            GradientStop{ color: "#A79DA6"; position: 1.0}
+            GradientStop{ color: "#D3CAD3"; position: 0.0}
+        }
         radius: 10
         height: 117
         width: 220
@@ -160,14 +173,28 @@ Rectangle {
         }
     }
 
+
+    DropShadow {
+        anchors.fill: viewMenu
+        horizontalOffset: 4
+        verticalOffset: 4
+        radius: 8.0
+        samples: 17
+        color: "#800000"
+        opacity: 0.25
+        source: viewMenu
+        visible: viewMenuOpen
+    }
+
     Rectangle {
         id: viewMenu
         visible: viewMenuOpen
         x: viewText.x - 2
         y: topBar.height + 5
-        color: Qt.rgba(0.9, 0.8, 0.9, 1)
-        border.color: Qt.rgba(1, 1, 1, 0)
-        border.width: 1
+        gradient: Gradient{
+            GradientStop{ color: "#A79DA6"; position: 1.0}
+            GradientStop{ color: "#D3CAD3"; position: 0.0}
+        }
         radius: 10
         height: 117
         width: 220
