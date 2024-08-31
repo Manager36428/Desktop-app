@@ -50,7 +50,7 @@ ContentBase{
 
             if(content.text.length == 0){
                 tfPageDes.warning = "ID cannot be empty !"
-                content.text = detailContent.currentPage.page_id
+                controller.refresh_current_page()
                 return;
             }
 
@@ -58,7 +58,7 @@ ContentBase{
                 console.log("Update Page Id :" + detailContent.currentPage.page_name + " - " + content.text)
                 detailContent.currentPage.page_id = content.text
             }else{
-                content.text = detailContent.currentPage.page_id
+                controller.refresh_current_page()
                 tfPageDes.warning = "ID already exists !"
             }
         }

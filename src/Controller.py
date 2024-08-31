@@ -73,8 +73,23 @@ class Controller(QtCore.QObject):
     # End Section Member Property current_page_idx
 
     @Slot()
-    def add_page(self):
+    def refresh_current_page(self):
+        self.set_current_page(self._pages[self._current_page_idx])
+
+    def increase_page_index(self):
         self._last_idx_page += 1
+        new_page_id = "page_" + str(self._last_idx_page)
+        already_has_new_page = False
+        for page in self._pages:
+            if page.page_id == new_page_id:
+                already_has_new_page = True
+                break
+        if already_has_new_page:
+            self.increase_page_index()
+
+    @Slot()
+    def add_page(self):
+        self.increase_page_index()
         print("Add New Page ", self._last_idx_page)
         str_idx = str(self._last_idx_page)
         page = Page("page_" + str_idx, "Page " + str_idx, "#FFFFFF")
@@ -85,7 +100,6 @@ class Controller(QtCore.QObject):
     def delete_page(self, page):
         print("Delete Page", page)
         self._pages.remove(page)
-        self._last_idx_page -= 1
         if page not in self._pages:
             if len(self._pages) > 0:
                 self.set_current_page_idx(0)
@@ -173,10 +187,14 @@ class Controller(QtCore.QObject):
 
     keyPressed = Signal(int)
 
+    _menu_keys = [Qt.Key_F1, Qt.Key_F2, Qt.Key_F3, Qt.Key_F4, Qt.Key_F9, Qt.Key_F10, Qt.Key_F11, Qt.Key_F12]
+
     def eventFilter(self, watched, event):
         if event.type() == QtCore.QEvent.KeyPress:
-            self.keyPressed.emit(event.key())
-            return True
+            if self._menu_keys.__contains__(event.key()):
+                self.keyPressed.emit(event.key())
+                return True
+            return False
         return False
 
     def __init__(self):
