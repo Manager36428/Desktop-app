@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.9
 import QtQml 2.0
 import QtQml.Models 2.1
 import "../common"
@@ -19,7 +19,7 @@ TitleCard{
             MouseArea{
                 id : dragArea
                 property bool held: false
-                onHeldChanged: console.log(held)
+                pressAndHoldInterval: 200
                 anchors {
                     left: parent.left
                     right: parent.right

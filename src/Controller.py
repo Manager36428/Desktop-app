@@ -187,7 +187,6 @@ class Controller(QtCore.QObject):
 
     @Slot(int, int)
     def swap_page(self, src, dest):
-        print("Page Swap :", src, dest)
         temp = self._pages[src]
         self._pages[src] = self.pages[dest]
         self._pages[dest] = temp
