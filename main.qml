@@ -60,6 +60,9 @@ MainWindow {
             title = "Publish";
             controller.set_viewport_size(pageCard.viewport.height, pageCard.viewport.width);
             pathPopup = "qrc:/qml/components/PopupPublish.qml";
+        } else if (popup_id === 2)
+        {
+            pathPopup = "qrc:/qml/components/PopupSettings.qml";
         }
 
         var component = Qt.createComponent(pathPopup);

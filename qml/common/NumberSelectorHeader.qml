@@ -2,11 +2,12 @@ import QtQuick 2.0
 
 Item {
     id : root
-    height: 60
-    width: 282
+    height: 36
+    width: 93
     property int currentIdx: 8
     property var listValue : [8,9,10,11,12,13,14,15,16,20,24,32,36,40,48]
     property string title: "Text Size"
+    property int offsetPopup: 17
 
     signal valueUpdated(var number_value)
 
@@ -30,6 +31,8 @@ Item {
         font.pixelSize: 16
         font.weight: Font.DemiBold
         width: parent.width
+        verticalAlignment: Text.AlignVCenter
+        anchors.verticalCenter: parent.verticalCenter
         text : title
         color: "#4D365D"
         font.family: "Nunito"
@@ -37,18 +40,17 @@ Item {
 
     Rectangle{
         color: "white"
-        radius: 10
-        height: 36
+        radius: 10        
+        anchors.right: parent.right
+        height: parent.height
         width: 62
-        anchors.bottom: parent.bottom
+
         Text{
             color: "#585D6C"
             height: 16
             font.family: "Nunito"
             font.pixelSize: 16
             anchors{
-                top: header.bottom
-                topMargin: 6
                 left: parent.left
                 right: btnArrDown.left
                 margins: 13
@@ -90,7 +92,7 @@ Item {
         anchors{
             left: parent.right
             verticalCenter: parent.verticalCenter
-            leftMargin: 17
+            leftMargin: offsetPopup
         }
 
         ListView{
