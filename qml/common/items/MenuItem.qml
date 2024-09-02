@@ -5,6 +5,10 @@ ResizableItem {
     height: 68
     width: 120
     property string text_data: "Button"
+    property string bg_color: "#CCD826"
+    property string bg_hover_color: "#A936A1"
+    property string text_color: "#160C34"
+    property int text_size: 16
     property var list_pages: []
     signal sync()
 
@@ -13,43 +17,43 @@ ResizableItem {
         console.log(list_pages)
     }
 
-function escapeHtml(text) {
-    let map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-}
+    function escapeHtml(text) {
+        let map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
 
-function get_html() {
-    let safeListPages = Array.isArray(list_pages) ? list_pages : [];
-    let html = `
-    <style>
+    function get_html() {
+        let safeListPages = Array.isArray(list_pages) ? list_pages : [];
+        let html = `
+        <style>
         .menu-container {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; padding: 10px; background-color: transparent; font-family: 'Nunito', sans-serif;
+        display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; padding: 10px; background-color: ${bg_color}; font-family: 'Nunito', sans-serif;
         }
         .menu-item {
-            background-color: "transparent" ; color: blue; padding: 10px; text-align: center; border-radius: 15px; transition: transform 0.2s, background-color 0.2s; cursor: pointer;
+        background-color: "transparent" ; color: ${text_color}; padding: 10px; text-align: center; border-radius: 15px; transition: transform 0.2s, background-color 0.2s; cursor: pointer;
         }
         .menu-item:hover {
-            background-color: "transparent" ;
-            transform: scale(1.05);
+        background-color: ${bg_hover_color} ;
+        transform: scale(1.05);
         }
-    </style>
-    <div class="menu-container">\n`;
+        </style>
+        <div class="menu-container">\n`;
 
-    safeListPages.forEach(item => {
-        let safeItem = escapeHtml(item);
-        html += `  <div class="menu-item">${safeItem}</div>\n`;
-    });
+        safeListPages.forEach(item => {
+                                  let safeItem = escapeHtml(item);
+                                  html += `  <div class="menu-item">${safeItem}</div>\n`;
+                              });
 
-    html += "</div>";
-    console.log(html);
-    return html;
-}
+        html += "</div>";
+        console.log(html);
+        return html;
+    }
 
 
     onItem_idChanged : {
