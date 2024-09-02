@@ -86,14 +86,12 @@ TitleCard{
                         visualModel.items.move(
                                 drag.source.DelegateModel.itemsIndex,
                                 dragArea.DelegateModel.itemsIndex)
-                        controller.move_page(drag.source.DelegateModel.itemsIndex,
-                                             dragArea.DelegateModel.itemsIndex)
+
                     }
 
                     onDropped: {
-                        console.log("index - " , index)
-                        visualModel.model = null
-                        visualModel.model = controller.pages
+                        controller.move_page(drag.source.DelegateModel.itemsIndex,
+                                             dragArea.DelegateModel.itemsIndex)
                     }
                 }
 

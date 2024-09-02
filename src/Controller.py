@@ -186,11 +186,13 @@ class Controller(QtCore.QObject):
         self._viewport_size.setWidth(width)
 
     @Slot(int, int)
-    def move_page(self, src, dest):
-        moving_page = self._pages.pop(src)
-        if dest > src:
-            dest -= 1
-        self._pages.insert(dest, moving_page)
+    def move_page(self, from_index, to_index):
+        if 0 <= from_index < len(self._pages) and 0 <= to_index < len(self._pages) and from_index != to_index:
+            if from_index == to_index - 1:
+                to_index = from_index + 1
+
+            self._pages.insert(to_index, self._pages.pop(from_index))
+            self.pagesChanged.emit()
 
     keyPressed = Signal(int)
 
