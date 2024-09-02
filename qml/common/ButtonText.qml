@@ -18,6 +18,7 @@ Rectangle {
     border.color: "white"
     signal btnClicked()
     property alias theMouseArea: mouseArea
+    property bool useMouseArea: true
 
     Item{
         id : content
@@ -74,6 +75,7 @@ Rectangle {
     MouseArea{
         id : mouseArea
         z:10
+        visible: useMouseArea
         anchors.fill: parent
         onClicked: zoomInOutAnim.restart()
         hoverEnabled: true

@@ -185,6 +185,13 @@ class Controller(QtCore.QObject):
         self._viewport_size.setHeight(height)
         self._viewport_size.setWidth(width)
 
+    @Slot(int, int)
+    def swap_page(self, src, dest):
+        print("Page Swap :", src, dest)
+        temp = self._pages[src]
+        self._pages[src] = self.pages[dest]
+        self._pages[dest] = temp
+
     keyPressed = Signal(int)
 
     _menu_keys = [Qt.Key_F1, Qt.Key_F2, Qt.Key_F3, Qt.Key_F4, Qt.Key_F9, Qt.Key_F10, Qt.Key_F11, Qt.Key_F12]
