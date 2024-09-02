@@ -10,6 +10,7 @@ from PySide2.QtCore import QUrl
 import assets
 import qml
 from src.Controller import Controller
+from src.Settings import Settings
 from src.Utils import Utils
 
 
@@ -38,10 +39,13 @@ if __name__ == "__main__":
     app.setApplicationVersion("v1.0")
     engine = QQmlApplicationEngine()
     controller = Controller()
+    settings = Settings()
+    controller.add_settings(settings)
     app.installEventFilter(controller)
     utils = Utils()
     engine.rootContext().setContextProperty("controller", controller)
     engine.rootContext().setContextProperty("utils", utils)
+    engine.rootContext().setContextProperty("settings", settings)
 
     url = QUrl("qrc:/main.qml")
     engine.load(url)

@@ -20,7 +20,7 @@ Item {
         console.log("Index : ", currentIdx)
         if(currentIdx == -1)
             currentIdx = 8
-    }
+    }       
 
     onCurrentIdxChanged: valueUpdated(listValue[currentIdx])
 
@@ -71,9 +71,6 @@ Item {
             onBtnClicked:{
                 console.log("Show Dropdownlist")
                 dropListContainer.visible = !dropListContainer.visible
-
-                //Scroll to Index
-                listNumber.positionViewAtIndex(currentIdx, ListView.Center)
             }
         }
 
@@ -95,7 +92,13 @@ Item {
 
         ListView{
             id : listNumber
-            height: parent.height
+            anchors{
+                top: parent.top
+                bottom: parent.bottom
+                topMargin: 15
+                bottomMargin: 15
+            }
+
             width: parent.width
             model: listValue
             spacing : 10
@@ -107,7 +110,7 @@ Item {
 
             delegate: Item{
                 height: 16
-                width: parent.width
+                width: 58
 
                 Text{
                     color: "#585D6C"

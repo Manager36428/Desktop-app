@@ -23,40 +23,49 @@ ResizableItem {
         tf.selectAll()
     }
 
-function escapeHtml(text) {
-    let map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-}
+    function escapeHtml(text) {
+        let map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
 
-function isValidHeadingTag(tag) {
-    return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag.toLowerCase());
-}
+    function isValidHeadingTag(tag) {
+        return ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(tag.toLowerCase());
+    }
+
+    function headerToIndex(headerTag) {
+        if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(headerTag)) {
+            return parseInt(headerTag[1]) - 1;
+        } else {
+            throw new Error("Invalid header tag. Must be one of 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'.");
+        }
+    }
+
     function isValidColor(color) {
         let hexColorRegex = /^#([0-9A-F]{3}){1,2}$/i;
         let namedColors = ['red', 'blue', 'green', 'yellow', 'purple', 'black', 'white', 'gray', 'orange'];
         return hexColorRegex.test(color) || namedColors.includes(color.toLowerCase());
     }
 
-function get_html() {
-    let safeTextData = escapeHtml(text_data);
-    let safeTagHeading = isValidHeadingTag(tag_heading) ? tag_heading.toLowerCase() : 'h3';  // Default to 'h3' if invalid
-    let safehdColor = isValidColor(hd_color) ? hd_color : "#4D365D";
+    function get_html() {
+        let safeTextData = escapeHtml(text_data);
+        let safeTagHeading = isValidHeadingTag(tag_heading) ? tag_heading.toLowerCase() : 'h3';  // Default to 'h3' if invalid
+        let safehdColor = isValidColor(hd_color) ? hd_color : "#4D365D";
 
-    let html = `
+        let html = `
         <div style="display: grid; place-items: center; width: 100%; height: 100%; padding: 10px;">
-            <${safeTagHeading} style="margin: 0; font-size: 24px; font-weight: 700; color: ${safehdColor}; font-family: 'Nunito', sans-serif; text-align: center;">
-                ${safeTextData}
-            </${safeTagHeading}>
+        <${safeTagHeading} style="margin: 0; font-size: 24px; font-weight: 700; color: ${safehdColor}; font-family: 'Nunito', sans-serif; text-align: center;">
+        ${safeTextData}
+        </${safeTagHeading}>
         </div>
-    `;
-    return html;
-}
+        `;
+        return html;
+    }
 
     Component.onCompleted: {
         focusChild.connect(handleFocusChild)
@@ -77,7 +86,7 @@ function get_html() {
         TextInput {
             id: tf
             height: 40
-            font.pixelSize: 18
+            font.pixelSize: settings.get_heading_size_at(headerToIndex(tag_heading))
             font.weight: Font.DemiBold
             color: hd_color
             font.family: "Nunito"

@@ -8,6 +8,7 @@ from PySide2.QtCore import Property, Signal, Slot, QObject, QSize
 
 from src.Page import Page
 from src.Utils import Utils
+from src.Settings import Settings
 
 
 class Controller(QtCore.QObject):
@@ -144,6 +145,7 @@ class Controller(QtCore.QObject):
 
         # html_content = html_content.replace("<%CODE_GEN_LIST%>", html_gen_list)
         html_content = html_content.replace("<%CODE_GEN_SECTION%>", html_gen_section)
+        html_content = html_content.replace("<%CODE_GEN_TITLE%>", self._settings.get_project_title())
         return html_content
 
     @Slot()
@@ -205,6 +207,11 @@ class Controller(QtCore.QObject):
                 return True
             return False
         return False
+
+    _settings = None
+
+    def add_settings(self, settings):
+        self._settings = settings
 
     def __init__(self):
         super().__init__()

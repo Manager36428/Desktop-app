@@ -8,7 +8,7 @@ ResizableItem {
     width: tf.width + 20
     property string text_data: "Default Text"
     property color td_color: "#4D365D"
-    property int td_size: 16
+    property int td_size: settings.default_text_size
     onText_dataChanged: {
         tf.text = text_data
         contentUpdated()

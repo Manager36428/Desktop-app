@@ -97,7 +97,13 @@ Item {
 
         ListView{
             id : listNumber
-            height: parent.height
+            anchors{
+                top: parent.top
+                bottom: parent.bottom
+                topMargin: 15
+                bottomMargin: 15
+            }
+
             width: parent.width
             model: listValue
             spacing : 10
@@ -123,6 +129,7 @@ Item {
                         right: parent.right
                         margins: 13
                     }
+                    verticalAlignment: Text.AlignVCenter
                     font.bold: currentIdx == index
                     text: listValue[index]
                     MouseArea{

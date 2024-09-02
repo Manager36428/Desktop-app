@@ -32,12 +32,12 @@ Popup{
                 width: parent.width / 2 - 6
                 title: "Project Name"
                 content.placeholderText: "Project Name"
-                content.text: ""
+                content.text: settings.project_name
                 anchors{
                     top: parent.top
                 }
                 content.onTextChanged: {
-                    detailContent.currentPage.page_name = content.text
+                    settings.project_name = content.text
                 }
             }
 
@@ -47,12 +47,12 @@ Popup{
                 width: parent.width / 2 - 6
                 title: "Page Title"
                 content.placeholderText: "Page Title"
-                content.text: ""
+                content.text: settings.project_title
                 anchors{
                     top: parent.top
                 }
                 content.onTextChanged: {
-                    detailContent.currentPage.page_name = content.text
+                    settings.project_title = content.text
                 }
             }
         }
@@ -71,12 +71,8 @@ Popup{
             height: 62
             width: 62
             z:2
-            anchors{
-                top : tfTitle.bottom
-                topMargin: tfTitle.content.height - 50
-                right: parent.right
-                rightMargin: 70
-            }
+            Component.onCompleted: updateValue(settings.default_text_size)
+            onValueUpdated: settings.default_text_size = getValue()
         }
 
         Text{
@@ -125,6 +121,8 @@ Popup{
                     z: 6 - index
                     // Remove offset incase of last item.
                     offsetPopup: index == 5 ? -90 : 17
+                    Component.onCompleted: updateValue(settings.get_heading_size_at(index))
+                    onValueUpdated: settings.set_heading_size_at(index, getValue())
                 }
             }
         }
