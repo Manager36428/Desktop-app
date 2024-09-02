@@ -185,6 +185,13 @@ class Controller(QtCore.QObject):
         self._viewport_size.setHeight(height)
         self._viewport_size.setWidth(width)
 
+    @Slot(int, int)
+    def move_page(self, src, dest):
+        moving_page = self._pages.pop(src)
+        if dest > src:
+            dest -= 1
+        self._pages.insert(dest, moving_page)
+
     keyPressed = Signal(int)
 
     _menu_keys = [Qt.Key_F1, Qt.Key_F2, Qt.Key_F3, Qt.Key_F4, Qt.Key_F9, Qt.Key_F10, Qt.Key_F11, Qt.Key_F12]

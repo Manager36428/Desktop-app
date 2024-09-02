@@ -12,7 +12,7 @@ ResizableItem {
     // Responsive padding and font size based on width
     property real padding_horizontal: Math.max(width * 0.5, 12)
     property real padding_vertical: Math.max(height * 0.75, 8)
-    property real font_size: Math.min(width * 0.25, 16)
+    property real font_size: 16
 
     onBtn_nameChanged: {
         txtBtnName.text = btn_name
@@ -44,7 +44,7 @@ function get_html() {
 
     // Calculate padding and font size based on button size
     let padding = `${Math.round(padding_vertical)}px ${Math.round(padding_horizontal)}px`;
-    let fontSize = `${Math.round(font_size)}px`;
+    let fontSize = `${font_size}px`;
 
     let action_click = safeBtnSource.length === 0 ? "" : `onclick="window.open('${safeBtnSource}', '_blank')"`;
 
