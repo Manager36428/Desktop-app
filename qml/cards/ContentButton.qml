@@ -14,6 +14,7 @@ ContentBase{
         tfButtonUrl.content.text = item_data.btn_source
         cbBg.btn_color = item_data.btn_color
         cbBg2.btn_color2 = item_data.btn_color2
+        btnTextSize.updateValue(item_data.font_size);
         item_data.contentUpdated.connect(handleContentUpdated)
     }
 
@@ -24,7 +25,7 @@ ContentBase{
     TextFieldTitle{
         id : tfButtonHome
         height: 61
-        width: parent.width
+        width: parent.width / 2 - 4
         title: "Button Name"
         content.placeholderText: "Button"
         anchors{
@@ -47,11 +48,12 @@ ContentBase{
     TextFieldTitle{
         id : tfButtonUrl
         height: 61
-        width: parent.width
+        width: parent.width / 2 - 4
         title: "Button URL"
         anchors{
-            top: tfButtonHome.bottom
-            topMargin: 20
+            left: tfButtonHome.right
+            leftMargin: 9
+            top: parent.top
         }
         content.placeholderText: "Button URL"
 
@@ -72,11 +74,11 @@ ContentBase{
         id : cbBg
         height: 95
         title: "Button Color"
-        width: parent.width
+        width: parent.width - 4
         property color btn_color: "#26D842"
 
         anchors{
-            top : tfButtonUrl.bottom
+            top : tfButtonHome.bottom
             topMargin: 20
         }
         page_color: btn_color
@@ -106,9 +108,9 @@ ContentBase{
 
         anchors{
             left : parent.left
-            top : tfButtonUrl.bottom
+            top : tfButtonHome.bottom
             topMargin: 20
-            leftMargin: parent.width/2
+            leftMargin: parent.width / 2 + 4
         }
         page_color: btn_color2
         onBtnClicked: {
@@ -128,13 +130,15 @@ ContentBase{
         }
     }
 
-    TextView{
-        id : text_list
-        width: parent.width/4
-        z:10
-        anchors{
-            top: cbBg.bottom
-        }
+    NumberSelector{
+        id : btnTextSize
+        anchors.left: parent.left
+        anchors.top: cbBg.bottom
+        anchors.topMargin: -24
+        height: 62
+        width: 62
+        z:100
+        onValueUpdated: item_data.font_size = getValue()
     }
 
     TextFieldWarning{

@@ -6,6 +6,7 @@ Item {
     width: 282
     property int currentIdx: 8
     property var listValue : [8,9,10,11,12,13,14,15,16,20,24,32,36,40,48]
+    property string title: "Text Size"
 
     signal valueUpdated(var number_value)
 
@@ -29,7 +30,7 @@ Item {
         font.pixelSize: 16
         font.weight: Font.DemiBold
         width: parent.width
-        text : "Text Size"
+        text : title
         color: "#4D365D"
         font.family: "Nunito"
     }
