@@ -86,7 +86,7 @@ TitleCard{
                         visualModel.items.move(
                                 drag.source.DelegateModel.itemsIndex,
                                 dragArea.DelegateModel.itemsIndex)
-                        controller.swap_page(drag.source.DelegateModel.itemsIndex,
+                        controller.move_page(drag.source.DelegateModel.itemsIndex,
                                              dragArea.DelegateModel.itemsIndex)
                     }
 
