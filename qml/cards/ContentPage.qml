@@ -67,7 +67,7 @@ ContentBase{
     ComboBoxTitle{
         id : cbBg
         height: 95
-        title: "Page Background Color"
+        title: "Page Background Colour"
         width: parent.width
         anchors{
             top : tfPageDes.bottom

@@ -46,7 +46,7 @@ ContentBase{
     ComboBoxTitle{
         id : tbBg
         height: 95
-        title: "Text Color"
+        title: "Text Colour"
         width: parent.width
         property color td_color: "black"
 
@@ -82,7 +82,7 @@ ContentBase{
         onAccepted: {
             tbBg.td_color = newColor
             item_data.td_color = newColor
-            console.log("Update Color : ",newColor)
+            console.log("Update Colour : ",newColor)
         }
     }
 

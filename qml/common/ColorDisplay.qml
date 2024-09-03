@@ -94,14 +94,14 @@ Item {
     function getColorHSV(){
         let newColor = utils.color_from_hsv(parseInt(tf1.text) , parseInt(tf2.text),
                                             parseInt(tf3.text))
-        console.log("New Color HSV : ", newColor)
+        console.log("New Colour HSV : ", newColor)
         colorChanged(newColor);
     }
 
     function getColorCMYK(){
         let newColor = utils.color_from_cmyk(parseInt(tf1.text) , parseInt(tf2.text),
                                              parseInt(tf3.text) , parseInt(tf4.text))
-        console.log("New Color CMYK : ", newColor)
+        console.log("New Colour CMYK : ", newColor)
         colorChanged(newColor);
     }
 
@@ -109,7 +109,7 @@ Item {
 
     function updateColor(){
         if(updatingColor) return;
-        console.log("Color : ", colorValue)
+        console.log("Colour : ", colorValue)
         switch(colorSpace.toUpperCase()){
         case "RGB":
             emitColorChanged = true
@@ -128,7 +128,7 @@ Item {
 
     onColorValueChanged: {
         if(emitColorChanged) return
-        console.log("Color : ", colorValue)
+        console.log("Colour : ", colorValue)
         updatingColor = true
         switch(colorSpace.toUpperCase()){
         case "RGB":

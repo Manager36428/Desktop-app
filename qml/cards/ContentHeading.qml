@@ -47,7 +47,7 @@ ContentBase{
     ComboBoxTitle{
         id : hbBg
         height: 95
-        title: "Heading Color"
+        title: "Heading Colour"
         width: parent.width
         property color hd_color: "black"
 
@@ -69,7 +69,7 @@ ContentBase{
         onAccepted: {
             hbBg.hd_color = newColor
             item_data.hd_color = newColor
-            console.log("Update Color : ",newColor)
+            console.log("Update Colour : ",newColor)
         }
     }
 

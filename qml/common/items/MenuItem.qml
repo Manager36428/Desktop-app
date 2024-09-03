@@ -64,9 +64,11 @@ ResizableItem {
         console.log("Checking : ", page_name)
         for(var i = 0; i< list_pages.length; i++){
             if(page_name == list_pages[i]) {
+                console.log("True ", page_name )
                 return true
             }
         }
+        console.log("False ", page_name )
         return false
     }
 
@@ -92,6 +94,8 @@ ResizableItem {
         console.log("Update : " + index)
         let page_name_at_index = controller.pages[index].page_name
         let idx_in_list = list_pages.indexOf(page_name_at_index)
+        console.log("Page NAme At Index ", page_name_at_index);
+        console.log("idx_in_list ", idx_in_list);
         if(idx_in_list !== -1){
             list_pages.splice(idx_in_list, 1)
         }else{
@@ -107,6 +111,7 @@ ResizableItem {
         }
 
         list_pages = temp;
+        console.log("List Pages : ", list_pages)
         sync();
     }
 

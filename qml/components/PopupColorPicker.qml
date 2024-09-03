@@ -14,7 +14,7 @@ Popup{
     minimumWidth: width
     maximumWidth: width
 
-    title : "Color Picker"
+    title : "Colour Picker"
     property string currentColor: ""
     property alias newColor: newColorPreview.rect.color
 
@@ -45,7 +45,7 @@ Popup{
         rootItem.hueColor = Qt.rgba(imageData[0] / 255, imageData[1] / 255, imageData[2] / 255, imageData[3] / 255);
 
         console.log("Hue Value : ", hueV)
-        console.log("New Hue Color : ", rootItem.hueColor)
+        console.log("New Hue Colour : ", rootItem.hueColor)
         console.log("Hue : ", satF)
         console.log("Lightness : ", lightnessF)
 
@@ -264,7 +264,7 @@ Popup{
         }
 
         ButtonText{
-            btnName: "Pick Screen Color"
+            btnName: "Pick Screen Colour"
             width: 330
             height: 36
             anchors{
@@ -482,7 +482,7 @@ Popup{
                 }
 
                 function edit(){
-                    console.log("Editing Color")
+                    console.log("Editing Colour")
                     let color_updated = "#" + text
                     if(text.length == 6 && utils.is_valid_color(color_updated)){
                         newColorPreview.forceActiveFocus()

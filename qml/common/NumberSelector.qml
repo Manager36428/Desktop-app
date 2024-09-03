@@ -15,9 +15,7 @@ Item {
     }
 
     function updateValue(new_value){
-        console.log("Value :" , new_value)
         currentIdx = listValue.indexOf(new_value);
-        console.log("Index : ", currentIdx)
         if(currentIdx == -1)
             currentIdx = 8
     }       

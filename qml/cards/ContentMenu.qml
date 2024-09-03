@@ -2,6 +2,7 @@ import QtQuick 2.0
 import "../common"
 import "../components"
 import QtQuick.Controls 2.0
+import QtQuick.Controls 2.15
 
 ContentBase{
     id : detailContent
@@ -18,7 +19,7 @@ ContentBase{
     function handleSync(){
         console.log("handle Sync :", list_pages.count)
         for(var i=0;i< list_pages.count;i++){
-            let radio_btn = list_pages.contentItem.children[i];
+            let radio_btn = list_pages.itemAt(i);
             radio_btn.checked = item_data.check_contains(radio_btn.text)
         }
         cbBg.btn_color = item_data.bg_color
@@ -42,8 +43,14 @@ ContentBase{
         font.family: "Nunito"
     }
 
-    ListView{
-        id : list_pages
+    Connections{
+        target: controller
+        function onPagesChanged(){
+            handleSync()
+        }
+    }
+
+    ScrollView{
         clip: true
         anchors{
             top: titleHeader.bottom
@@ -53,22 +60,25 @@ ContentBase{
             margins: 15
             leftMargin: 0
         }
-        cacheBuffer: 1000
-        model : controller.pages
-        onModelChanged: {
-            item_data.sync_pages()
-            handleSync()
-        }
-
-        delegate: RadioButton{
-            font.family: "Nunito"
-            font.pixelSize: 16
-            autoExclusive: false
-            text: modelData.page_name
-            icon.color: "#454045"
-            MouseArea{
+        Column{
+            id : pagesContainer
+            anchors.fill: parent
+            Repeater{
+                id : list_pages
+                clip: true
                 anchors.fill: parent
-                onClicked: update_item_data(index)
+                model: controller.pages
+                delegate: RadioButton{
+                    font.family: "Nunito"
+                    font.pixelSize: 16
+                    autoExclusive: false
+                    text: modelData.page_name
+                    icon.color: "#454045"
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: update_item_data(index)
+                    }
+                }
             }
         }
     }
@@ -76,7 +86,7 @@ ContentBase{
     ComboBoxTitle{
         id : cbBg
         height: 62
-        title: "BG Color"
+        title: "BG Colour"
         width: parent.width - 4
         property color btn_color: "#26D842"
 
@@ -98,14 +108,14 @@ ContentBase{
         onAccepted: {
             cbBg.btn_color = newColor
             item_data.bg_color = newColor
-            console.log("Update Color : ",newColor)
+            console.log("Update Colour : ",newColor)
         }
     }
 
     ComboBoxTitle{
         id : cbBg2
         height: 62
-        title: "BG Hover Color"
+        title: "BG Hover Colour"
         width: parent.width
         property color btn_color2: "#A936A1"
 
@@ -129,7 +139,7 @@ ContentBase{
         onAccepted: {
             cbBg2.btn_color2 = newColor
             item_data.bg_hover_color = newColor
-            console.log("Update Color : ",newColor)
+            console.log("Update Colour : ",newColor)
         }
     }
 
@@ -147,7 +157,7 @@ ContentBase{
     ComboBoxTitle{
         id : cbTextColor
         height: 62
-        title: "Text Color"
+        title: "Text Colour"
         width: parent.width
         property color btn_color3: "#160C34"
 
@@ -159,8 +169,8 @@ ContentBase{
         }
         page_color: btn_color3
         onBtnClicked: {
-            popupColorPicker3.currentColor = btn_color2
-            popupColorPicker3.syncColor(btn_color2)
+            popupColorPicker3.currentColor = btn_color3
+            popupColorPicker3.syncColor(btn_color3)
             popupColorPicker3.show()
         }
     }
@@ -171,7 +181,7 @@ ContentBase{
         onAccepted: {
             cbTextColor.btn_color3 = newColor
             item_data.text_color = newColor
-            console.log("Update Color : ",newColor)
+            console.log("Update Colour : ",newColor)
         }
     }
 

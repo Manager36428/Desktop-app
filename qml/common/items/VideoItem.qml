@@ -54,7 +54,7 @@ ResizableItem {
             id: video
             anchors.fill: parent
             fillMode: Image.PreserveAspectCrop
-            source: "qrc:/assets/img_video-placeholder.jpg"
+            source: "qrc:/assets/placeholder_video_ytb.jpg"
         }
 
         MouseArea {
