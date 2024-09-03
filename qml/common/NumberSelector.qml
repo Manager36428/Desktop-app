@@ -27,6 +27,7 @@ Item {
             listNumber.model = listValue
             console.log("New List Value : ", listValue);
         }
+        valueUpdated(getValue())
     }
 
     Text{
@@ -53,6 +54,8 @@ Item {
                 left: parent.left
                 right: btnArrDown.left
                 verticalCenter: parent.verticalCenter
+                leftMargin: -6
+                rightMargin: -3
             }
             height: 36
 
@@ -70,7 +73,7 @@ Item {
             wrapMode: Text.WordWrap
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
-            validator: IntValidator {bottom: 8; top: 96}
+            validator: IntValidator {bottom: 1; top: 200}
 
             property int clickCount: 0
             Timer {
@@ -106,7 +109,7 @@ Item {
                 onTriggered:{
                     console.log("Check Number Trigger :", _tfcontent.text)
                     let new_text_size = parseInt(_tfcontent.text)
-                    if(new_text_size >= 8 && new_text_size <= 96)
+                    if(new_text_size >= 1 && new_text_size <= 200)
                     {
                         root.updateValue(new_text_size)
                     }else{
@@ -134,6 +137,10 @@ Item {
             onBtnClicked:{
                 console.log("Show Dropdownlist")
                 dropListContainer.visible = !dropListContainer.visible
+                if(dropListContainer.visible)
+                {
+                    dropListContainer.forceActiveFocus()
+                }
             }
         }
 
@@ -152,6 +159,15 @@ Item {
             verticalCenter: parent.verticalCenter
             leftMargin: 17
         }
+
+
+        onFocusChanged: {
+            if(!focus)
+            {
+                dropListContainer.visible = false
+            }
+        }
+
 
         ListView{
             id : listNumber

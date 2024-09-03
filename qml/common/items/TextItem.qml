@@ -16,6 +16,7 @@ ResizableItem {
 
     // Force redraw text
     onTd_sizeChanged: {
+        console.log("New Td Size : ", td_size)
         text_data += " "
         forceRedrawText.start()
     }
