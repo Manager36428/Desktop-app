@@ -58,6 +58,7 @@ Item {
         {
             startx=mouseX;
             starty=mouseY;
+            root.forceActiveFocus()
         }
 
         drag.onActiveChanged:

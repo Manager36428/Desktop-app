@@ -22,6 +22,11 @@ Rectangle {
         hoverEnabled: true
     }
 
+    function closeMenu(){
+        fileMenuOpen = false
+        viewMenuOpen = false
+    }
+
     Rectangle {
         id: topBar
         width: parent.width
@@ -45,18 +50,21 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
-                hoverEnabled: true
                 onClicked: {
                     fileMenuOpen = !fileMenuOpen; // Toggle menu visibility
                     viewMenuOpen = false; // Close view menu when file menu is opened
-                }
-                onEntered: { fileBold = true; viewBold = false; fileMenuOpen = true; viewMenuOpen = false; }
-                onExited: {
-                    if (!fileMenuOpen) {
-                        fileBold = false;
-                        fileMenuOpen = true;
+                    if(fileMenuOpen)
+                    {
+                        fileMenu.forceActiveFocus()
                     }
                 }
+                //                onEntered: { fileBold = true; viewBold = false; fileMenuOpen = true; viewMenuOpen = false; }
+                //                onExited: {
+                //                    if (!fileMenuOpen) {
+                //                        fileBold = false;
+                //                        fileMenuOpen = true;
+                //                    }
+                //                }
             }
         }
 
@@ -73,13 +81,16 @@ Rectangle {
 
             MouseArea {
                 anchors.fill: parent
-                hoverEnabled: true
                 onClicked: {
                     viewMenuOpen = !viewMenuOpen; // Toggle menu visibility
                     fileMenuOpen = false; // Close file menu when view menu is opened
+                    if(viewMenuOpen)
+                    {
+                        viewMenu.forceActiveFocus()
+                    }
                 }
-                onEntered: { viewBold = true; fileBold = false; viewMenuOpen = true; fileMenuOpen = false; }
-                onExited: if (!viewMenuOpen) viewBold = false;
+                //                onEntered: { viewBold = true; fileBold = false; viewMenuOpen = true; fileMenuOpen = false; }
+                //                onExited: if (!viewMenuOpen) viewBold = false;
             }
         }
     }
@@ -108,6 +119,13 @@ Rectangle {
         radius: 10
         height: 117
         width: 220
+
+        onFocusChanged: {
+            console.log("File MEnu Focus : ", focus)
+            if(!focus){
+                fileMenuOpen = false
+            }
+        }
 
         Column{
             height: parent.height - 12
@@ -198,6 +216,13 @@ Rectangle {
         radius: 10
         height: 117
         width: 220
+
+        onFocusChanged: {
+            console.log("View MEnu Focus : ", focus)
+            if(!focus){
+                viewMenuOpen = false
+            }
+        }
 
         Column{
             height: parent.height - 12

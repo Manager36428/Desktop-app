@@ -123,7 +123,6 @@ MainWindow {
         handleKeyMenu(event.key)
     }
 
-
     Connections{
         target : controller
 
@@ -293,6 +292,20 @@ MainWindow {
             }
         }
 
+    }
+
+    MouseArea {
+        id: fullScreenMouseArea
+        anchors.fill: parent
+
+        onPressed: {
+            topBar.closeMenu()
+            event.accepted = false  // Allow the event to propagate to other MouseAreas
+        }
+        onPressAndHold: {
+            topBar.closeMenu()
+            event.accepted = false
+        }
     }
 
     onHeightChanged: console.log("Window Root  H : ", height)

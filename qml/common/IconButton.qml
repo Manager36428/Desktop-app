@@ -67,7 +67,10 @@ Rectangle {
             duration: 100
         }
         id: zoomInOutAnim
-        onStopped: btnClicked()
+        onStopped: {
+            btnClicked()
+            btnRoot.forceActiveFocus()
+        }
     }
 
     MouseArea {
