@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.0
 
 Item {
     id : root
@@ -16,11 +17,17 @@ Item {
 
     function updateValue(new_value){
         currentIdx = listValue.indexOf(new_value);
-        if(currentIdx == -1)
-            currentIdx = 8
-    }       
-
-    onCurrentIdxChanged: valueUpdated(listValue[currentIdx])
+        console.log("Update Value : " +  new_value + " - " + currentIdx)
+        if(currentIdx == -1){
+            listValue.push(new_value)
+            listValue.sort(function(a, b) {
+                return a - b;
+            });
+            currentIdx = listValue.indexOf(new_value);
+            listNumber.model = listValue
+            console.log("New List Value : ", listValue);
+        }
+    }
 
     Text{
         id :header
@@ -39,20 +46,80 @@ Item {
         height: 36
         width: 62
         anchors.bottom: parent.bottom
-        Text{
-            color: "#585D6C"
-            height: 16
-            font.family: "Nunito"
-            font.pixelSize: 16
+
+        TextField{
+            id : _tfcontent
             anchors{
                 top: header.bottom
                 topMargin: 6
                 left: parent.left
                 right: btnArrDown.left
-                margins: 13
                 verticalCenter: parent.verticalCenter
             }
-            text: listValue[currentIdx]
+            height: 36
+
+            background: Rectangle{
+                antialiasing: true
+                color: "#FFFFFF"
+                radius: 10
+            }
+
+            text: listValue[currentIdx] + ""
+
+            color: "#585D6C"
+            font.pixelSize: 16
+            font.family: "Nunito"
+            wrapMode: Text.WordWrap
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            validator: IntValidator {bottom: 8; top: 96}
+
+            property int clickCount: 0
+            Timer {
+                id: clickTimer
+                interval: 300
+                repeat: false
+                onTriggered: {
+                    _tfcontent.clickCount = 0
+                }
+            }
+
+            Timer{
+                id : selectAllTimer
+                interval: 10
+                repeat: false
+                onTriggered: _tfcontent.selectAll()
+            }
+
+            onPressed: {
+                clickCount += 1
+                if (clickCount == 1) {
+                    clickTimer.start()
+                } else if (clickCount == 2) {
+                    selectAllTimer.start()
+                    clickCount = 0
+                }
+                console.log("Pressed Select ")
+            }
+
+            Timer{
+                id : checkNumber
+                interval: 500
+                onTriggered:{
+                    console.log("Check Number Trigger :", _tfcontent.text)
+                    let new_text_size = parseInt(_tfcontent.text)
+                    if(new_text_size >= 8 && new_text_size <= 96)
+                    {
+                        root.updateValue(new_text_size)
+                    }else{
+                        _tfcontent.text = getValue()
+                    }
+                }
+            }
+
+            onTextChanged: {
+                checkNumber.restart()
+            }
         }
 
         Icon{
@@ -111,6 +178,7 @@ Item {
                 width: 58
 
                 Text{
+                    id : itemSize
                     color: "#585D6C"
                     height: 16
                     width: parent.width
@@ -128,7 +196,7 @@ Item {
                         anchors.fill: parent
                         onClicked: {
                             dropListContainer.visible = false
-                            currentIdx = index
+                            root.updateValue(parseInt(itemSize.text))
                         }
                     }
                 }
