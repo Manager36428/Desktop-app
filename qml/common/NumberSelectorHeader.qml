@@ -56,8 +56,6 @@ Item {
         TextField{
             id : _tfcontent
             anchors{
-                top: header.bottom
-                topMargin: 6
                 left: parent.left
                 right: btnArrDown.left
                 verticalCenter: parent.verticalCenter
@@ -127,7 +125,6 @@ Item {
                 checkNumber.restart()
             }
         }
-
 
         Icon{
             id : btnArrDown
