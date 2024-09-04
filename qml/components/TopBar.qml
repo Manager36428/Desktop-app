@@ -45,7 +45,7 @@ Rectangle {
             anchors.leftMargin: 20
             font.pixelSize: 18
             font.family: "Nunito"
-            font.weight: fileBold ? Font.Bold : Font.Medium  // Toggle boldness
+            font.weight: fileMenuOpen ? Font.Bold : Font.Medium  // Toggle boldness
             color: "#4D365D"
 
             MouseArea {
@@ -58,13 +58,6 @@ Rectangle {
                         fileMenu.forceActiveFocus()
                     }
                 }
-                //                onEntered: { fileBold = true; viewBold = false; fileMenuOpen = true; viewMenuOpen = false; }
-                //                onExited: {
-                //                    if (!fileMenuOpen) {
-                //                        fileBold = false;
-                //                        fileMenuOpen = true;
-                //                    }
-                //                }
             }
         }
 
@@ -76,7 +69,7 @@ Rectangle {
             anchors.leftMargin: 20
             font.pixelSize: 18
             font.family: "Nunito"
-            font.weight: viewBold ? Font.Bold : Font.Medium  // Toggle boldness
+            font.weight: viewMenuOpen ? Font.Bold : Font.Medium  // Toggle boldness
             color: "#4D365D"
 
             MouseArea {
@@ -89,8 +82,6 @@ Rectangle {
                         viewMenu.forceActiveFocus()
                     }
                 }
-                //                onEntered: { viewBold = true; fileBold = false; viewMenuOpen = true; fileMenuOpen = false; }
-                //                onExited: if (!viewMenuOpen) viewBold = false;
             }
         }
     }

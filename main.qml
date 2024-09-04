@@ -198,6 +198,7 @@ MainWindow {
             widthInit: 300
 
             onModeChanged: {
+                console.log("Mode Changed : ", mode)
                 if(!detailsCard.isDocked){
                     navCard.anchors.bottom = bottomBar.top
                 }else{
@@ -224,6 +225,7 @@ MainWindow {
             id : detailsCard
             width: 300
             onModeChanged: {
+                console.log("Mode Changed : ", mode)
                 if(!detailsCard.isDocked){
                     navCard.anchors.bottom = undefined
                     navCard.heightDock = 308

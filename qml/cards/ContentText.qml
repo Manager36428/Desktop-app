@@ -22,7 +22,7 @@ ContentBase{
 
     TextFieldTitle{
         id : tfTitle
-        height: 96
+        height: 80
         width: parent.width
         title: "Text"
         content.text: item_data.text_data

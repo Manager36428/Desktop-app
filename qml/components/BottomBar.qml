@@ -27,20 +27,20 @@ BaseCard {
 
     function toggleBottomButtons(index, text)
     {
-        if (repeaterBottomButtons.model.btn_active) {
+        console.log("ToggleBottomButtons : " + index + " - " + text)
+        if (bottomButtons.get(index).btn_active) {
             // If the clicked button is already active, reset all buttons
-            popupClicked(index, text)
             for (var i = 0; i < bottomButtons.count; i++) {
                 bottomButtons.set(i, { "btn_active": false });
             }
         } else {
             // Reset all and activate the clicked one
-            popupClicked(index, text)
             for (var i = 0; i < bottomButtons.count; i++) {
                 bottomButtons.set(i, { "btn_active": false });
             }
             bottomButtons.set(index, { "btn_active": true });
         }
+        popupClicked(index, text)
     }
 
     function toggleCards(cardIndex)

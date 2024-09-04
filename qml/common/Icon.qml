@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtGraphicalEffects 1.0
 
 Image {
     id: btnRoot
@@ -40,18 +39,9 @@ Image {
         // Scale effect on hover
         onEntered: {
             btnRoot.scale = 1.1
-            colorOverlay.color = "#00FFFFFF" // Fully transparent
         }
         onExited: {
             btnRoot.scale = 1.0
-            colorOverlay.color = "#66FFFFFF" // 40% transparency
         }
-    }
-
-    ColorOverlay {
-        id: colorOverlay
-        anchors.fill: btnRoot
-        source: btnRoot
-        color: "#66FFFFFF" // 40% transparency (hex value 66)
     }
 }

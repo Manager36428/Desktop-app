@@ -13,6 +13,7 @@ DockBase {
     onWidthDockChanged: width = widthDock
 
     function changeToClosedState() {
+        titleCard.mode = 0  // Need to be docked to re-layout items.
         titleCard.mode = 2
     }
 
