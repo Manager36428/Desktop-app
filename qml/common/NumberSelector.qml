@@ -30,6 +30,10 @@ Item {
         valueUpdated(getValue())
     }
 
+    onCurrentIdxChanged: {
+        _tfcontent.text = listValue[currentIdx] + ""
+    }
+
     Text{
         id :header
         height: 16
@@ -113,7 +117,7 @@ Item {
                     {
                         root.updateValue(new_text_size)
                     }else{
-                        _tfcontent.text = getValue()
+                        _tfcontent.text = listValue[currentIdx] + ""
                     }
                 }
             }
@@ -210,7 +214,7 @@ Item {
                         anchors.fill: parent
                         onClicked: {
                             dropListContainer.visible = false
-                            root.updateValue(parseInt(itemSize.text))
+                            root.updateValue(listValue[index])
                         }
                     }
                 }

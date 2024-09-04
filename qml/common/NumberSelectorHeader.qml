@@ -31,7 +31,9 @@ Item {
         valueUpdated(getValue())
     }
 
-    onCurrentIdxChanged: valueUpdated(listValue[currentIdx])
+    onCurrentIdxChanged: {
+        _tfcontent.text = listValue[currentIdx] + ""
+    }
 
     Text{
         id :header
@@ -117,7 +119,7 @@ Item {
                     {
                         root.updateValue(new_text_size)
                     }else{
-                        _tfcontent.text = getValue()
+                        _tfcontent.text = listValue[currentIdx] + ""
                     }
                 }
             }
@@ -209,6 +211,7 @@ Item {
                         right: parent.right
                         margins: 13
                     }
+                    id : itemSize
                     verticalAlignment: Text.AlignVCenter
                     font.bold: currentIdx == index
                     text: listValue[index]
@@ -216,7 +219,7 @@ Item {
                         anchors.fill: parent
                         onClicked: {
                             dropListContainer.visible = false
-                            currentIdx = index
+                            root.updateValue(listValue[index])
                         }
                     }
                 }
