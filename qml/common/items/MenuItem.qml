@@ -30,27 +30,57 @@ ResizableItem {
 
     function get_html() {
         let safeListPages = Array.isArray(list_pages) ? list_pages : [];
-        let html = `
-        <style>
-        .menu-container {
-        display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; padding: 10px; background-color: ${bg_color}; font-family: 'Nunito', sans-serif;
-        }
-        .menu-item {
-        background-color: "transparent" ; color: ${text_color}; padding: 10px; text-align: center; border-radius: 15px; transition: transform 0.2s, background-color 0.2s; cursor: pointer;
-        }
-        .menu-item:hover {
-        background-color: ${bg_hover_color} ;
-        transform: scale(1.05);
-        }
-        </style>
-        <div class="menu-container">\n`;
-
+        let html = '';
         safeListPages.forEach(item => {
                                   let safeItem = escapeHtml(item);
-                                  html += `  <div class="menu-item">${safeItem}</div>\n`;
+                                  html += ` <a>${safeItem}</a>\n`;
                               });
+        html += '<nav class="animation menu-item-1"></nav>'
+        html += `       <style>
+        div {
+                margin: 27px auto 0;
+                position: relative;
+                background-color: ${bg_color};
+                border-radius: 8px;
+                font-size: 0;
+        }
+        div a {
+                line-height: 50px;
+                height: 100%;
+                font-size: ${text_size}px;
+                display: inline-block;
+                position: relative;
+                z-index: 1;
+                text-decoration: none;
+                text-transform: uppercase;
+                text-align: center;
+                color: ${text_color};
+                cursor: pointer;
+        }
+        div .animation {
+                position: absolute;
+                height: 100%;
+                top: 0;
+                z-index: 0;
+                transition: all .5s ease 0s;
+                border-radius: 8px;
+        }`
 
-        html += "</div>";
+        for(var i =0;i < safeListPages.length ; i++)
+        {
+            html += `
+            a:nth-child(${i+1}) {
+                    width: 100px;
+            }
+            div .menu-item-${i+1}, a:nth-child(${i+1}):hover~.animation {
+                    width: 100px;
+                    left: ${i*100}px;
+                    background-color: ${bg_hover_color};
+            }`
+        }
+        html+=`</style>
+            </div>`
+
         console.log(html);
         return html;
     }

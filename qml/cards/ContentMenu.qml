@@ -69,11 +69,29 @@ ContentBase{
                 anchors.fill: parent
                 model: controller.pages
                 delegate: RadioButton{
+                    id : radioBtn
                     font.family: "Nunito"
                     font.pixelSize: 16
                     autoExclusive: false
                     text: modelData.page_name
-                    icon.color: "#454045"
+                    icon.color: "#7E69FF"
+                    indicator: Rectangle {
+                        implicitWidth: 26
+                        implicitHeight: 26
+                        x: control.leftPadding
+                        y: parent.height / 2 - height / 2
+                        radius: 13
+
+                        Rectangle {
+                            width: 16
+                            height: 16
+                            anchors.centerIn: parent
+                            radius: 7
+                            color: "#7E69FF"
+                            visible: radioBtn.checked
+                        }
+                    }
+
                     MouseArea{
                         anchors.fill: parent
                         onClicked: update_item_data(index)
