@@ -94,6 +94,7 @@ class Controller(QtCore.QObject):
         print("Add New Page ", self._last_idx_page)
         str_idx = str(self._last_idx_page)
         page = Page("page_" + str_idx, "Page " + str_idx, "#FFFFFF")
+        self._pages = self.get_ordered_pages().copy()
         self._pages.append(page)
         self.pagesChanged.emit()
 
@@ -126,7 +127,7 @@ class Controller(QtCore.QObject):
         css_content = Utils.read_file(":web_temp/style.css")
         element_css_desktop = ""
         element_css_mobile = ""
-        for page in self._pages:
+        for page in self.get_ordered_pages():
             element_css_desktop += page.generate_css_block()
             element_css_mobile += page.generate_css_for_mobile()
 
@@ -139,7 +140,7 @@ class Controller(QtCore.QObject):
         html_content = Utils.read_file(":web_temp/index.html")
         html_gen_list = ""
         html_gen_section = ""
-        for page in self._pages:
+        for page in self.get_ordered_pages():
             html_gen_list += page.gen_list_tag()
             html_gen_section += page.gen_section_tag()
 
@@ -151,7 +152,7 @@ class Controller(QtCore.QObject):
     @Slot()
     def generate_html(self):
         print("[Controller] Generate HTML")
-        for page in self._pages:
+        for page in self.get_ordered_pages():
             page.prepare_grid_css(self._viewport_size.height(),
                                   self._viewport_size.width())
         path_idx = Utils.save_file_to_des(self.generate_html_code(), "index.html", "web")
@@ -187,14 +188,19 @@ class Controller(QtCore.QObject):
         self._viewport_size.setHeight(height)
         self._viewport_size.setWidth(width)
 
-    @Slot(int, int)
-    def move_page(self, from_index, to_index):
-        if 0 <= from_index < len(self._pages) and 0 <= to_index < len(self._pages) and from_index != to_index:
-            if from_index == to_index - 1:
-                to_index = from_index + 1
+    _reordered_page_names = []
 
-            self._pages.insert(to_index, self._pages.pop(from_index))
-            self.pagesChanged.emit()
+    def get_ordered_pages(self):
+        print(self._reordered_page_names)
+        pages_dict = {page.page_name: page for page in self._pages}
+        ordered_pages = [pages_dict[page_name] for page_name in self._reordered_page_names]
+        for page in ordered_pages:
+            print("Page Ordered : " + page.page_name)
+        return ordered_pages
+
+    @Slot(list)
+    def sync_model(self, after_drag_list):
+        self._reordered_page_names = after_drag_list
 
     keyPressed = Signal(int)
 

@@ -13,6 +13,18 @@ TitleCard{
 
     contentDock: Item{
         anchors.fill: parent
+        id : itemRoot
+
+        function syncReorderedPageNames()
+        {
+            var after_drag_list = []
+            for(var i=0;i < naviList.count;i++)
+            {
+                var item = naviList.itemAtIndex(i);
+                after_drag_list.push(item.itemName)
+            }
+            controller.sync_model(after_drag_list)
+        }
 
         Component {
             id: dragDelegate
@@ -20,6 +32,8 @@ TitleCard{
                 id : dragArea
                 property bool held: false
                 pressAndHoldInterval: 200
+                property alias itemName: content.btnName
+
                 anchors {
                     left: parent.left
                     right: parent.right
@@ -33,6 +47,7 @@ TitleCard{
                     held = false
                     //Update Tail's visibility
                     tailRect.visible = (DelegateModel.itemsIndex !== (visualModel.count - 1))
+                    itemRoot.syncReorderedPageNames()
                 }
 
                 onClicked: {
@@ -86,12 +101,6 @@ TitleCard{
                         visualModel.items.move(
                                 drag.source.DelegateModel.itemsIndex,
                                 dragArea.DelegateModel.itemsIndex)
-
-                    }
-
-                    onDropped: {
-                        controller.move_page(drag.source.DelegateModel.itemsIndex,
-                                             dragArea.DelegateModel.itemsIndex)
                     }
                 }
 
@@ -138,8 +147,15 @@ TitleCard{
                 topMargin: 25
             }
 
-            onBtnClicked: controller.add_page()
+            onBtnClicked: {
+                itemRoot.syncReorderedPageNames()
+                controller.add_page()
+            }
 
+        }
+
+        Component.onCompleted: {
+            itemRoot.syncReorderedPageNames()
         }
     }
 }
