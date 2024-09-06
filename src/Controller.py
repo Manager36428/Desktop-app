@@ -140,6 +140,7 @@ class Controller(QtCore.QObject):
         html_content = Utils.read_file(":web_temp/index.html")
         html_gen_list = ""
         html_gen_section = ""
+        print(self.get_ordered_pages())
         for page in self.get_ordered_pages():
             html_gen_list += page.gen_list_tag()
             html_gen_section += page.gen_section_tag()
@@ -188,7 +189,7 @@ class Controller(QtCore.QObject):
         self._viewport_size.setHeight(height)
         self._viewport_size.setWidth(width)
 
-    _reordered_page_names = []
+    _reordered_page_names = ["Home"]
 
     def get_ordered_pages(self):
         print(self._reordered_page_names)

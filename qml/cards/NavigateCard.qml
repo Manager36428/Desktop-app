@@ -23,6 +23,7 @@ TitleCard{
                 var item = naviList.itemAtIndex(i);
                 after_drag_list.push(item.itemName)
             }
+            console.log("syncReorderedPageNames : " , after_drag_list)
             controller.sync_model(after_drag_list)
         }
 
@@ -132,6 +133,10 @@ TitleCard{
                 bottom: parent.bottom
                 bottomMargin: 70
             }
+
+            Component.onCompleted: {
+                itemRoot.syncReorderedPageNames()
+            }
         }
 
         ButtonText{
@@ -154,8 +159,5 @@ TitleCard{
 
         }
 
-        Component.onCompleted: {
-            itemRoot.syncReorderedPageNames()
-        }
     }
 }
