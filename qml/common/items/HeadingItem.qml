@@ -82,6 +82,7 @@ ResizableItem {
             color: "transparent"
             border.width: /*tf.activeFocus ? 1 : 0*/ 1
             border.color: "steelblue"
+            clip: true
         }
         TextInput {
             id: tf

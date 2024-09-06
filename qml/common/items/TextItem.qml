@@ -4,8 +4,8 @@ import QtQml 2.0
 
 ResizableItem {
     id :rootItem
-    height: tf.height + 10
-    width: tf.width + 20
+    height: tf.childrenRect.height + 10
+    width: tf.childrenRect.width + 20
     property string text_data: "Default Text"
     property color td_color: "#4D365D"
     property int td_size: settings.default_text_size
@@ -89,7 +89,7 @@ ResizableItem {
             border.color: "steelblue"
         }
 
-        TextInput {
+        TextArea {
             id: tf
             text: text_data
             font.pixelSize: td_size
@@ -97,8 +97,6 @@ ResizableItem {
             color: td_color
             font.family: "Nunito"
             anchors.centerIn: parent
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
             onTextChanged: text_data = tf.text
             onActiveFocusChanged: isChildFocused = tf.activeFocus
         }

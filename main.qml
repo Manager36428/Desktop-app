@@ -9,9 +9,9 @@ MainWindow {
     visible: true
     minimumHeight: 1008
     minimumWidth: 1025
-    title: qsTr("Flowsta Page Builder") + projectName
+    title: qsTr("Flowsta Page Builder") + (settings.project_name == "Project Name" ? "" : (" : " + settings.project_name))
     property var currentPopup: undefined
-    property string projectName: ""
+    property string projectName: settings.project_name
     property alias dragCenter: dragerCenter
 
     GDragerCenter{
@@ -31,7 +31,7 @@ MainWindow {
     function handleProjectCreated(project_name){
         console.log("Project Created :" + project_name);
         projectName = " : " + project_name
-        controller.project_name = project_name
+        settings.project_name = project_name
         controller.create_new_project()
     }
 
