@@ -133,6 +133,10 @@ TitleCard{
                 bottom: parent.bottom
                 bottomMargin: 70
             }
+            onCountChanged: {
+                console.log("Count Changed")
+                itemRoot.syncReorderedPageNames()
+            }
 
             Component.onCompleted: {
                 itemRoot.syncReorderedPageNames()
@@ -153,7 +157,6 @@ TitleCard{
             }
 
             onBtnClicked: {
-                itemRoot.syncReorderedPageNames()
                 controller.add_page()
             }
 
