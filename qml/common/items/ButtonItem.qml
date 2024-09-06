@@ -89,7 +89,6 @@ function get_html() {
                 }
             </style>
         `;
-        console.log(html);
         return html;
     }
 

@@ -65,7 +65,6 @@ ResizableItem {
         <div class="text-content">${safeTextData}</div>
         </div>`;
 
-        console.log(html);
         return html;
     }
 
@@ -90,7 +89,7 @@ ResizableItem {
             border.color: "steelblue"
         }
 
-        TextArea {
+        TextInput {
             id: tf
             text: text_data
             font.pixelSize: td_size
@@ -101,7 +100,6 @@ ResizableItem {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             onTextChanged: text_data = tf.text
-            background: Item{}
             onActiveFocusChanged: isChildFocused = tf.activeFocus
         }
     }

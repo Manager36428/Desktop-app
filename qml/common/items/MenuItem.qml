@@ -12,6 +12,16 @@ ResizableItem {
     property var list_pages: []
     signal sync()
 
+    onList_pagesChanged: {
+        let listPages = ''
+        for(var pageIdx in list_pages)
+        {
+            listPages = listPages + "[" + controller.pages[pageIdx].page_name + "]"
+            listPages += "  "
+        }
+        txtListPages.text = listPages
+    }
+
     Component.onCompleted: {
         list_pages = controller.get_init_menu()
         console.log(list_pages)
@@ -37,14 +47,15 @@ ResizableItem {
                               });
         html += '<nav class="animation menu-item-1"></nav>'
         html += `       <style>
-        div {
+        div.${element_tag} {
                 margin: 27px auto 0;
                 position: relative;
                 background-color: ${bg_color};
                 border-radius: 8px;
                 font-size: 0;
+                height:50px;
         }
-        div a {
+        div.${element_tag} a {
                 line-height: 50px;
                 height: 100%;
                 font-size: ${text_size}px;
@@ -57,7 +68,7 @@ ResizableItem {
                 color: ${text_color};
                 cursor: pointer;
         }
-        div .animation {
+        div.${element_tag} .animation {
                 position: absolute;
                 height: 100%;
                 top: 0;
@@ -72,7 +83,7 @@ ResizableItem {
             a:nth-child(${i+1}) {
                     width: 100px;
             }
-            div .menu-item-${i+1}, a:nth-child(${i+1}):hover~.animation {
+            div.${element_tag} .menu-item-${i+1}, a:nth-child(${i+1}):hover~.animation {
                     width: 100px;
                     left: ${i*100}px;
                     background-color: ${bg_hover_color};
@@ -80,8 +91,6 @@ ResizableItem {
         }
         html+=`</style>
             </div>`
-
-        console.log(html);
         return html;
     }
 
@@ -145,6 +154,7 @@ ResizableItem {
         sync();
     }
 
+
     content: Item{
         anchors.fill: parent
         Rectangle {
@@ -157,9 +167,19 @@ ResizableItem {
             border.width: 1
             border.color: "black"
             antialiasing: true
+            clip: true
 
-            ListView{
-                id : lv_pages
+            Text{
+                id : txtListPages
+                height: 20
+                verticalAlignment: Text.AlignVCenter
+                text: "\u2022 " + list_pages[index]
+                width: parent.width
+                color: "#4D365D"
+                font.family: "Nunito"
+                font.pixelSize: 18
+                font.weight: Font.DemiBold
+                anchors.verticalCenter: parent.verticalCenter
                 anchors{
                     top: parent.top
                     bottom: parent.bottom
@@ -167,27 +187,6 @@ ResizableItem {
                     right: parent.right
                     margins: 2
                 }
-                clip: true
-                model: list_pages.length
-                spacing : 4
-                delegate: Item{
-                    height: 20
-                    width: parent.width
-                    Text{
-                        id : txtTitle
-                        height: 20
-                        verticalAlignment: Text.AlignVCenter
-                        text: "\u2022 " + list_pages[index]
-                        width: parent.width
-                        color: "#4D365D"
-                        font.family: "Nunito"
-                        font.pixelSize: 18
-                        font.weight: Font.DemiBold
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-
             }
         }
     }
