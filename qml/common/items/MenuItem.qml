@@ -28,13 +28,6 @@ ResizableItem {
         focusChild.connect(handleFocusChild);
     }
 
-    function handleFocusChild()
-    {
-        console.log("Menu Handle FocusChild")
-        isChildFocused = true
-
-    }
-
     function escapeHtml(text) {
         let map = {
             '&': '&amp;',
@@ -51,7 +44,7 @@ ResizableItem {
         let html = '';
         safeListPages.forEach(item => {
                                   let safeItem = escapeHtml(item);
-                                  html += ` <a>${safeItem}</a>\n`;
+                                  html += ` <a href="#${controller.get_page_id_by_page_name(safeItem)}">${safeItem}</a>\n`;
                               });
         html += '<nav class="animation menu-item-1"></nav>'
         html += `       <style>
@@ -73,6 +66,7 @@ ResizableItem {
                 text-decoration: none;
                 text-transform: uppercase;
                 text-align: center;
+                align-content: center;
                 color: ${text_color};
                 cursor: pointer;
         }

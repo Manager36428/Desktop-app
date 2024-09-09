@@ -217,6 +217,13 @@ class Controller(QtCore.QObject):
 
     _settings = None
 
+    @Slot(str, result=str)
+    def get_page_id_by_page_name(self, query_page):
+        for page in self._pages:
+            if page.page_name == query_page:
+                return page.page_id
+        return ''
+
     def add_settings(self, settings):
         self._settings = settings
 
