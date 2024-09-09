@@ -25,6 +25,13 @@ ResizableItem {
     Component.onCompleted: {
         list_pages = controller.get_init_menu()
         console.log(list_pages)
+        focusChild.connect(handleFocusChild);
+    }
+
+    function handleFocusChild()
+    {
+        console.log("Menu Handle FocusChild")
+
     }
 
     function escapeHtml(text) {
@@ -158,34 +165,56 @@ ResizableItem {
     content: Item{
         anchors.fill: parent
         Rectangle {
-            id : btnRoot
+            id: btnRoot
             property bool isActive: true
             property string btnName: text_data
-            radius: 10
-            color: "transparent"
+            radius: 8
+            color: bg_color
             anchors.fill: parent
             border.width: 1
-            border.color: "black"
+            border.color: "transparent"
             antialiasing: true
             clip: true
 
-            Text{
-                id : txtListPages
-                height: 20
-                verticalAlignment: Text.AlignVCenter
-                text: "\u2022 " + list_pages[index]
-                width: parent.width
-                color: "#4D365D"
-                font.family: "Nunito"
-                font.pixelSize: 18
-                font.weight: Font.DemiBold
-                anchors.verticalCenter: parent.verticalCenter
-                anchors{
-                    top: parent.top
-                    bottom: parent.bottom
-                    left: parent.left
-                    right: parent.right
-                    margins: 2
+            Row {
+                id: menuItems
+                anchors.fill: parent
+                property int activeHoveredIndex: -1
+
+                Repeater {
+                    model: list_pages.length
+                    Rectangle {
+                        width: txt.width + 20
+                        radius: 8
+                        height: parent.height
+                        property bool isHovered: false
+                        property bool isIndex0: index === 0
+                        color: isHovered ? bg_hover_color : (isIndex0 ? (menuItems.activeHoveredIndex === -1 ? bg_hover_color : bg_color) : bg_color)
+
+                        Behavior on color {
+                            ColorAnimation { duration: 200 }
+                        }
+                        Behavior on width {
+                            NumberAnimation { duration: 200 }
+                        }
+                        Text {
+                            id: txt
+                            text: list_pages[index]
+                            color: text_color
+                            font.pixelSize: text_size
+                            anchors.centerIn: parent
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        MouseArea{
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: {
+                                console.log(containsMouse)
+                            }
+                        }
+                    }
                 }
             }
         }

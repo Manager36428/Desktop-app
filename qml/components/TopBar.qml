@@ -37,6 +37,11 @@ Rectangle {
         }
         radius: 10
 
+        MouseArea{
+            anchors.fill: parent
+            onClicked: topBar.forceActiveFocus()
+        }
+
         Text {
             id: fileText
             text: "File"

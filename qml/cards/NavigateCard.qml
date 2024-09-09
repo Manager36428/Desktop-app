@@ -144,6 +144,16 @@ TitleCard{
             Component.onCompleted: {
                 itemRoot.syncReorderedPageNames()
             }
+
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    naviList.forceActiveFocus()
+                    mouse.accepted = false
+                }
+
+                propagateComposedEvents: true
+            }
         }
 
         ButtonText{

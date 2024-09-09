@@ -21,6 +21,11 @@ DockBase {
         titleCard.mode = 0
     }
 
+    MouseArea{
+        anchors.fill: parent
+        onClicked: titleCard.forceActiveFocus()
+    }
+
     contents: Item {
         id : rootItem
         anchors {
