@@ -31,6 +31,7 @@ ResizableItem {
     function handleFocusChild()
     {
         console.log("Menu Handle FocusChild")
+        isChildFocused = true
 
     }
 
@@ -60,10 +61,10 @@ ResizableItem {
                 background-color: ${bg_color};
                 border-radius: 8px;
                 font-size: 0;
-                height:50px;
+                width: 100%;
+                height:100%;
         }
         div.${element_tag} a {
-                line-height: 50px;
                 height: 100%;
                 font-size: ${text_size}px;
                 display: inline-block;
@@ -88,11 +89,11 @@ ResizableItem {
         {
             html += `
             a:nth-child(${i+1}) {
-                    width: 100px;
+                    width: ${Math.floor(100/list_pages.length)}%;
             }
             div.${element_tag} .menu-item-${i+1}, a:nth-child(${i+1}):hover~.animation {
-                    width: 100px;
-                    left: ${i*100}px;
+                    width: ${100/list_pages.length}%;
+                    left: ${i*(100/list_pages.length)}%;
                     background-color: ${bg_hover_color};
             }`
         }
@@ -184,12 +185,32 @@ ResizableItem {
                 Repeater {
                     model: list_pages.length
                     Rectangle {
-                        width: txt.width + 20
+                        width: btnRoot.width / list_pages.length
                         radius: 8
                         height: parent.height
                         property bool isHovered: false
                         property bool isIndex0: index === 0
                         color: isHovered ? bg_hover_color : (isIndex0 ? (menuItems.activeHoveredIndex === -1 ? bg_hover_color : bg_color) : bg_color)
+                        id : menuRect
+
+                        MouseArea {
+                            id: hoverArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onEntered: {
+                                isHovered = true;
+                                if (!isIndex0) {
+                                    menuItems.activeHoveredIndex = index;
+                                }
+                            }
+                            onExited: {
+                                isHovered = false;
+                                if (menuItems.activeHoveredIndex === index) {
+                                    menuItems.activeHoveredIndex = -1;
+                                }
+                            }
+                            onClicked: update_list(index)
+                        }
 
                         Behavior on color {
                             ColorAnimation { duration: 200 }
@@ -205,14 +226,6 @@ ResizableItem {
                             anchors.centerIn: parent
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                        }
-
-                        MouseArea{
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onEntered: {
-                                console.log(containsMouse)
-                            }
                         }
                     }
                 }

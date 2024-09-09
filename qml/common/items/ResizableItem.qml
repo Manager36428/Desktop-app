@@ -70,8 +70,6 @@ Rectangle {
                 if(drag.active){
                     selComp.width = selComp.width - mouseX
                     selComp.x = selComp.x + mouseX
-                    if(selComp.width < max_resize_wx)
-                        selComp.width = max_resize_w
                 }
             }
         }
