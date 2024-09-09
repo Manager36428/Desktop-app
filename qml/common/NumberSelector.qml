@@ -50,7 +50,10 @@ Item {
         radius: 10
         height: 36
         width: 62
-        anchors.bottom: parent.bottom
+        anchors{
+            top: header.bottom
+            topMargin: 9
+        }
 
         TextField{
             id : _tfcontent
@@ -58,8 +61,7 @@ Item {
                 left: parent.left
                 right: btnArrDown.left
                 verticalCenter: parent.verticalCenter
-                leftMargin: -6
-                rightMargin: -3
+                rightMargin: -9
             }
             height: 36
 
@@ -78,6 +80,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             validator: IntValidator {bottom: 1; top: 200}
+            leftPadding: 2
 
             property int clickCount: 0
             Timer {
@@ -135,7 +138,7 @@ Item {
             anchors{
                 verticalCenter: parent.verticalCenter
                 right: parent.right
-                rightMargin: 8
+                rightMargin: 6
             }
 
             onBtnClicked:{

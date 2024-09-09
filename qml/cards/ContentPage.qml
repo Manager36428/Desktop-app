@@ -16,6 +16,7 @@ ContentBase{
         }
         content.onTextChanged: {
             detailContent.currentPage.page_name = content.text
+            controller.refresh_current_page()
         }
     }
 

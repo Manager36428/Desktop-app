@@ -22,6 +22,7 @@ DockBase {
     }
 
     contents: Item {
+        id : rootItem
         anchors {
             top: parent.top
             left: parent.left

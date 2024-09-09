@@ -179,6 +179,13 @@ Window {
                 bottom: parent.bottom
                 topMargin: 30
             }
+
+            MouseArea {
+                id: globalMouseArea
+                anchors.fill: parent
+                onClicked: contentData.forceActiveFocus()   // Clear focus of current Item.
+                propagateComposedEvents: true
+            }
         }
     }
 

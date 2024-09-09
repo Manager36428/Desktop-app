@@ -9,11 +9,14 @@ TitleCard{
     widthDock: 300
     windowParent.minimumHeight: 323
     windowParent.minimumWidth: 300
-    id : root
+    id : root    
 
     contentDock: Item{
         anchors.fill: parent
         id : itemRoot
+
+        property var currentPage: controller.current_page
+        onCurrentPageChanged: itemRoot.syncReorderedPageNames()
 
         function syncReorderedPageNames()
         {
@@ -158,6 +161,7 @@ TitleCard{
 
             onBtnClicked: {
                 controller.add_page()
+                itemRoot.syncReorderedPageNames()
             }
 
         }
