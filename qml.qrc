@@ -53,5 +53,7 @@
         <file>qml/common/menu/MenuItemText.qml</file>
         <file>qml/components/PopupSettings.qml</file>
         <file>qml/common/NumberSelectorHeader.qml</file>
+        <file>qml/cards/NavigateWindow.qml</file>
+        <file>qml/cards/TitleCardSeparatedItems.qml</file>
     </qresource>
 </RCC>

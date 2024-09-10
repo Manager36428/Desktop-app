@@ -3,13 +3,14 @@ import QtQml 2.0
 import QtQml.Models 2.1
 import "../common"
 
-TitleCard{
+TitleCardSeparatedItems{
     title: "Navigate"
     heightDock: 323
     widthDock: 300
     windowParent.minimumHeight: 323
     windowParent.minimumWidth: 300
-    id : root    
+    id : root
+
 
     contentDock: Item{
         anchors.fill: parent
@@ -144,16 +145,6 @@ TitleCard{
             Component.onCompleted: {
                 itemRoot.syncReorderedPageNames()
             }
-
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    naviList.forceActiveFocus()
-                    mouse.accepted = false
-                }
-
-                propagateComposedEvents: true
-            }
         }
 
         ButtonText{
@@ -171,10 +162,8 @@ TitleCard{
 
             onBtnClicked: {
                 controller.add_page()
-                itemRoot.syncReorderedPageNames()
             }
 
         }
-
     }
 }

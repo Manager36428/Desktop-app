@@ -8,6 +8,7 @@ DockBase {
     property alias contentDock: _contentHolder.data
     property bool isDocked: mode == 0
     property bool isActive: mode != 2
+    disableWindow: true
 
     onHeightDockChanged: height = heightDock
     onWidthDockChanged: width = widthDock
@@ -19,6 +20,17 @@ DockBase {
 
     function changeToDockedState() {
         titleCard.mode = 0
+    }
+
+    property var naviMode: controller.navi_mode
+
+    onNaviModeChanged: {
+        if(naviMode === 2){
+            changeToClosedState()
+        }else if(naviMode === 0)
+        {
+            changeToDockedState()
+        }
     }
 
     MouseArea{
@@ -87,7 +99,10 @@ DockBase {
                     rightMargin: 4
                 }
                 source: "qrc:/assets/ic_new_expand.png"
-                onBtnClicked: mode = 1
+                onBtnClicked: {
+                    mode = 1
+                    controller.create_navi_window()
+                }
             }
 
         }

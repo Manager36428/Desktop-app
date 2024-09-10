@@ -3,8 +3,10 @@
 import webbrowser
 
 from PySide2 import QtCore
-from PySide2.QtCore import QObject, QEvent, Qt
+from PySide2.QtCore import QObject, QEvent, Qt, QUrl
 from PySide2.QtCore import Property, Signal, Slot, QObject, QSize
+from PySide2.QtQuick import QQuickView
+from PySide2.QtQml import QQmlApplicationEngine
 
 from src.Page import Page
 from src.Utils import Utils
@@ -223,6 +225,34 @@ class Controller(QtCore.QObject):
             if page.page_name == query_page:
                 return page.page_id
         return ''
+
+    @Slot()
+    def create_navi_window(self):
+        print("Show Navi Window")
+        engine = QQmlApplicationEngine()
+        engine.load(QUrl("qrc:/qml/cards/NavigateWindow.qml"))
+        engine.rootContext().setContextProperty("controller", self)
+        view = QQuickView(engine)
+        view.setResizeMode(QQuickView.SizeRootObjectToView)
+        view.show()
+
+    # Member Property navi_mode
+    _navi_mode: int = int()
+    _navi_modeChanged = Signal(int)
+    
+    def get_navi_mode(self):
+        return self._navi_mode
+    
+    def set_navi_mode(self, val):
+            self._navi_mode = val
+            self._navi_modeChanged.emit(self._navi_mode)
+    
+    navi_mode = Property(int, get_navi_mode, set_navi_mode, notify=_navi_modeChanged)
+    
+    # End Section Member Property navi_mode
+    
+    
+    
 
     def add_settings(self, settings):
         self._settings = settings

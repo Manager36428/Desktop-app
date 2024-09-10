@@ -14,6 +14,7 @@ Item {
     property int widthDock: 0
     property int heightInit: 0
     property int widthInit: 0
+    property bool disableWindow: false
 
 
     onStateChanged: {
@@ -42,7 +43,7 @@ Item {
         states: [
             State {
                 name: "undocked"
-                PropertyChanges { target: window; visible: true }
+                PropertyChanges { target: window; visible: disableWindow ? false : true }
                 ParentChange { target: content; parent: undockedContainer }
                 PropertyChanges {target: root; visible: true }
             },
