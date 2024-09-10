@@ -113,6 +113,15 @@ ResizableItem {
         return false
     }
 
+    Connections{
+        target: controller
+        function onPagesChanged(){
+            sync_pages()
+            listMenuItems.model = undefined
+            listMenuItems.model = list_pages.length
+        }
+    }
+
     function sync_pages(){
         for(var i = 0;i<list_pages.length;i++){
             if(!check_page_is_existed(list_pages[i])){
@@ -177,6 +186,7 @@ ResizableItem {
                 property int activeHoveredIndex: -1
 
                 Repeater {
+                    id : listMenuItems
                     model: list_pages.length
                     Rectangle {
                         width: btnRoot.width / list_pages.length
