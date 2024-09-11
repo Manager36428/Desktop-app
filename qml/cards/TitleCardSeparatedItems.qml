@@ -22,6 +22,17 @@ DockBase {
         titleCard.mode = 0
     }
 
+    signal undocked();
+    signal docked();
+
+    onModeChanged: {
+        if(mode == 1)
+            undocked()
+
+        if(mode == 0)
+            docked()
+    }
+
     property var naviMode: controller.navi_mode
 
     onNaviModeChanged: {
@@ -101,6 +112,7 @@ DockBase {
                 source: "qrc:/assets/ic_new_expand.png"
                 onBtnClicked: {
                     mode = 1
+                    controller.navi_mode = 1
                     controller.create_navi_window()
                 }
             }

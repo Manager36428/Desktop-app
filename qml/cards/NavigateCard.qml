@@ -11,6 +11,13 @@ TitleCardSeparatedItems{
     windowParent.minimumWidth: 300
     id : root
 
+    onUndocked : controller.update_pages()
+    onDocked :{
+        controller.update_pages()
+        console.log("Docked NAvi")
+        visualModel.model = undefined
+        visualModel.model = controller.pages
+    }
 
     contentDock: Item{
         anchors.fill: parent
@@ -56,13 +63,13 @@ TitleCardSeparatedItems{
                 }
 
                 onClicked: {
-                    controller.current_page_idx = index
+                    controller.update_current_page_idx_by_name(content.btnName)
                 }
 
                 ButtonText{
                     id : content
                     btnName: modelData.page_name
-                    isActive: index === controller.current_page_idx
+                    isActive: modelData.page_name == controller.current_page.page_name
                     anchors{
                         left: parent.left
                         right: parent.right
@@ -162,6 +169,8 @@ TitleCardSeparatedItems{
 
             onBtnClicked: {
                 controller.add_page()
+                visualModel.model = undefined
+                visualModel.model = controller.pages
             }
 
         }

@@ -19,13 +19,16 @@ ResizableItem {
             listPages = listPages + "[" + controller.pages[pageIdx].page_name + "]"
             listPages += "  "
         }
-        txtListPages.text = listPages
+        listMenuItems.model = undefined
+        listMenuItems.model = list_pages.length
     }
 
     Component.onCompleted: {
         list_pages = controller.get_init_menu()
         console.log(list_pages)
         focusChild.connect(handleFocusChild);
+        listMenuItems.model = undefined
+        listMenuItems.model = list_pages.length
     }
 
     function escapeHtml(text) {

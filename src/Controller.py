@@ -96,8 +96,8 @@ class Controller(QtCore.QObject):
         print("Add New Page ", self._last_idx_page)
         str_idx = str(self._last_idx_page)
         page = Page("page_" + str_idx, "Page " + str_idx, "#FFFFFF")
-        self._pages = self.get_ordered_pages().copy()
         self._pages.append(page)
+        print("Pages: " ,self._pages)
         self.pagesChanged.emit()
 
     @Slot(QObject)
@@ -205,6 +205,18 @@ class Controller(QtCore.QObject):
     def sync_model(self, after_drag_list):
         self._reordered_page_names = after_drag_list
 
+    @Slot()
+    def update_pages(self):
+        print(self._reordered_page_names)
+        self._pages = self.get_ordered_pages()
+
+    @Slot(str)
+    def update_current_page_idx_by_name(self, page_name):
+        for idx, page in enumerate(self._pages):
+            if page_name == page.page_name:
+                self.set_current_page_idx(idx)
+                return
+
     keyPressed = Signal(int)
 
     _menu_keys = [Qt.Key_F1, Qt.Key_F2, Qt.Key_F3, Qt.Key_F4, Qt.Key_F9, Qt.Key_F10, Qt.Key_F11, Qt.Key_F12]
@@ -230,8 +242,8 @@ class Controller(QtCore.QObject):
     def create_navi_window(self):
         print("Show Navi Window")
         engine = QQmlApplicationEngine()
-        engine.load(QUrl("qrc:/qml/cards/NavigateWindow.qml"))
         engine.rootContext().setContextProperty("controller", self)
+        engine.load(QUrl("qrc:/qml/cards/NavigateWindow.qml"))
         view = QQuickView(engine)
         view.setResizeMode(QQuickView.SizeRootObjectToView)
         view.show()
@@ -250,9 +262,19 @@ class Controller(QtCore.QObject):
     navi_mode = Property(int, get_navi_mode, set_navi_mode, notify=_navi_modeChanged)
     
     # End Section Member Property navi_mode
-    
-    
-    
+
+    # Member Property pages
+    _moving_list = []
+    movingListChanged = Signal()
+
+    @Slot(result=list)
+    def get_moving_list(self):
+        return self._moving_list
+
+    @Slot(list)
+    def set_moving_list(self, mvl):
+        self._moving_list = mvl
+    # End Section Member Property pages
 
     def add_settings(self, settings):
         self._settings = settings
